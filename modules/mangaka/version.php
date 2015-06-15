@@ -3,15 +3,14 @@
 /**
  * @Project MANGA ON NUKEVIET 4.x
  * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
  * @License GNU/GPL version 2 or any later version
- * @Createdate 05/07/2010 09:47
+ * @Createdate 15/06/2015 21:43
  */
 
 if( ! defined( 'NV_ADMIN' ) or ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
 $module_version = array(
-	'name' => 'Mangas', // Tieu de module
+	'name' => 'Mangaka', // Tieu de module
 	'modfuncs' => 'main,viewcat,groups,detail,search,content,rss', // Cac function co block
 	'change_alias' => 'groups,content,rss',
 	'submenu' => 'content,rss,search',
