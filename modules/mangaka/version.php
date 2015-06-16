@@ -11,7 +11,7 @@ if( ! defined( 'NV_ADMIN' ) or ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
 $module_version = array(
 	'name' => 'Mangaka', // Tieu de module
-	'modfuncs' => 'main,viewcat,groups,detail,search,content,rss', // Cac function co block
+	'modfuncs' => 'main,viewcat,groups,detail,search,content,rss,suggest', // Cac function co block
 	'change_alias' => 'groups,content,rss',
 	'submenu' => 'content,rss,search',
 	'is_sysmod' => 0, // 1:0 => Co phai la module he thong hay khong
