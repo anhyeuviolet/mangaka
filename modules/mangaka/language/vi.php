@@ -192,6 +192,7 @@ $lang_module['genre_all_link'] = 'Chế độ xem các Thể loại chưa có m�
 $lang_module['genre_no_description'] = 'Chưa có mô tả';
 
 $lang_module['comment'] = 'Gửi bình luận';
+$lang_module['no_data'] = 'Không tìm thấy !';
 $lang_module['disqus_comment'] = 'Bình luận Disqus';
 $lang_module['fb_comment'] = 'Bình luận Facebook';
 $lang_module['titlesite'] = 'Tên khác';

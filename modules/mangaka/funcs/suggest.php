@@ -1,10 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 3.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2010 VINADES., JSC. All rights reserved
- * @Createdate 3-6-2010 0:14
+ * @Project MANGA ON NUKEVIET 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
+ * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+ * @License GNU/GPL version 2 or any later version
+ * @Createdate 12/31/2009 0:51
  */
 
 if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
@@ -27,6 +28,12 @@ if( $num > 0 )
 		$contents .= '</div>';
 	}
 	$contents .= '<script>function filltext( text ){ $("#keyword").val( text ) }</script>';
+} else{
+	$contents .= '<div class="show" align="left">';
+	$contents .= '<span class="name" >'.$lang_module['no_data'].'</span>';
+	$contents .= '</div>';
+	$contents .= '<script>function filltext( text ){ $("#keyword").val( text ) }</script>';
+
 }
 
 include ( NV_ROOTDIR . "/includes/header.php" );

@@ -4,7 +4,7 @@
 <script src="{NV_BASE_SITEURL}modules/{MODULE_FILE}/js/perfect-scrollbar.min.js"></script>
 
 <style type="text/css">
-	#scolling {
+	#scrolling {
 		height: 300px;
 		width: 320px;
 		overflow: hidden;
@@ -40,8 +40,8 @@
 
 <script type="text/javascript">
 	$(document).ready(function($) {
-		$("#scolling").hide();
-		$('#scolling').perfectScrollbar();
+		$("#scrolling").hide();
+		$('#scrolling').perfectScrollbar();
 	});
 
 	$(function() {
@@ -49,25 +49,31 @@
 			var keywords = $(this).val();
 			var dataString = 'keywords=' + keywords;
 			var myLength = $("#keyword").val().length;
-			if (myLength >=3 ) {
-				$.ajax({
-					type : "POST",
-					url : "{SEARCH_URL}",
-					data : dataString,
-					cache : false,
-					success : function(html) {
-						if (html != '') {
-							$("#scolling").show();
-							$("#result").html(html).show();
-						} else {
-							$("#result").hide();
-							$("#scolling").hide();
-						}
-					}
-				});
-			} else if (keyword = '') 
+			if( keyword != '' )	
 			{
-			return false;
+				if (myLength >=3 ) {
+					$.ajax({
+						type : "POST",
+						url : "{SEARCH_URL}",
+						data : dataString,
+						cache : false,
+						success : function(html) {
+							if (html != '') {
+								$("#scrolling").show();
+								$("#result").html(html).show();
+							} else {
+								$("#result").hide();
+								$("#scrolling").hide();
+							}
+						}
+					});
+				} 
+				else 
+				if (myLength < 3 ) 
+				{
+					$("#result").hide();
+					$("#scrolling").hide();
+				}
 			}
 		});
 
@@ -91,7 +97,7 @@
 			<i class="fa fa-search"></i>
 		</button>
 		<br />
-		<div id="scolling" class="wrapper">
+		<div id="scrolling" class="wrapper">
 			<div id="result"></div>
 		</div>
 	</form>
