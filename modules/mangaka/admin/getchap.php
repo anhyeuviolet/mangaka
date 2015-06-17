@@ -179,7 +179,7 @@ if($action == '2'){
 			if(!$duplicate){
 				// Dung HTML DOM get data
 				$img_full = NULL;
-				foreach($html->find('article[id=content]') as $element)
+				foreach($html->find($data['img_structure']) as $element)
 				{
 					$img = $element->find('img');
 					foreach($img as $element) 
