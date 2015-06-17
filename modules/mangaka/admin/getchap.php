@@ -185,136 +185,138 @@ if($action == '2'){
 					foreach($img as $element) 
 					$img_full = $img_full.$element->src;
 				}
-				
-				$addtime=NV_CURRENTTIME+mt_rand(60,1000); //Tao thoi gian leech ngau nhien, do link la tu tren xuong duoi, nen link leech sau se co thoi gian lau hon
-				$title_new = rand(10000,99999); // Tao tieu de ngau nhien
-				$alias = "chapter-" . preg_replace('/[.]/','-',$this_chapter) . "-" . change_alias($title_new);	// Tao alias		
-				$bodyhtml=$img_full;
-				
-				//Khoi tao cac bien de chen vao DB cho co
-				$bodytext=nv_news_get_bodytext($bodyhtml);
-				$src_text = $inhome = $allowed_rating = $status = 1;$exptime = $hitstotal = $hitscm = $total_rating = $click_rating =0;$archive=2;$allowed_comm = 4;$author = "Manga Leecher";
-				
-				// Luu vao NV_PREFIXLANG."_".$module_data."_rows"
-				$stht = $db->prepare( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET
-					 catid=:catid,
-					 listcatid=:listcatid,
-					 admin_id=:admin_id,
-					 author=:author,
-					 addtime=:addtime,
-					 edittime=:edittime,
-					 status=:status,
-					 publtime=:publtime,
-					 exptime=:exptime,
-					 archive=:archive,
-					 title=:title,
-					 alias=:alias,
-					 chapter=:chapter,
-					 inhome=:inhome,
-					 allowed_comm=:allowed_comm,
-					 allowed_rating=:allowed_rating,
-					 hitstotal=:hitstotal,
-					 hitscm=:hitscm,
-					 total_rating=:total_rating,
-					 click_rating=:click_rating
-					 ');
-
-				$stht->bindParam( ':catid', $catid, PDO::PARAM_STR );
-				$stht->bindParam( ':listcatid', $catid, PDO::PARAM_STR );
-				$stht->bindParam( ':admin_id', $admin_id, PDO::PARAM_STR );
-				$stht->bindParam( ':author', $author, PDO::PARAM_STR );
-				
-				$stht->bindParam( ':addtime', $addtime, PDO::PARAM_STR );
-				$stht->bindParam( ':edittime', $addtime, PDO::PARAM_STR );
-				$stht->bindParam( ':status', $status, PDO::PARAM_STR );
-				
-				$stht->bindParam( ':publtime', $addtime, PDO::PARAM_STR );
-				$stht->bindParam( ':exptime', $exptime, PDO::PARAM_STR );
-				$stht->bindParam( ':archive', $archive, PDO::PARAM_STR );
-				$stht->bindParam( ':title', $title_new, PDO::PARAM_STR );
-				$stht->bindParam( ':alias', $alias, PDO::PARAM_STR );
-				$stht->bindParam( ':chapter', $this_chapter, PDO::PARAM_STR );
-				$stht->bindParam( ':inhome', $inhome, PDO::PARAM_STR );
-				
-				$stht->bindParam( ':allowed_comm', $allowed_comm, PDO::PARAM_STR );
-				$stht->bindParam( ':allowed_rating', $allowed_rating, PDO::PARAM_STR );
-				$stht->bindParam( ':hitstotal', $hitstotal, PDO::PARAM_STR );
-				$stht->bindParam( ':hitscm', $hitscm, PDO::PARAM_STR );
-				$stht->bindParam( ':total_rating', $total_rating, PDO::PARAM_STR );
-				$stht->bindParam( ':click_rating', $click_rating, PDO::PARAM_STR );
-				$stht->execute();
-
-				if( $id = $db->lastInsertId() )
+				if (!empty($img_full)) // Xu ly tranh gay trang trang khi khong lay duoc list link
 				{
-					// Luu vao NV_PREFIXLANG.'_'.$module_data.'_'.$catid
-					$sthr = $db->prepare( 'INSERT INTO '.NV_PREFIXLANG.'_'.$module_data.'_'.$catid.'  SET
-					 id=:id,
-					 catid=:catid,
-					 listcatid=:listcatid,
-					 admin_id=:admin_id,
-					 author=:author,
-					 addtime=:addtime,
-					 edittime=:edittime,
-					 status=:status,
-					 publtime=:publtime,
-					 exptime=:exptime,
-					 archive=:archive,
-					 title=:title,
-					 alias=:alias,
-					 chapter=:chapter,
-					 inhome=:inhome,
-					 allowed_comm=:allowed_comm,
-					 allowed_rating=:allowed_rating,
-					 hitstotal=:hitstotal,
-					 hitscm=:hitscm,
-					 total_rating=:total_rating,
-					 click_rating=:click_rating
-					 ');
-					$sthr->bindParam( ':id', $id, PDO::PARAM_STR );
-					$sthr->bindParam( ':catid', $catid, PDO::PARAM_STR );
-					$sthr->bindParam( ':listcatid', $catid, PDO::PARAM_STR );
-					$sthr->bindParam( ':admin_id', $admin_id, PDO::PARAM_STR );
-					$sthr->bindParam( ':author', $author, PDO::PARAM_STR );
+					$addtime=NV_CURRENTTIME+mt_rand(60,1000); //Tao thoi gian leech ngau nhien, do link la tu tren xuong duoi, nen link leech sau se co thoi gian lau hon
+					$title_new = rand(10000,99999); // Tao tieu de ngau nhien
+					$alias = "chapter-" . preg_replace('/[.]/','-',$this_chapter) . "-" . change_alias($title_new);	// Tao alias		
+					$bodyhtml=$img_full;
 					
-					$sthr->bindParam( ':addtime', $addtime, PDO::PARAM_STR );
-					$sthr->bindParam( ':edittime', $addtime, PDO::PARAM_STR );
-					$sthr->bindParam( ':status', $status, PDO::PARAM_STR );
+					//Khoi tao cac bien de chen vao DB cho co
+					$bodytext=nv_news_get_bodytext($bodyhtml);
+					$src_text = $inhome = $allowed_rating = $status = 1;$exptime = $hitstotal = $hitscm = $total_rating = $click_rating =0;$archive=2;$allowed_comm = 4;$author = "Manga Leecher";
 					
-					$sthr->bindParam( ':publtime', $addtime, PDO::PARAM_STR );
-					$sthr->bindParam( ':exptime', $exptime, PDO::PARAM_STR );
-					$sthr->bindParam( ':archive', $archive, PDO::PARAM_STR );
-					$sthr->bindParam( ':title', $title_new, PDO::PARAM_STR );
-					$sthr->bindParam( ':alias', $alias, PDO::PARAM_STR );
-					$sthr->bindParam( ':chapter', $this_chapter, PDO::PARAM_STR );
-					$sthr->bindParam( ':inhome', $inhome, PDO::PARAM_STR );
-					
-					$sthr->bindParam( ':allowed_comm', $allowed_comm, PDO::PARAM_STR );
-					$sthr->bindParam( ':allowed_rating', $allowed_rating, PDO::PARAM_STR );
-					$sthr->bindParam( ':hitstotal', $hitstotal, PDO::PARAM_STR );
-					$sthr->bindParam( ':hitscm', $hitscm, PDO::PARAM_STR );
-					$sthr->bindParam( ':total_rating', $total_rating, PDO::PARAM_STR );
-					$sthr->bindParam( ':click_rating', $click_rating, PDO::PARAM_STR );
-					$sthr->execute();
-					
-					// Luu vao NV_PREFIXLANG.'_'.$module_data.'_bodyhtml_*'
-					// check bodyhtml
-					$imgposition= $copyright= $allowed_send= $allowed_print= $allowed_save= $gid = 1;
-					$tbhtml = NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $id / 2000 );
-					
-					// Khoi tao neu chua co table bodyhtml
-					$db->query( "CREATE TABLE IF NOT EXISTS " . $tbhtml . " (id int(11) unsigned NOT NULL, bodyhtml longtext NOT NULL, PRIMARY KEY (id)) ENGINE=MyISAM" );
+					// Luu vao NV_PREFIXLANG."_".$module_data."_rows"
+					$stht = $db->prepare( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET
+						 catid=:catid,
+						 listcatid=:listcatid,
+						 admin_id=:admin_id,
+						 author=:author,
+						 addtime=:addtime,
+						 edittime=:edittime,
+						 status=:status,
+						 publtime=:publtime,
+						 exptime=:exptime,
+						 archive=:archive,
+						 title=:title,
+						 alias=:alias,
+						 chapter=:chapter,
+						 inhome=:inhome,
+						 allowed_comm=:allowed_comm,
+						 allowed_rating=:allowed_rating,
+						 hitstotal=:hitstotal,
+						 hitscm=:hitscm,
+						 total_rating=:total_rating,
+						 click_rating=:click_rating
+						 ');
 
-					$stmt = $db->prepare( 'INSERT INTO ' . $tbhtml . ' VALUES
-						(' . $id . ',
-						 :bodyhtml
-						 )' );
-					$stmt->bindParam( ':bodyhtml', $bodyhtml, PDO::PARAM_STR, strlen( $bodyhtml ) );
-					$stmt->execute();
+					$stht->bindParam( ':catid', $catid, PDO::PARAM_STR );
+					$stht->bindParam( ':listcatid', $catid, PDO::PARAM_STR );
+					$stht->bindParam( ':admin_id', $admin_id, PDO::PARAM_STR );
+					$stht->bindParam( ':author', $author, PDO::PARAM_STR );
 					
-					// Luu vao NV_PREFIXLANG.'_'.$module_data.'_bodytext'
-					$stmt = $db->prepare( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext VALUES (' . $id . ', :bodytext )' );
-					$stmt->bindParam( ':bodytext', $bodytext, PDO::PARAM_STR, strlen( $bodytext ) );
-					$stmt->execute();
+					$stht->bindParam( ':addtime', $addtime, PDO::PARAM_STR );
+					$stht->bindParam( ':edittime', $addtime, PDO::PARAM_STR );
+					$stht->bindParam( ':status', $status, PDO::PARAM_STR );
+					
+					$stht->bindParam( ':publtime', $addtime, PDO::PARAM_STR );
+					$stht->bindParam( ':exptime', $exptime, PDO::PARAM_STR );
+					$stht->bindParam( ':archive', $archive, PDO::PARAM_STR );
+					$stht->bindParam( ':title', $title_new, PDO::PARAM_STR );
+					$stht->bindParam( ':alias', $alias, PDO::PARAM_STR );
+					$stht->bindParam( ':chapter', $this_chapter, PDO::PARAM_STR );
+					$stht->bindParam( ':inhome', $inhome, PDO::PARAM_STR );
+					
+					$stht->bindParam( ':allowed_comm', $allowed_comm, PDO::PARAM_STR );
+					$stht->bindParam( ':allowed_rating', $allowed_rating, PDO::PARAM_STR );
+					$stht->bindParam( ':hitstotal', $hitstotal, PDO::PARAM_STR );
+					$stht->bindParam( ':hitscm', $hitscm, PDO::PARAM_STR );
+					$stht->bindParam( ':total_rating', $total_rating, PDO::PARAM_STR );
+					$stht->bindParam( ':click_rating', $click_rating, PDO::PARAM_STR );
+					$stht->execute();
+
+					if( $id = $db->lastInsertId() )
+					{
+						// Luu vao NV_PREFIXLANG.'_'.$module_data.'_'.$catid
+						$sthr = $db->prepare( 'INSERT INTO '.NV_PREFIXLANG.'_'.$module_data.'_'.$catid.'  SET
+						 id=:id,
+						 catid=:catid,
+						 listcatid=:listcatid,
+						 admin_id=:admin_id,
+						 author=:author,
+						 addtime=:addtime,
+						 edittime=:edittime,
+						 status=:status,
+						 publtime=:publtime,
+						 exptime=:exptime,
+						 archive=:archive,
+						 title=:title,
+						 alias=:alias,
+						 chapter=:chapter,
+						 inhome=:inhome,
+						 allowed_comm=:allowed_comm,
+						 allowed_rating=:allowed_rating,
+						 hitstotal=:hitstotal,
+						 hitscm=:hitscm,
+						 total_rating=:total_rating,
+						 click_rating=:click_rating
+						 ');
+						$sthr->bindParam( ':id', $id, PDO::PARAM_STR );
+						$sthr->bindParam( ':catid', $catid, PDO::PARAM_STR );
+						$sthr->bindParam( ':listcatid', $catid, PDO::PARAM_STR );
+						$sthr->bindParam( ':admin_id', $admin_id, PDO::PARAM_STR );
+						$sthr->bindParam( ':author', $author, PDO::PARAM_STR );
+						
+						$sthr->bindParam( ':addtime', $addtime, PDO::PARAM_STR );
+						$sthr->bindParam( ':edittime', $addtime, PDO::PARAM_STR );
+						$sthr->bindParam( ':status', $status, PDO::PARAM_STR );
+						
+						$sthr->bindParam( ':publtime', $addtime, PDO::PARAM_STR );
+						$sthr->bindParam( ':exptime', $exptime, PDO::PARAM_STR );
+						$sthr->bindParam( ':archive', $archive, PDO::PARAM_STR );
+						$sthr->bindParam( ':title', $title_new, PDO::PARAM_STR );
+						$sthr->bindParam( ':alias', $alias, PDO::PARAM_STR );
+						$sthr->bindParam( ':chapter', $this_chapter, PDO::PARAM_STR );
+						$sthr->bindParam( ':inhome', $inhome, PDO::PARAM_STR );
+						
+						$sthr->bindParam( ':allowed_comm', $allowed_comm, PDO::PARAM_STR );
+						$sthr->bindParam( ':allowed_rating', $allowed_rating, PDO::PARAM_STR );
+						$sthr->bindParam( ':hitstotal', $hitstotal, PDO::PARAM_STR );
+						$sthr->bindParam( ':hitscm', $hitscm, PDO::PARAM_STR );
+						$sthr->bindParam( ':total_rating', $total_rating, PDO::PARAM_STR );
+						$sthr->bindParam( ':click_rating', $click_rating, PDO::PARAM_STR );
+						$sthr->execute();
+						
+						// Luu vao NV_PREFIXLANG.'_'.$module_data.'_bodyhtml_*'
+						// check bodyhtml
+						$imgposition= $copyright= $allowed_send= $allowed_print= $allowed_save= $gid = 1;
+						$tbhtml = NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $id / 2000 );
+						
+						// Khoi tao neu chua co table bodyhtml
+						$db->query( "CREATE TABLE IF NOT EXISTS " . $tbhtml . " (id int(11) unsigned NOT NULL, bodyhtml longtext NOT NULL, PRIMARY KEY (id)) ENGINE=MyISAM" );
+
+						$stmt = $db->prepare( 'INSERT INTO ' . $tbhtml . ' VALUES
+							(' . $id . ',
+							 :bodyhtml
+							 )' );
+						$stmt->bindParam( ':bodyhtml', $bodyhtml, PDO::PARAM_STR, strlen( $bodyhtml ) );
+						$stmt->execute();
+						
+						// Luu vao NV_PREFIXLANG.'_'.$module_data.'_bodytext'
+						$stmt = $db->prepare( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext VALUES (' . $id . ', :bodytext )' );
+						$stmt->bindParam( ':bodytext', $bodytext, PDO::PARAM_STR, strlen( $bodytext ) );
+						$stmt->execute();
+					}
 				}
 			}
 		} //End of each chapter
