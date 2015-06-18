@@ -46,10 +46,6 @@ if ( $nv_Request->isset_request( 'submit', 'post' ) )
 	{
 		$error[] = $lang_module['error_required_title'];
 	}
-	// elseif( empty( $row['url_host'] ) )
-	// {
-		// $error[] = $lang_module['error_required_url_host'];
-	// }
 
 	if( empty( $error ) )
 	{
