@@ -6,10 +6,10 @@
 	<fieldset>
 	  <legend>Bước 1: Grab links của các tập</legend>
 	  	<div class="form-group">
-			<label class="col-lg-2 control-label">Chọn mẫu cấu trúc:</label>
+			<label class="col-lg-2 control-label">{LANG.select_structure}:</label>
 			<div class="col-lg-20">
 			  <select class="form-control" name="form_list" id="form_list">
-				<option value="">{LANG.select_leech_form} ----- Chọn mẫu cấu trúc -----</option>
+				<option value="">----- {LANG.select_structure} ----- </option>
 			  <!-- BEGIN: getlist_loop_list-->
 				<option value="{GETLIST.id}">{GETLIST.title}</option>
 			  <!-- END: getlist_loop_list-->
@@ -47,21 +47,28 @@
 	<fieldset>
 	  <legend>Bước 2: Leech nội dung từng tập</legend>
 	  	<div class="form-group">
-			<label class="col-lg-2 control-label">Chọn mẫu cấu trúc:</label>
+			<label class="col-lg-2 control-label">{LANG.select_structure}:</label>
 			<div class="col-lg-20">
 			  <select class="form-control" name="form_chap" id="form_chap" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')">
-				<option value="">{LANG.select_manga} ----- Chọn cấu trúc -----</option>
+				<option value="">----- {LANG.select_structure} ----- </option>
 			  <!-- BEGIN: getlist_loop_chap-->
 				<option value="{GETLIST.id}">{GETLIST.title}</option>
 			  <!-- END: getlist_loop_chap-->
 			  </select>
 			</div>
 		</div>	
+	  	<div class="form-group">
+			<label class="col-lg-2 control-label">{LANG.select_method} :</label>
+			<div class="col-lg-20">
+				<input type="radio" name="method" value="1" checked>{LANG.dom}<br>
+				<input type="radio" name="method" value="2">{LANG.preg_match} </input>
+			</div>
+		</div>	
 		<div class="form-group">
 			<label class="col-lg-2 control-label">Lưu vào:</label>
 			<div class="col-lg-20">
 			  <select class="form-control" name="catid" id="catid">
-				<option value="">{LANG.select_manga} ----- Chọn truyện -----</option>
+				<option value="">----- {LANG.select_manga} ----- </option>
 			  <!-- BEGIN: catloop-->
 				<option value="{CAT.catid}">{CAT.title}</option>
 			  <!-- END: catloop-->
@@ -84,13 +91,11 @@
 	   <!-- BEGIN: getchap_result-->
 			 <div class="form-group">
 			 Kết quả
-			
 				<!-- BEGIN: loop-->	
 					{THIS_CHAP}
 				<!-- END: loop-->
-			
 			</div>
-			<!-- END: getchap_result-->  
+		<!-- END: getchap_result-->  
 	</fieldset>
   </form>
 </div>
