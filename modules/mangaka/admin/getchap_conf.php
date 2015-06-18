@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2015 VINADES.,JSC. All rights reserved
+ * @Project MANGA ON NUKEVIET 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
+ * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
  * @License GNU/GPL version 2 or any later version
- * @Createdate Thu, 18 Jun 2015 01:21:16 GMT
+ * @Createdate 18 June 2015 09:47:16 GMT
  */
 
 if ( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
@@ -130,7 +130,6 @@ if ( ! $nv_Request->isset_request( 'id', 'post,get' ) )
 	$sth->execute();
 }
 
-
 $xtpl = new XTemplate( $op . '.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
 $xtpl->assign( 'LANG', $lang_module );
 $xtpl->assign( 'NV_LANG_VARIABLE', NV_LANG_VARIABLE );
@@ -147,9 +146,9 @@ if( $show_view )
 	$number = 0;
 	while( $view = $sth->fetch() )
 	{
+		$view['number'] = ++$number;
 		$view['add_time'] = nv_date('H:i - d/m/y',$view['add_time']);
 		$view['edit_time'] = nv_date('H:i - d/m/y',$view['edit_time']);
-		$view['number'] = ++$number;
 		$view['link_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;id=' . $view['id'];
 		$view['link_delete'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;delete_id=' . $view['id'] . '&amp;delete_checkss=' . md5( $view['id'] . NV_CACHE_PREFIX . $client_info['session_id'] );
 		$xtpl->assign( 'VIEW', $view );
@@ -157,7 +156,6 @@ if( $show_view )
 	}
 	$xtpl->parse( 'main.view' );
 }
-
 
 if( ! empty( $error ) )
 {
