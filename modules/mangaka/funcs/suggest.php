@@ -23,17 +23,16 @@ if( $num > 0 )
 		$title = $row['title'];
 		$title_s = '<strong>' . $row['title'] . '</strong>';
 		$link = $global_array_cat[$row['catid']]['link'];
-		$contents .= '<div class="show" align="left">';
-		$contents .= '<span class="name" onclick="filltext( $(this).text() );"><a href="'. $link .'" title="">' . $row['title'] . '</a></span>';
+		$contents .= '<div class="show">';
+		$contents .= '<span class="name"><a href="'. $link .'" title="'.$row['title'].'">' . $row['title'] . '</a></span>';
 		$contents .= '</div>';
 	}
 	$contents .= '<script>function filltext( text ){ $("#keyword").val( text ) }</script>';
-} else{
-	$contents .= '<div class="show" align="left">';
+} else
+{
+	$contents .= '<div class="show text-center">';
 	$contents .= '<span class="name" >'.$lang_module['no_data'].'</span>';
 	$contents .= '</div>';
-	$contents .= '<script>function filltext( text ){ $("#keyword").val( text ) }</script>';
-
 }
 
 include ( NV_ROOTDIR . "/includes/header.php" );

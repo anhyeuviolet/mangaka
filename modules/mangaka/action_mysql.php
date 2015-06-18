@@ -247,8 +247,10 @@ $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_"
 (4, 0, 0, 'Drama', 'drama', '', '', 4, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
 (5, 0, 0, 'Horror', 'Horror', '', '', 5, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."')";
 
-//Mau leech Chapter Blogtruyen.Com
+//Mau leech Chapter Blogtruyen.Com; ComicVn.Net
 $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_get_chap (
 id, title, url_host, url_html_pattern, url_pattern, img_structure, chapno_structure, add_time, edit_time
-) VALUES( 
-1, 'Blogtruyen', 'http://blogtruyen.com', 'div[class=list-wrap]', '.title a', 'article[id=content]', 'h1', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."')";
+) VALUES
+(1, 'Blogtruyen', 'http://blogtruyen.com', 'div[class=list-wrap]', '.title a', 'article[id=content]', 'h1', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
+(2, 'ComicVn', 'http://comicvn.net', 'table.listchapter', 'a', 'textarea[id=txtarea]', 'option[selected=selected]',  '". NV_CURRENTTIME ."',  '". NV_CURRENTTIME ."')";
+

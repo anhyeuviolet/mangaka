@@ -43,22 +43,22 @@ if ( $nv_Request->isset_request( 'submit', 'post' ) )
 	{
 		$error[] = $lang_module['error_required_url_host'];
 	}
-	elseif( empty( $row['url_html_pattern'] ) )
-	{
-		$error[] = $lang_module['error_required_url_html_pattern'];
-	}
-	elseif( empty( $row['url_pattern'] ) )
-	{
-		$error[] = $lang_module['error_required_url_pattern'];
-	}
-	elseif( empty( $row['img_structure'] ) )
-	{
-		$error[] = $lang_module['error_required_img_structure'];
-	}
-	elseif( empty( $row['chapno_structure'] ) )
-	{
-		$error[] = $lang_module['error_required_chapno_structure'];
-	}
+	// elseif( empty( $row['url_html_pattern'] ) )
+	// {
+		// $error[] = $lang_module['error_required_url_html_pattern'];
+	// }
+	// elseif( empty( $row['url_pattern'] ) )
+	// {
+		// $error[] = $lang_module['error_required_url_pattern'];
+	// }
+	// elseif( empty( $row['img_structure'] ) )
+	// {
+		// $error[] = $lang_module['error_required_img_structure'];
+	// }
+	// elseif( empty( $row['chapno_structure'] ) )
+	// {
+		// $error[] = $lang_module['error_required_chapno_structure'];
+	// }
 
 	if( empty( $error ) )
 	{
@@ -67,18 +67,15 @@ if ( $nv_Request->isset_request( 'submit', 'post' ) )
 			if( empty( $row['id'] ) )
 			{
 
-				$row['add_time'] = 0;
-				$row['edit_time'] = 0;
-
 				$stmt = $db->prepare( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_get_chap (title, url_host, url_html_pattern, url_pattern, img_structure, chapno_structure, add_time, edit_time) VALUES (:title, :url_host, :url_html_pattern, :url_pattern, :img_structure, :chapno_structure, :add_time, :edit_time)' );
 
-				$stmt->bindParam( ':add_time', $row['add_time'], PDO::PARAM_INT );
-				$stmt->bindParam( ':edit_time', $row['edit_time'], PDO::PARAM_INT );
+				$stmt->bindParam( ':add_time', NV_CURRENTTIME, PDO::PARAM_INT );
+				$stmt->bindParam( ':edit_time', NV_CURRENTTIME, PDO::PARAM_INT );
 
 			}
 			else
 			{
-				$stmt = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_get_chap SET title = :title, url_host = :url_host, url_html_pattern = :url_html_pattern, url_pattern = :url_pattern, img_structure = :img_structure, chapno_structure = :chapno_structure WHERE id=' . $row['id'] );
+				$stmt = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_get_chap SET title = :title, url_host = :url_host, url_html_pattern = :url_html_pattern, url_pattern = :url_pattern, img_structure = :img_structure, chapno_structure = :chapno_structure, edit_time ='.NV_CURRENTTIME.' WHERE id=' . $row['id'] );
 			}
 			$stmt->bindParam( ':title', $row['title'], PDO::PARAM_STR );
 			$stmt->bindParam( ':url_host', $row['url_host'], PDO::PARAM_STR );
