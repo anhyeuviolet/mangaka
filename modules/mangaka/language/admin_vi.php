@@ -375,3 +375,19 @@ $lang_module['error_required_url_pattern'] = 'Lỗi: bạn cần nhập dữ li�
 $lang_module['error_required_url_structure'] = 'Lỗi: bạn cần nhập dữ liệu cho Cấu trúc URL';
 $lang_module['error_required_img_structure'] = 'Lỗi: bạn cần nhập dữ liệu cho Mảng chứa hình ảnh';
 $lang_module['error_required_chapno_structure'] = 'Lỗi: bạn cần nhập dữ liệu cho Thứ tự khi replace URL';
+
+$lang_module['preg_img_structure'] = 'Cấu trúc mảng chứa ảnh (Preg_replace)';
+$lang_module['replace_1'] = 'Đối tượng cần xoá 1';
+$lang_module['replace_2'] = 'Đối tượng cần xoá 2';
+$lang_module['replace_3'] = 'Đối tượng cần xoá 3';
+$lang_module['numget_img'] = 'Vị trí lấy nội dung (.*?)';
+$lang_module['preg_chapno_structure'] = 'Phần tử chứa URL (Preg_replace)';
+$lang_module['numget_chap'] = 'Vị trí lấy Chapter (.*?)';
+$lang_module['edit_time'] = 'Chỉnh sửa lần cuối';
+
+$lang_module['select_method'] = 'Chọn Phương pháp Leech';
+$lang_module['select_structure'] = 'Chọn mẫu cấu trúc';
+$lang_module['select_manga'] = 'Chọn Chọn truyện để lưu nội dung';
+
+$lang_module['dom'] = 'Dùng HTML DOM';
+$lang_module['preg_match'] = 'Dùng preg_match';

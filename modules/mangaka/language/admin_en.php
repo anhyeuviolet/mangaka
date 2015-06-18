@@ -304,3 +304,15 @@ $lang_module['error_required_url_pattern'] = 'Error: Required fields enter the U
 $lang_module['error_required_url_structure'] = 'Error: Required fields enter the Url structure';
 $lang_module['error_required_img_structure'] = 'Error: Required fields enter the Image structure';
 $lang_module['error_required_chapno_structure'] = 'Error: Required fields enter the Chapno structure';
+
+//Lang for function getchap_conf_new
+$lang_module['getchap_conf_new'] = 'getchap_conf_new';
+$lang_module['preg_img_structure'] = 'Preg img structure';
+$lang_module['replace_1'] = 'Replace 1';
+$lang_module['replace_2'] = 'Replace 2';
+$lang_module['replace_3'] = 'Replace 3';
+$lang_module['numget_img'] = 'Numget img';
+$lang_module['preg_chapno_structure'] = 'Preg chapno structure';
+$lang_module['numget_chap'] = 'Numget chap';
+$lang_module['add_time'] = 'Add time';
+$lang_module['edit_time'] = 'Edit time';

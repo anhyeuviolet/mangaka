@@ -132,11 +132,12 @@ if($action == '2'){
 	$chapter_list = $nv_Request->get_string( 'url_list', 'post', 0 );
 	$id = $nv_Request->get_int( 'form_chap', 'post', 0 );
 	$catid = $nv_Request->get_int( 'catid', 'post', 0 );
+	$method = $nv_Request->get_int( 'method', 'post', 0 );
 	
 	$sql='SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_get_chap WHERE id=' . intval( $id); 
 	$result = $db->query( $sql );			
 	$data = $result->fetch();
-	//var_dump($data);die;
+
 	if (!empty($chapter_list)){
 		$chapters = explode("http://", $chapter_list);
 		array_shift($chapters);
@@ -147,6 +148,8 @@ if($action == '2'){
 			$chapter = preg_replace('/ /', '%20', $chapter_i);
 			$url_chap = 'http://'.$chapter;
 			$html = file_get_html(trim($url_chap));
+			
+			
 			foreach( $html->find($data['chapno_structure']) as $chap_num )
 			{
 				$str = $chap_num->plaintext; 
@@ -158,6 +161,7 @@ if($action == '2'){
 				$xtpl->assign( 'THIS_CHAP', $this_chapter );
 				$xtpl->parse( 'main.getchap_result.loop' );
 			}
+			
 			// Neu Chapter ton tai gia tri la so thi tien hanh. Neu chi la Ngoai truyen hay bonus thi bo qua
 			if (!empty($this_chapter)){
 				$duplicate=false;
@@ -175,16 +179,43 @@ if($action == '2'){
 			} else {
 				$duplicate=true;
 			}
+			
 			//Neu khong co Chapter bi trung
 			if(!$duplicate){
 				// Dung HTML DOM get data
 				$img_full = NULL;
-				foreach($html->find($data['img_structure']) as $element)
+				if($method == 1)
 				{
-					$img = $element->find('img');
-					foreach($img as $element) 
-					$img_full = $img_full.$element->src;
+					foreach($html->find($data['img_structure']) as $element)
+					{
+						$img = $element->find('img');
+						foreach($img as $element) 
+						$img_full = $img_full.$element->src;
+					}
+				// Dung preg_replace 
+				}else if($method == 2)
+				{
+					preg_match_all('/'.$data['preg_img_structure'].'/is',$html,$preg);
+					if (!empty($data['numget_img'])){
+						$img_full = $preg[$data['numget_img']];
+					} else{
+						$img_full = $preg;
+					}
+					
+					$img_full = array_shift($img_full);
+					
+					if (!empty($data['replace_1'])){
+						$img_full =  preg_replace('/'.htmlspecialchars_decode($data['replace_1']).'/','',$img_full);
+					} 
+					if (!empty($data['replace_2'])){
+						$img_full = preg_replace('/'.htmlspecialchars_decode($data['replace_2']).'/','',$img_full);
+					} 
+					if (!empty($data['replace_3'])){
+						$img_full = preg_replace('/'.htmlspecialchars_decode($data['replace_3']).'/','',$img_full);
+					} 
+					
 				}
+				
 				if (!empty($img_full)) // Xu ly tranh gay trang trang khi khong lay duoc list link
 				{
 					$addtime=NV_CURRENTTIME+mt_rand(60,1000); //Tao thoi gian leech ngau nhien, do link la tu tren xuong duoi, nen link leech sau se co thoi gian lau hon

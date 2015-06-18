@@ -5,7 +5,7 @@
  * @Author VINADES.,JSC (contact@vinades.vn)
  * @Copyright (C) 2015 VINADES.,JSC. All rights reserved
  * @License GNU/GPL version 2 or any later version
- * @Createdate Fri, 12 Jun 2015 04:09:22 GMT
+ * @Createdate Thu, 18 Jun 2015 01:21:16 GMT
  */
 
 if ( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
@@ -34,30 +34,21 @@ if ( $nv_Request->isset_request( 'submit', 'post' ) )
 	$row['url_pattern'] = $nv_Request->get_title( 'url_pattern', 'post', '' );
 	$row['img_structure'] = $nv_Request->get_title( 'img_structure', 'post', '' );
 	$row['chapno_structure'] = $nv_Request->get_title( 'chapno_structure', 'post', '' );
+	$row['preg_img_structure'] = $nv_Request->get_title( 'preg_img_structure', 'post', '' );
+	$row['replace_1'] = $nv_Request->get_title( 'replace_1', 'post', '' );
+	$row['replace_2'] = $nv_Request->get_title( 'replace_2', 'post', '' );
+	$row['replace_3'] = $nv_Request->get_title( 'replace_3', 'post', '' );
+	$row['numget_img'] = $nv_Request->get_title( 'numget_img', 'post', '' );
+	$row['preg_chapno_structure'] = $nv_Request->get_title( 'preg_chapno_structure', 'post', '' );
+	$row['numget_chap'] = $nv_Request->get_title( 'numget_chap', 'post', '' );
 
 	if( empty( $row['title'] ) )
 	{
 		$error[] = $lang_module['error_required_title'];
 	}
-	elseif( empty( $row['url_host'] ) )
-	{
-		$error[] = $lang_module['error_required_url_host'];
-	}
-	// elseif( empty( $row['url_html_pattern'] ) )
+	// elseif( empty( $row['url_host'] ) )
 	// {
-		// $error[] = $lang_module['error_required_url_html_pattern'];
-	// }
-	// elseif( empty( $row['url_pattern'] ) )
-	// {
-		// $error[] = $lang_module['error_required_url_pattern'];
-	// }
-	// elseif( empty( $row['img_structure'] ) )
-	// {
-		// $error[] = $lang_module['error_required_img_structure'];
-	// }
-	// elseif( empty( $row['chapno_structure'] ) )
-	// {
-		// $error[] = $lang_module['error_required_chapno_structure'];
+		// $error[] = $lang_module['error_required_url_host'];
 	// }
 
 	if( empty( $error ) )
@@ -67,15 +58,12 @@ if ( $nv_Request->isset_request( 'submit', 'post' ) )
 			if( empty( $row['id'] ) )
 			{
 
-				$stmt = $db->prepare( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_get_chap (title, url_host, url_html_pattern, url_pattern, img_structure, chapno_structure, add_time, edit_time) VALUES (:title, :url_host, :url_html_pattern, :url_pattern, :img_structure, :chapno_structure, :add_time, :edit_time)' );
-
-				$stmt->bindParam( ':add_time', NV_CURRENTTIME, PDO::PARAM_INT );
-				$stmt->bindParam( ':edit_time', NV_CURRENTTIME, PDO::PARAM_INT );
+				$stmt = $db->prepare( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_get_chap (title, url_host, url_html_pattern, url_pattern, img_structure, chapno_structure, preg_img_structure, replace_1, replace_2, replace_3, numget_img, preg_chapno_structure, numget_chap, add_time, edit_time) VALUES (:title, :url_host, :url_html_pattern, :url_pattern, :img_structure, :chapno_structure, :preg_img_structure, :replace_1, :replace_2, :replace_3, :numget_img, :preg_chapno_structure, :numget_chap, '. NV_CURRENTTIME .', '. NV_CURRENTTIME .')' );
 
 			}
 			else
 			{
-				$stmt = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_get_chap SET title = :title, url_host = :url_host, url_html_pattern = :url_html_pattern, url_pattern = :url_pattern, img_structure = :img_structure, chapno_structure = :chapno_structure, edit_time ='.NV_CURRENTTIME.' WHERE id=' . $row['id'] );
+				$stmt = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_get_chap SET title = :title, url_host = :url_host, url_html_pattern = :url_html_pattern, url_pattern = :url_pattern, img_structure = :img_structure, chapno_structure = :chapno_structure, preg_img_structure = :preg_img_structure, replace_1 = :replace_1, replace_2 = :replace_2, replace_3 = :replace_3, numget_img = :numget_img, preg_chapno_structure = :preg_chapno_structure, numget_chap = :numget_chap, edit_time ='.NV_CURRENTTIME.' WHERE id=' . $row['id'] );
 			}
 			$stmt->bindParam( ':title', $row['title'], PDO::PARAM_STR );
 			$stmt->bindParam( ':url_host', $row['url_host'], PDO::PARAM_STR );
@@ -83,6 +71,13 @@ if ( $nv_Request->isset_request( 'submit', 'post' ) )
 			$stmt->bindParam( ':url_pattern', $row['url_pattern'], PDO::PARAM_STR );
 			$stmt->bindParam( ':img_structure', $row['img_structure'], PDO::PARAM_STR );
 			$stmt->bindParam( ':chapno_structure', $row['chapno_structure'], PDO::PARAM_STR );
+			$stmt->bindParam( ':preg_img_structure', $row['preg_img_structure'], PDO::PARAM_STR );
+			$stmt->bindParam( ':replace_1', $row['replace_1'], PDO::PARAM_STR );
+			$stmt->bindParam( ':replace_2', $row['replace_2'], PDO::PARAM_STR );
+			$stmt->bindParam( ':replace_3', $row['replace_3'], PDO::PARAM_STR );
+			$stmt->bindParam( ':numget_img', $row['numget_img'], PDO::PARAM_STR );
+			$stmt->bindParam( ':preg_chapno_structure', $row['preg_chapno_structure'], PDO::PARAM_STR );
+			$stmt->bindParam( ':numget_chap', $row['numget_chap'], PDO::PARAM_STR );
 
 			$exc = $stmt->execute();
 			if( $exc )
@@ -117,6 +112,13 @@ else
 	$row['url_pattern'] = '';
 	$row['img_structure'] = '';
 	$row['chapno_structure'] = '';
+	$row['preg_img_structure'] = '';
+	$row['replace_1'] = '';
+	$row['replace_2'] = '';
+	$row['replace_3'] = '';
+	$row['numget_img'] = '';
+	$row['preg_chapno_structure'] = '';
+	$row['numget_chap'] = '';
 }
 
 // Fetch Limit
@@ -149,6 +151,8 @@ if( $show_view )
 	$number = 0;
 	while( $view = $sth->fetch() )
 	{
+		$view['add_time'] = nv_date('H:i - d/m/y',$view['add_time']);
+		$view['edit_time'] = nv_date('H:i - d/m/y',$view['edit_time']);
 		$view['number'] = ++$number;
 		$view['link_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;id=' . $view['id'];
 		$view['link_delete'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;delete_id=' . $view['id'] . '&amp;delete_checkss=' . md5( $view['id'] . NV_CACHE_PREFIX . $client_info['session_id'] );
