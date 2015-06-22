@@ -20,6 +20,7 @@ $array_table = array(
 	'config_post',
 	'rows',
 	'get_chap',
+	'get_manga',
 	'logs',
 );
 $table = $db_config['prefix'] . '_' . $lang . '_' . $module_data;
@@ -33,12 +34,13 @@ while( $item = $result->fetch( ) )
 	}
 }
 
-$result = $db->query( "SHOW TABLE STATUS LIKE '" . $db_config['prefix'] . "\_" . $lang . "\_comments'" );
+$result = $db->query( "SHOW TABLE STATUS LIKE '" . $db_config['prefix'] . "\_" . $lang . "\_comment'" );
 $rows = $result->fetchAll();
 if( sizeof( $rows ) )
 {
-	$sql_drop_module[] = "DELETE FROM " . $db_config['prefix'] . "_" . $lang . "_comments WHERE module='" . $module_name . "'";
+	$sql_drop_module[] = "DELETE FROM " . $db_config['prefix'] . "_" . $lang . "_comment WHERE module='" . $module_name . "'";
 }
+
 $sql_create_module = $sql_drop_module;
 
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_cat (
@@ -55,7 +57,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 weight smallint(5) unsigned NOT NULL DEFAULT '0',
 	 sort smallint(5) NOT NULL DEFAULT '0',
 	 lev smallint(5) NOT NULL DEFAULT '0',
-	 viewcat varchar(50) NOT NULL DEFAULT 'viewcat_list_new',
+	 viewcat varchar(50) NOT NULL DEFAULT 'viewcat_list',
 	 numsubcat smallint(5) NOT NULL DEFAULT '0',
 	 subcatid varchar(255) DEFAULT '',
 	 inhome tinyint(1) unsigned NOT NULL DEFAULT '0',
@@ -72,6 +74,10 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
  	 last_chapter float default '0',
 	 groups_view varchar(255) DEFAULT '',
 	 allowed_comm varchar(255) DEFAULT '',
+ 	 hitscm mediumint(8) unsigned NOT NULL default '0',
+ 	 allowed_rating tinyint(1) unsigned NOT NULL default '0',
+	 total_rating int(11) NOT NULL default '0',
+	 click_rating int(11) NOT NULL default '0',
 	 PRIMARY KEY (catid),
 	 UNIQUE KEY alias (alias)
 	) ENGINE=MyISAM";
@@ -91,6 +97,20 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 numget_img varchar(255) DEFAULT '',
 	 preg_chapno_structure varchar(255) DEFAULT '',
 	 numget_chap varchar(255) DEFAULT '',
+	 add_time int(11) unsigned NOT NULL DEFAULT '0',
+	 edit_time int(11) unsigned NOT NULL DEFAULT '0',
+	 PRIMARY KEY (id)
+	) ENGINE=MyISAM";
+	
+	$sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_get_manga (
+	 id smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+	 title varchar(255) NOT NULL,
+	 html_title varchar(255) NOT NULL,
+	 html_description varchar(255) DEFAULT '', 
+	 html_author varchar(255) DEFAULT '',
+	 html_trans varchar(255) DEFAULT '',
+	 html_genre varchar(255) DEFAULT '',
+	 html_img_thumb varchar(255) DEFAULT '',
 	 add_time int(11) unsigned NOT NULL DEFAULT '0',
 	 edit_time int(11) unsigned NOT NULL DEFAULT '0',
 	 PRIMARY KEY (id)
@@ -138,10 +158,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 alias varchar(255) NOT NULL default '',
 	 chapter float(1) default '0',
 	 inhome tinyint(1) unsigned NOT NULL default '0',
-	 allowed_comm varchar(255) default '',
 	 allowed_rating tinyint(1) unsigned NOT NULL default '0',
 	 hitstotal mediumint(8) unsigned NOT NULL default '0',
-	 hitscm mediumint(8) unsigned NOT NULL default '0',
 	 total_rating int(11) NOT NULL default '0',
 	 click_rating int(11) NOT NULL default '0',
 	 PRIMARY KEY (id),
@@ -246,7 +264,6 @@ $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module,
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'captcha', '1')";
 
 // Them the loai vao DB
-
 $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_block_cat (bid, adddefault, numbers, title, alias, image, description, weight, keywords, add_time, edit_time) VALUES
 (1, 0, 0, 'Shounen', 'shounen', '', '', 1, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
 (2, 0, 0, 'Ecchi', 'ecchi', '', '', 2, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),

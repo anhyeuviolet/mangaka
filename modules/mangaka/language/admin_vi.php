@@ -218,7 +218,7 @@ $lang_module['facebookcomment'] = 'Sử dụng Facebook Comment';
 $lang_module['disqus'] = 'Sử dụng comment Disqus ( Vui lòng điền Shortname)';
 
 $lang_module['facebookAppIDNote'] = ' (Có dạng 1419186468293063, <a href="http://wiki.nukeviet.vn/nukeviet:admin:news:facebookapi" target="_blank">xem chi tiết</a>)';
-$lang_module['socialbutton'] = 'Hiển thị các công cụ Like/Comment Facebook, G+, Disqus khi xem bài viết';
+$lang_module['socialbutton'] = 'Hiển thị các công cụ Like/Comment Facebook, G+ ... khi xem bài viết';
 $lang_module['block'] = 'Các nhóm tin';
 $lang_module['adddefaultblock'] = 'Chọn mặc định khi tạo bài viết';
 $lang_module['source_logo'] = 'Logo nguồn tin';

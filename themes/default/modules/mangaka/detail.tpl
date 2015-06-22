@@ -168,7 +168,13 @@
 		<style>.fb-comments, .fb-comments iframe[style], .fb-like-box, .fb-like-box iframe[style] {width: 100% !important;}
 		.fb-comments span, .fb-comments iframe span[style], .fb-like-box span, .fb-like-box iframe span[style] {width: 100% !important;}
 		</style>
-		<!-- END: fb_comment -->	
+		<!-- END: fb_comment -->
+
+			<!-- BEGIN: comment -->
+			<section id="section-3">
+				{CONTENT_COMMENT}
+			</section>
+			<!-- END: comment -->		
 		
 	</div>
 </div>

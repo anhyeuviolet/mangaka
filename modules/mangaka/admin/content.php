@@ -104,10 +104,8 @@ $rowcontent = array(
 	'copyright' => 0,
 	'gid' => 0,
 	'inhome' => 1,
-	'allowed_comm' => $module_config[$module_name]['setcomm'],
 	'allowed_rating' => 1,
 	'hitstotal' => 0,
-	'hitscm' => 0,
 	'total_rating' => 0,
 	'click_rating' => 0,
 	'mode' => 'add'
@@ -353,8 +351,6 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 	$rowcontent['copyright'] = ( int )$nv_Request->get_bool( 'copyright', 'post' );
 	$rowcontent['inhome'] = ( int )$nv_Request->get_bool( 'inhome', 'post' );
 
-	$_groups_post = $nv_Request->get_array( 'allowed_comm', 'post', array() );
-	$rowcontent['allowed_comm'] = ! empty( $_groups_post ) ? implode( ',', nv_groups_post( array_intersect( $_groups_post, array_keys( $groups_list ) ) ) ) : '';
 
 	$rowcontent['allowed_rating'] = ( int )$nv_Request->get_bool( 'allowed_rating', 'post' );
 
@@ -389,7 +385,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				$rowcontent['status'] = 2;
 			}
 			$sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_rows
-				(catid, listcatid, admin_id, author, addtime, edittime, status, publtime, exptime, archive, title, chapter, alias, inhome, allowed_comm, allowed_rating, hitstotal, hitscm, total_rating, click_rating) VALUES
+				(catid, listcatid, admin_id, author, addtime, edittime, status, publtime, exptime, archive, title, chapter, alias, inhome, allowed_rating, hitstotal, total_rating, click_rating) VALUES
 				 (' . intval( $rowcontent['catid'] ) . ',
 				 :listcatid,
 				 ' . intval( $rowcontent['admin_id'] ) . ',
@@ -404,10 +400,8 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				 :chapter,
 				 :alias,
 				 ' . intval( $rowcontent['inhome'] ) . ',
-				 :allowed_comm,
 				 ' . intval( $rowcontent['allowed_rating'] ) . ',
 				 ' . intval( $rowcontent['hitstotal'] ) . ',
-				 ' . intval( $rowcontent['hitscm'] ) . ',
 				 ' . intval( $rowcontent['total_rating'] ) . ',
 				 ' . intval( $rowcontent['click_rating'] ) . ')';
 
@@ -417,7 +411,6 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 			$data_insert['title'] = $rowcontent['title'];
 			$data_insert['chapter'] = $rowcontent['chapter'];
 			$data_insert['alias'] = $rowcontent['alias'];
-			$data_insert['allowed_comm'] = $rowcontent['allowed_comm'];
 
 			$rowcontent['id'] = $db->insert_id( $sql, 'id', $data_insert );
 			if( $rowcontent['id'] > 0 )
@@ -485,7 +478,6 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 					 chapter=:chapter,
 					 alias=:alias,
 					 inhome=' . intval( $rowcontent['inhome'] ) . ',
-					 allowed_comm=:allowed_comm,
 					 allowed_rating=' . intval( $rowcontent['allowed_rating'] ) . ',
 					 edittime=' . NV_CURRENTTIME . '
 				WHERE id =' . $rowcontent['id'] );
@@ -495,7 +487,6 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 			$sth->bindParam( ':title', $rowcontent['title'], PDO::PARAM_STR );
 			$sth->bindParam( ':chapter', $rowcontent['chapter'], PDO::PARAM_STR );
 			$sth->bindParam( ':alias', $rowcontent['alias'], PDO::PARAM_STR );
-			$sth->bindParam( ':allowed_comm', $rowcontent['allowed_comm'], PDO::PARAM_STR );
 
 			if( $sth->execute() )
 			{

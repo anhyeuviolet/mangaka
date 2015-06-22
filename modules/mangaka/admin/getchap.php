@@ -225,7 +225,7 @@ if($action == '2'){
 					
 					//Khoi tao cac bien de chen vao DB cho co
 					$bodytext=nv_news_get_bodytext($bodyhtml);
-					$src_text = $inhome = $allowed_rating = $status = 1;$exptime = $hitstotal = $hitscm = $total_rating = $click_rating =0;$archive=2;$allowed_comm = 4;$author = "Manga Leecher";
+					$src_text = $inhome = $allowed_rating = $status = 1;$exptime = $hitstotal = $total_rating = $click_rating =0;$archive=2;$author = "Manga Leecher";
 					
 					// Luu vao NV_PREFIXLANG."_".$module_data."_rows"
 					$stht = $db->prepare( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET
@@ -243,10 +243,8 @@ if($action == '2'){
 						 alias=:alias,
 						 chapter=:chapter,
 						 inhome=:inhome,
-						 allowed_comm=:allowed_comm,
 						 allowed_rating=:allowed_rating,
 						 hitstotal=:hitstotal,
-						 hitscm=:hitscm,
 						 total_rating=:total_rating,
 						 click_rating=:click_rating
 						 ');
@@ -268,10 +266,8 @@ if($action == '2'){
 					$stht->bindParam( ':chapter', $this_chapter, PDO::PARAM_STR );
 					$stht->bindParam( ':inhome', $inhome, PDO::PARAM_STR );
 					
-					$stht->bindParam( ':allowed_comm', $allowed_comm, PDO::PARAM_STR );
 					$stht->bindParam( ':allowed_rating', $allowed_rating, PDO::PARAM_STR );
 					$stht->bindParam( ':hitstotal', $hitstotal, PDO::PARAM_STR );
-					$stht->bindParam( ':hitscm', $hitscm, PDO::PARAM_STR );
 					$stht->bindParam( ':total_rating', $total_rating, PDO::PARAM_STR );
 					$stht->bindParam( ':click_rating', $click_rating, PDO::PARAM_STR );
 					$stht->execute();
@@ -295,10 +291,8 @@ if($action == '2'){
 						 alias=:alias,
 						 chapter=:chapter,
 						 inhome=:inhome,
-						 allowed_comm=:allowed_comm,
 						 allowed_rating=:allowed_rating,
 						 hitstotal=:hitstotal,
-						 hitscm=:hitscm,
 						 total_rating=:total_rating,
 						 click_rating=:click_rating
 						 ');
@@ -320,10 +314,8 @@ if($action == '2'){
 						$sthr->bindParam( ':chapter', $this_chapter, PDO::PARAM_STR );
 						$sthr->bindParam( ':inhome', $inhome, PDO::PARAM_STR );
 						
-						$sthr->bindParam( ':allowed_comm', $allowed_comm, PDO::PARAM_STR );
 						$sthr->bindParam( ':allowed_rating', $allowed_rating, PDO::PARAM_STR );
 						$sthr->bindParam( ':hitstotal', $hitstotal, PDO::PARAM_STR );
-						$sthr->bindParam( ':hitscm', $hitscm, PDO::PARAM_STR );
 						$sthr->bindParam( ':total_rating', $total_rating, PDO::PARAM_STR );
 						$sthr->bindParam( ':click_rating', $click_rating, PDO::PARAM_STR );
 						$sthr->execute();

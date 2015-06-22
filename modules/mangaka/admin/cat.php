@@ -5,7 +5,7 @@
  * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
  * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
  * @License GNU/GPL version 2 or any later version
- * @Createdate 18 June 2015 09:47:16 GMT
+ * @Createdate 05/07/2010 09:47
  */
 
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
@@ -20,7 +20,7 @@ if( defined( 'NV_EDITOR' ) )
 $error = $admins = '';
 $savecat = 0;
 
-list( $catid, $title, $titlesite, $alias, $description, $descriptionhtml, $keywords, $authors, $translators, $groups_view, $block_id, $image, $image_type, $progress, $inhome ) = array( 0, '', '', '', '', '', '', '', '', '6','', '','', '', 1 );
+list( $catid, $title, $titlesite, $alias, $description, $descriptionhtml, $keywords, $authors, $translators, $groups_view, $block_id, $image, $image_type, $progress, $inhome, $allowed_rating ) = array( 0, '', '', '', '', '', '', '', '', '6','', '','', '', 1,1 );
 
 $groups_list = nv_groups_list();
 $allowed_comm = $module_config[$module_name]['setcomm'];
@@ -36,6 +36,7 @@ if( $catid > 0 and isset( $global_array_cat[$catid] ) )
 	$descriptionhtml = $global_array_cat[$catid]['descriptionhtml'];
 	$progress = $global_array_cat[$catid]['progress'];
 	$inhome = $global_array_cat[$catid]['inhome'];
+	$allowed_rating = $global_array_cat[$catid]['allowed_rating'];
 	$image = $global_array_cat[$catid]['image'];
 	$image_type = $global_array_cat[$catid]['image_type'];
 	$keywords = $global_array_cat[$catid]['keywords'];
@@ -87,6 +88,7 @@ if( ! empty( $savecat ) )
 
 	$progress = $nv_Request->get_int( 'progress', 'post', 0 );
 	$inhome = $nv_Request->get_int( 'inhome', 'post', 0 );
+	$allowed_rating = $nv_Request->get_int( 'allowed_rating', 'post', 0 );
 
 	// Xu ly lien ket tinh
 	$_alias = $nv_Request->get_title( 'alias', 'post', '' );
@@ -167,11 +169,11 @@ if( ! empty( $savecat ) )
 
 	if( $catid == 0 and $title != '' )
 	{
-		$viewcat = 'viewcat_list_new';
+		$viewcat = 'viewcat_list';
 		$subcatid = '';
 
-		$sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_cat ( title, titlesite, alias, description, descriptionhtml, image, image_type, progress, sort, viewcat, numsubcat, subcatid, inhome, numlinks, newday, keywords, authors, translators, admins, add_time, edit_time, groups_view, allowed_comm, bid, last_update) VALUES
-			(:title, :titlesite, :alias, :description, :descriptionhtml, :image, :image_type, '" . $progress . "','0', :viewcat, '0', :subcatid, '" . $inhome . "', '3', '2', :keywords, :authors, :translators, :admins, " . NV_CURRENTTIME . ", " . NV_CURRENTTIME . ", :groups_view, :allowed_comm, :bid, " . NV_CURRENTTIME . " )";
+		$sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_cat ( title, titlesite, alias, description, descriptionhtml, image, image_type, progress, sort, viewcat, numsubcat, subcatid, inhome, allowed_rating, numlinks, newday, keywords, authors, translators, admins, add_time, edit_time, groups_view, allowed_comm, bid, last_update) VALUES
+			(:title, :titlesite, :alias, :description, :descriptionhtml, :image, :image_type, '" . $progress . "','0', :viewcat, '0', :subcatid, '" . $inhome . "', '" . $allowed_rating . "', '3', '2', :keywords, :authors, :translators, :admins, " . NV_CURRENTTIME . ", " . NV_CURRENTTIME . ", :groups_view, :allowed_comm, :bid, " . NV_CURRENTTIME . " )";
 
 		$data_insert = array();
 		$data_insert['title'] = $title;
@@ -217,7 +219,7 @@ if( ! empty( $savecat ) )
 	}
 	elseif( $catid > 0 and $title != '' )
 	{
-		$stmt = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET title= :title, titlesite=:titlesite, alias = :alias, description = :description, descriptionhtml = :descriptionhtml, image= :image, image_type= :image_type, progress= :progress, inhome= :inhome, keywords= :keywords, authors= :authors, translators= :translators, groups_view= :groups_view, allowed_comm= :allowed_comm, bid= :bid, edit_time=' . NV_CURRENTTIME . ' WHERE catid =' . $catid );
+		$stmt = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET title= :title, titlesite=:titlesite, alias = :alias, description = :description, descriptionhtml = :descriptionhtml, image= :image, image_type= :image_type, progress= :progress, inhome= :inhome, allowed_rating= :allowed_rating, keywords= :keywords, authors= :authors, translators= :translators, groups_view= :groups_view, allowed_comm= :allowed_comm, bid= :bid, edit_time=' . NV_CURRENTTIME . ' WHERE catid =' . $catid );
 		$stmt->bindParam( ':title', $title, PDO::PARAM_STR );
 		$stmt->bindParam( ':titlesite', $titlesite, PDO::PARAM_STR );
 		$stmt->bindParam( ':alias', $alias, PDO::PARAM_STR );
@@ -225,6 +227,7 @@ if( ! empty( $savecat ) )
 		$stmt->bindParam( ':image_type', $image_type, PDO::PARAM_STR );
 		$stmt->bindParam( ':progress', $progress, PDO::PARAM_STR );
 		$stmt->bindParam( ':inhome', $inhome, PDO::PARAM_STR );
+		$stmt->bindParam( ':allowed_rating', $allowed_rating, PDO::PARAM_STR );
 		$stmt->bindParam( ':keywords', $keywords, PDO::PARAM_STR );
 		$stmt->bindParam( ':authors', $authors, PDO::PARAM_STR );
 		$stmt->bindParam( ':translators', $translators, PDO::PARAM_STR );
@@ -368,6 +371,10 @@ for( $a = 0; $a <= 1; $a++ )
 	$xtpl->assign( 'INHOME', $data_inh );
 	$xtpl->parse( 'main.content.inhome' );
 }
+
+$allowed_rating_checked = ( $allowed_rating ) ? ' checked="checked"' : '';
+$xtpl->assign( 'allowed_rating_checked', $allowed_rating_checked );
+
 //Truy van lay du lieu bid tu DB
 if( sizeof( $array_block_cat_module ) )
 {

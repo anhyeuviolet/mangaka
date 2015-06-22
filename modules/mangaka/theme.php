@@ -10,18 +10,25 @@
 
 if( ! defined( 'NV_IS_MOD_NEWS' ) ) die( 'Stop!!!' );
 
-function viewcat_list_new( $array_catpage, $array_cat_block, $catid, $page, $generate_page, $viewcat_img, $content_comment)
+function viewcat_list( $array_catpage, $array_cat_block, $catid, $page, $generate_page, $viewcat_img, $viewcat_rating, $content_comment)
 {
-	global $module_name, $module_file, $lang_module, $module_config, $module_info, $global_array_cat, $client_info;
+	global $module_name, $module_file, $lang_module, $module_config, $module_info, $global_array_cat, $my_head, $client_info;
+	
+	$my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "js/star-rating/jquery.rating.pack.js\"></script>\n";
+	$my_head .= "<script src='" . NV_BASE_SITEURL . "js/star-rating/jquery.MetaData.js' type=\"text/javascript\"></script>\n";
+	$my_head .= "<link href='" . NV_BASE_SITEURL . "js/star-rating/jquery.rating.css' type=\"text/css\" rel=\"stylesheet\"/>\n";
 
 	$xtpl = new XTemplate( 'viewcat_list.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
 	$xtpl->assign( 'IMGWIDTH1', $module_config[$module_name]['homewidth'] );
 	$xtpl->assign( 'SELFURL', $client_info['selfurl'] );
 	$xtpl->assign( 'MODULE_FILE', $module_file );
+	$xtpl->assign( 'CATID', $catid );
+	$xtpl->assign( 'CHECKSS', $viewcat_rating['checkss'] );
+
 
 	// Show Category Infomation
-	if( $viewcat_img )
+	if( $viewcat_img ) // Home image
 	{
 		$xtpl->assign( 'HOMEIMG1', $viewcat_img );
 		$xtpl->parse( 'main.viewdescription.image' );
@@ -58,6 +65,28 @@ function viewcat_list_new( $array_catpage, $array_cat_block, $catid, $page, $gen
 			$xtpl->parse( 'main.viewdescription.genre' );
 		}
 	}
+
+	if( $global_array_cat[$catid]['allowed_rating'] == 1 ) // Rating mode
+	{
+		$xtpl->assign( 'LANGSTAR', $viewcat_rating['langstar'] );
+		$xtpl->assign( 'STRINGRATING', $viewcat_rating['stringrating'] );
+		$xtpl->assign( 'NUMBERRATING', $viewcat_rating['numberrating'] );
+		$xtpl->assign( 'CLICK_RATING', $global_array_cat[$catid]['click_rating'] );
+
+		if( $viewcat_rating['disablerating'] == 1 )
+		{
+			$xtpl->parse( 'main.viewdescription.allowed_rating.disablerating' );
+		}
+
+		if( $viewcat_rating['numberrating'] >= $module_config[$module_name]['allowed_rating_point'] )
+		{
+			$xtpl->parse( 'main.viewdescription.allowed_rating.data_rating' );
+		}
+
+		$xtpl->parse( 'main.viewdescription.allowed_rating' );
+	}
+	
+	
 	$xtpl->assign( 'CONTENT', $global_array_cat[$catid] );
 
 	$xtpl->parse( 'main.viewdescription' );
@@ -100,8 +129,6 @@ function viewcat_list_new( $array_catpage, $array_cat_block, $catid, $page, $gen
 		$xtpl->parse( 'main.tooltip' );
 	}
 	//Comment system
-	if( $module_config[$module_name]['socialbutton'] ) // Neu su dung cac cong cu MXH
-	{
 		global $meta_property;
 		$lang = ( NV_LANG_DATA == 'vi' ) ? 'vi_VN' : 'en_US';
 		$facebookappid = $module_config[$module_name]['facebookappid'];
@@ -126,7 +153,9 @@ function viewcat_list_new( $array_catpage, $array_cat_block, $catid, $page, $gen
 		{
 			$meta_property['fb:admin_id'] = $facebookadminid;
 		}
-		define( 'FACEBOOK_JSSDK', true );
+	define( 'FACEBOOK_JSSDK', true );
+	if( $module_config[$module_name]['socialbutton'] ) // Neu su dung cac nut like, share MXH
+	{
 		$xtpl->parse( 'main.socialbutton' );
 	}
 	if( $module_config[$module_name]['disqus_shortname'] ) // Neu su dung binh luan Disqus
@@ -137,99 +166,6 @@ function viewcat_list_new( $array_catpage, $array_cat_block, $catid, $page, $gen
 		$xtpl->parse( 'main.disqus_tab' );
 	}
 	
-	$xtpl->parse( 'main' );
-	return $xtpl->text( 'main' );
-}
-
-function viewcat_page_new( $array_catpage, $array_cat_other, $generate_page )
-{
-	global $global_array_cat, $module_name, $module_file, $lang_module, $module_config, $module_info, $global_array_cat, $catid, $page;
-
-	$xtpl = new XTemplate( 'viewcat_page.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
-	$xtpl->assign( 'LANG', $lang_module );
-	$xtpl->assign( 'IMGWIDTH1', $module_config[$module_name]['homewidth'] );
-	if( ($global_array_cat[$catid]['viewdescription'] and $page == 1) OR $global_array_cat[$catid]['viewdescription'] == 2 )
-	{
-		$xtpl->assign( 'CONTENT', $global_array_cat[$catid] );
-		if( $global_array_cat[$catid]['image'] )
-		{
-			$xtpl->assign( 'HOMEIMG1', NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_name . '/' . $global_array_cat[$catid]['image'] );
-			$xtpl->parse( 'main.viewdescription.image' );
-		}
-		$xtpl->parse( 'main.viewdescription' );
-	}
-	$a = 0;
-	foreach( $array_catpage as $array_row_i )
-	{
-		$newday = $array_row_i['publtime'] + ( 86400 * $array_row_i['newday'] );
-		$array_row_i['publtime'] = nv_date( 'd/m/Y h:i:s A', $array_row_i['publtime'] );
-		$array_row_i['listcatid'] = explode( ',', $array_row_i['listcatid'] );
-		$num_cat = sizeof( $array_row_i['listcatid'] );
-
-		$n = 1;
-		foreach( $array_row_i['listcatid'] as $listcatid )
-		{
-			$listcat = array(
-				'title' => $global_array_cat[$listcatid]['title'],
-				"link" => $global_array_cat[$listcatid]['link']
-			);
-			$xtpl->assign( 'CAT', $listcat );
-			(($n < $num_cat) ? $xtpl->parse( 'main.viewcatloop.cat.comma' ) : '');
-			$xtpl->parse( 'main.viewcatloop.cat' );
-			++$n;
-		}
-
-		$xtpl->clear_autoreset();
-		$xtpl->assign( 'CONTENT', $array_row_i );
-
-		if( defined( 'NV_IS_MODADMIN' ) )
-		{
-			$xtpl->assign( 'ADMINLINK', nv_link_edit_page( $array_row_i['id'] ) . " " . nv_link_delete_page( $array_row_i['id'] ) );
-			$xtpl->parse( 'main.viewcatloop.adminlink' );
-		}
-
-		if( $array_row_i['imghome'] != '' )
-		{
-			$xtpl->assign( 'HOMEIMG1', $array_row_i['imghome'] );
-			$xtpl->assign( 'HOMEIMGALT1', ! empty( $array_row_i['homeimgalt'] ) ? $array_row_i['homeimgalt'] : $array_row_i['title'] );
-			$xtpl->parse( 'main.viewcatloop.image' );
-		}
-
-		if ( $newday >= NV_CURRENTTIME )
-		{
-			$xtpl->parse( 'main.viewcatloop.newday' );
-		}
-
-		$xtpl->set_autoreset();
-		$xtpl->parse( 'main.viewcatloop' );
-		++$a;
-	}
-
-	if( ! empty( $array_cat_other ) )
-	{
-		$xtpl->assign( 'ORTHERNEWS', $lang_module['other'] );
-
-		foreach( $array_cat_other as $array_row_i )
-		{
-			$newday = $array_row_i['publtime'] + ( 86400 * $array_row_i['newday'] );
-			$array_row_i['publtime'] = nv_date( "d/m/Y", $array_row_i['publtime'] );
-			$xtpl->assign( 'RELATED', $array_row_i );
-			if ( $newday >= NV_CURRENTTIME )
-			{
-				$xtpl->parse( 'main.related.loop.newday' );
-			}
-			$xtpl->parse( 'main.related.loop' );
-		}
-
-		$xtpl->parse( 'main.related' );
-	}
-
-	if( ! empty( $generate_page ) )
-	{
-		$xtpl->assign( 'GENERATE_PAGE', $generate_page );
-		$xtpl->parse( 'main.generate_page' );
-	}
-
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );
 }
@@ -438,7 +374,7 @@ function viewcat_top( $array_catcontent, $generate_page )
 	return $xtpl->text( 'main' );
 }
 // Bai viet chi tiet
-function detail_theme( $news_contents, $content_comment, $next_chapter, $previous_chapter)
+function detail_theme( $news_contents, $next_chapter, $previous_chapter)
 {
 	global $global_config, $module_info, $lang_module, $module_name, $module_file, $module_config, $my_head, $lang_global, $user_info, $admin_info, $client_info, $global_array_cat, $catid;
 
@@ -530,31 +466,31 @@ function detail_theme( $news_contents, $content_comment, $next_chapter, $previou
 		$xtpl->parse( 'main.adminlink' );
 	}
 
+	global $meta_property;
+	$lang = ( NV_LANG_DATA == 'vi' ) ? 'vi_VN' : 'en_US';
+	$facebookappid = $module_config[$module_name]['facebookappid'];
+	$facebookadminid = $module_config[$module_name]['facebookadminid'];
+	$facebookcomment = $module_config[$module_name]['facebookcomment'];
+	$xtpl->assign( 'FACEBOOK_LANG', $lang );
+	$xtpl->assign( 'FACEBOOK_APPID', $facebookappid );
+	
+	if( ! empty( $facebookappid ) && ! empty( $facebookcomment ) ) // Neu co ca FB ID va cho phep comment FB
+	{
+		$meta_property['fb:app_id'] = $facebookappid; // MetaData cho FB ID
+		$xtpl->parse( 'main.facebookjssdk' ); // Xuat SDK dung FB ID
+		$xtpl->parse( 'main.fb_comment' ); // Xuat Comment cua ID tuong ung
+	} 
+	else if(! empty( $facebookcomment )){   // Neu KHONG co FB ID va Cho phep comment FB
+		$xtpl->parse( 'main.facebook_pubsdk' ); // Xuat SDK Public Facebook
+		$xtpl->parse( 'main.fb_comment' ); // Xuat FB Comment
+	}
+	if( ! empty( $facebookadminid ) ) // MetaData cho FB admin - quan ly comment
+	{
+		$meta_property['fb:admin_id'] = $facebookadminid;
+	}
+	define( 'FACEBOOK_JSSDK', true );
 	if( $module_config[$module_name]['socialbutton'] ) // Neu su dung cac cong cu MXH
 	{
-		global $meta_property;
-		$lang = ( NV_LANG_DATA == 'vi' ) ? 'vi_VN' : 'en_US';
-		$facebookappid = $module_config[$module_name]['facebookappid'];
-		$facebookadminid = $module_config[$module_name]['facebookadminid'];
-		$facebookcomment = $module_config[$module_name]['facebookcomment'];
-		$xtpl->assign( 'FACEBOOK_LANG', $lang );
-		$xtpl->assign( 'FACEBOOK_APPID', $facebookappid );
-		
-		if( ! empty( $facebookappid ) && ! empty( $facebookcomment ) ) // Neu co ca FB ID va cho phep comment FB
-		{
-			$meta_property['fb:app_id'] = $facebookappid; // MetaData cho FB ID
-			$xtpl->parse( 'main.facebookjssdk' ); // Xuat SDK dung FB ID
-			$xtpl->parse( 'main.fb_comment' ); // Xuat Comment cua ID tuong ung
-		} 
-		else if(! empty( $facebookcomment )){   // Neu KHONG co FB ID va Cho phep comment FB
-			$xtpl->parse( 'main.facebook_pubsdk' ); // Xuat SDK Public Facebook
-			$xtpl->parse( 'main.fb_comment' ); // Xuat FB Comment
-		}
-		if( ! empty( $facebookadminid ) ) // MetaData cho FB admin - quan ly comment
-		{
-			$meta_property['fb:admin_id'] = $facebookadminid;
-		}
-		define( 'FACEBOOK_JSSDK', true );
 		$xtpl->parse( 'main.socialbutton' );
 	}
 

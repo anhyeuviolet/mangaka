@@ -14,10 +14,10 @@ $check_permission = false;
 $rowcontent['id'] = $nv_Request->get_int( 'id', 'get,post', 0 );
 if( $rowcontent['id'] > 0 )
 {
-	$rowcontent = $db->query( 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows where id=' . $rowcontent['id'] )->fetch();
-	if( ! empty( $rowcontent['id'] ) )
+	$rowcontent = $db->query( 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat where catid=' . $rowcontent['id'] )->fetch();
+	if( ! empty( $rowcontent['catid'] ) )
 	{
-		$arr_catid = explode( ',', $rowcontent['listcatid'] );
+		$catid = $rowcontent['catid'];
 		if( defined( 'NV_IS_ADMIN_MODULE' ) )
 		{
 			$check_permission = true;
@@ -25,25 +25,21 @@ if( $rowcontent['id'] > 0 )
 		else
 		{
 			$check_comments = 0;
-			$status = $rowcontent['status'];
-			foreach( $arr_catid as $catid_i )
+			if( isset( $array_cat_admin[$admin_id][$catid] ) )
 			{
-				if( isset( $array_cat_admin[$admin_id][$catid_i] ) )
+				if( $array_cat_admin[$admin_id][$catid]['admin'] == 1 )
 				{
-					if( $array_cat_admin[$admin_id][$catid_i]['admin'] == 1 )
+					++$check_comments;
+				}
+				else
+				{
+					if( $array_cat_admin[$admin_id][$catid]['comments'] == 1 )
 					{
 						++$check_comments;
 					}
-					else
-					{
-						if( $array_cat_admin[$admin_id][$catid_i]['comments'] == 1 )
-						{
-							++$check_comments;
-						}
-					}
 				}
 			}
-			if( $check_comments == sizeof( $arr_catid ) )
+			if( $check_comments == sizeof( $catid ) )
 			{
 				$check_permission = true;
 			}
@@ -52,7 +48,7 @@ if( $rowcontent['id'] > 0 )
 }
 if( $check_permission )
 {
-	Header( 'Location: ' . nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $global_array_cat[$rowcontent['catid']]['alias'] . '/' . $rowcontent['alias'] . '-' . $rowcontent['id'] . $global_config['rewrite_exturl'], true ) );
+	Header( 'Location: ' . nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $global_array_cat[$catid]['alias'], true ) );
 	die();
 }
 else

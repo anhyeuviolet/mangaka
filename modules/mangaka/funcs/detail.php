@@ -167,33 +167,6 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 
 	list( $post_username, $post_first_name, $post_last_name ) = $db->query( 'SELECT username, first_name, last_name FROM ' . NV_USERS_GLOBALTABLE . ' WHERE userid = ' . $news_contents['admin_id'] )->fetch( 3 );
 	$news_contents['post_name'] = nv_show_name_user( $post_first_name, $post_last_name, $post_username );
-
-
-	// // comment
-	// if( isset( $site_mods['comment'] ) and isset( $module_config[$module_name]['activecomm'] ) )
-	// {
-		// define( 'NV_COMM_ID', $id );//ID bài viết hoặc
-	    // define( 'NV_COMM_AREA', $module_info['funcs'][$op]['func_id'] );//để đáp ứng comment ở bất cứ đâu không cứ là bài viết
-	    // //check allow comemnt
-	    // $allowed = $module_config[$module_name]['allowed_comm'];//tuy vào module để lấy cấu hình. Nếu là module news thì có cấu hình theo bài viết
-	    // if( $allowed == '-1' )
-	    // {
-	       // $allowed = $news_contents['allowed_comm'];
-	    // }
-	    // define( 'NV_PER_PAGE_COMMENT', 5 ); //Số bản ghi hiển thị bình luận
-	    // require_once NV_ROOTDIR . '/modules/comment/comment.php';
-	    // $area = ( defined( 'NV_COMM_AREA' ) ) ? NV_COMM_AREA : 0;
-	    // $checkss = md5( $module_name . '-' . $area . '-' . NV_COMM_ID . '-' . $allowed . '-' . NV_CACHE_PREFIX );
-
-	    // //get url comment
-	    // $url_info = parse_url( $client_info['selfurl'] );
-	    // $content_comment = nv_comment_module( $module_name, $checkss, $area, NV_COMM_ID, $allowed, 1 );
-    // }
-	// else
-	// {
-		// $content_comment = '';
-	// }
-
 	
 	$next_chapter = $previous_chapter = '';
 	//Next Chapter
@@ -212,7 +185,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 		$previous_chapter['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$previous['catid']]['alias'] . '/' . $previous['alias'] . '-' . $previous['id'] . $global_config['rewrite_exturl'];
 		$previous_chapter['chapter'] = $previous['chapter'];
 	}
-	$contents = detail_theme( $news_contents, '', $next_chapter, $previous_chapter );
+	$contents = detail_theme( $news_contents, $next_chapter, $previous_chapter );
 
 	$page_title = $global_array_cat[$catid]['title']." - ". $lang_module['chapter'] ." ". $news_contents['chapter'];
 	$description = $global_array_cat[$catid]['title']." - ". $lang_module['chapter'] ." ". $news_contents['chapter'] ." - ".$global_array_cat[$catid]['description'] ;

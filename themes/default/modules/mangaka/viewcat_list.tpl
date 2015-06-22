@@ -87,6 +87,65 @@
 			</tr>
 		</tfoot>
 	</table>
+			<div class="row">
+			<div class="col-md-12">
+			<!-- BEGIN: allowed_rating -->
+				<form id="form3B" action="">
+					<div class="clearfix">
+						<div id="stringrating">
+							{STRINGRATING}
+						</div>
+			            <!-- BEGIN: data_rating -->
+			            <span itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
+			               {LANG.rating_average}:
+			               <span itemprop="rating">{NUMBERRATING}</span> -
+			               <span itemprop="votes">{CLICK_RATING}</span> {LANG.rating_count}
+			            </span>
+			            <!-- END: data_rating -->
+						<div style="padding: 5px;">
+							<input class="hover-star" type="radio" value="1" title="{LANGSTAR.verypoor}" /><input class="hover-star" type="radio" value="2" title="{LANGSTAR.poor}" /><input class="hover-star" type="radio" value="3" title="{LANGSTAR.ok}" /><input class="hover-star" type="radio" value="4" title="{LANGSTAR.good}" /><input class="hover-star" type="radio" value="5" title="{LANGSTAR.verygood}" /><span id="hover-test" style="margin: 0 0 0 20px;">{LANGSTAR.note}</span>
+						</div>
+					</div>
+				</form>
+				<script type="text/javascript">
+					var sr = 0;
+					$('.hover-star').rating({
+						focus : function(value, link) {
+							var tip = $('#hover-test');
+							if (sr != 2) {
+								tip[0].data = tip[0].data || tip.html();
+								tip.html(link.title || 'value: ' + value);
+								sr = 1;
+							}
+						},
+						blur : function(value, link) {
+							var tip = $('#hover-test');
+							if (sr != 2) {
+								$('#hover-test').html(tip[0].data || '');
+								sr = 1;
+							}
+						},
+						callback : function(value, link) {
+							if (sr == 1) {
+								sr = 2;
+								$('.hover-star').rating('disable');
+								sendrating_cat('{CATID}', value, '{CHECKSS}');
+							}
+						}
+					});
+
+					$('.hover-star').rating('select', '{NUMBERRATING}');
+				</script>
+				<!-- BEGIN: disablerating -->
+				<script type="text/javascript">
+					$(".hover-star").rating('disable');
+					sr = 2;
+				</script>
+				<!-- END: disablerating -->
+				<!-- END: allowed_rating -->
+			</div>
+		</div>
+
 	<!-- END: viewdescription -->
 	<table class="table table-bordered table-hover">
 		<colgroup>
