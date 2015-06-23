@@ -415,8 +415,8 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 			$rowcontent['id'] = $db->insert_id( $sql, 'id', $data_insert );
 			if( $rowcontent['id'] > 0 )
 			{
-				// Cap nhat chapter moi nhat
-				$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET last_chapter ='. $rowcontent['chapter'] .', last_update ='. NV_CURRENTTIME .' WHERE catid =' . $rowcontent['catid'] );
+				// Cap nhat thoi gian vào Category
+				$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET last_update ='. NV_CURRENTTIME .' WHERE catid =' . $rowcontent['catid'] );
 				nv_insert_logs( NV_LANG_DATA, $module_name, $lang_module['content_add'], $rowcontent['title'], $admin_info['userid'] );
 				$ct_query = array();
 
@@ -490,7 +490,9 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 
 			if( $sth->execute() )
 			{
-				//$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET last_chapter ='. $rowcontent['chapter'] .' WHERE catid =' . $rowcontent['catid'] );
+				// Cap nhat thoi gian vào Category
+				$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET last_update ='. NV_CURRENTTIME .' WHERE catid =' . $rowcontent['catid'] );
+				
 				nv_insert_logs( NV_LANG_DATA, $module_name, $lang_module['content_edit'], $rowcontent['title'], $admin_info['userid'] );
 
 				$ct_query = array();
@@ -730,31 +732,6 @@ if( empty( $rowcontent['alias'] ) )
 }
 $xtpl->assign( 'UPLOADS_DIR_USER', $uploads_dir_user );
 $xtpl->assign( 'UPLOAD_CURRENT', $currentpath );
-
-$sql = 'SELECT * FROM ' . $db_config['prefix'] . '_googleplus ORDER BY weight ASC';
-$_array = $db->query( $sql )->fetchAll();
-if( sizeof( $_array ) )
-{
-	$array_googleplus = array();
-	$array_googleplus[] = array( 'gid' => -1, 'title' => $lang_module['googleplus_1'] );
-	$array_googleplus[] = array( 'gid' => 0, 'title' => $lang_module['googleplus_0'] );
-	foreach( $_array as $row )
-	{
-		$array_googleplus[] = $row;
-	}
-	foreach( $array_googleplus as $grow )
-	{
-		$grow['selected'] = ( $rowcontent['gid'] == $grow['gid'] ) ? ' selected="selected"' : '';
-		$xtpl->assign( 'GOOGLEPLUS', $grow );
-		$xtpl->parse( 'main.googleplus.gid' );
-	}
-	$xtpl->parse( 'main.googleplus' );
-}
-
-if( $module_config[$module_name]['auto_tags'] )
-{
-	$xtpl->parse( 'main.auto_tags' );
-}
 
 $xtpl->parse( 'main' );
 $contents .= $xtpl->text( 'main' );

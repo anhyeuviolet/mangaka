@@ -35,7 +35,7 @@
 					<td class="text-center">
 					{ROW.total_chapter}
 					</td>
-					<td class="text-left">
+					<td class="text-center">
 					{ROW.last_chapter}
 					</td>
 					<td class="text-center">{ROW.last_update}</td>

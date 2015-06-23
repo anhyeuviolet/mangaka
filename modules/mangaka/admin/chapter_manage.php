@@ -52,7 +52,7 @@ foreach( $global_array_cat as $catid_i => $array_value )
 	}
 }
 
-$sql = 'SELECT catid, title, last_chapter, last_update FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat ORDER BY title ASC LIMIT ' .  ( $page - 1 ) * $per_page . ', ' . $per_page;
+$sql = 'SELECT catid, title, last_update FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat ORDER BY title ASC LIMIT ' .  ( $page - 1 ) * $per_page . ', ' . $per_page;
 $rowall = $db->query( $sql )->fetchAll( 3 );
 $num = sizeof( $rowall );
 $a = 1;
@@ -60,7 +60,7 @@ if ($page > 1) $a = 1 + (( $page - 1 ) * $per_page);
 
 foreach ($rowall as $row)
 {
-	list( $catid, $title, $last_chapter, $last_update ) = $row;
+	list( $catid, $title, $last_update ) = $row;
 	if( defined( 'NV_IS_ADMIN_MODULE' ) or ( isset( $array_cat_admin[$admin_id][$catid] ) and $array_cat_admin[$admin_id][$catid]['add_content'] == 1 ) )
 	{
 		$check_show = 1;
@@ -71,20 +71,22 @@ foreach ($rowall as $row)
 		$check_show = array_intersect( $array_cat, $array_cat_check_content );
 	}
 
-	// Tong so chapter
-	$total_chapter = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE catid='.$catid )->fetchColumn();
-	// Tong luot xem
-	$total_view = $db->query( 'SELECT SUM(	hitstotal ) as total_view FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE catid='.$catid )->fetchColumn();
-
+	//Tong so chapter, Tong luot xem, Chuong moi nhat
+	$sql = 'SELECT COUNT(*) as total_chapter, SUM(hitstotal) as total_view, max(chapter) as last_chapter FROM ' . NV_PREFIXLANG . '_' . $module_data . '_'.$catid;
+	$rowall = $db->query( $sql )->fetchAll( 3 );
+	foreach ($rowall as $row)
+	{
+		list( $total_chapter, $total_view, $last_chapter ) = $row;
+	}
+	
 	if( ! empty( $check_show ) )
 	{
-
 		$xtpl->assign( 'ROW', array(
 			'catid' => $catid,
 			'link' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=chapterlist&amp;catid=' . $catid,
 			'title' => $title,
 			'last_chapter' => $last_chapter,
-			'last_update' => nv_date( "d/m/Y", $last_update),
+			'last_update' => nv_date( "H:i - d/m/Y", $last_update),
 			'total_chapter' => $total_chapter,
 			'total_view' => $total_view
 		) );
@@ -94,6 +96,7 @@ foreach ($rowall as $row)
 		++$a;
 	}
 }
+$db->sqlreset();
 // Phan trang cho danh sach
 $generate_page = nv_generate_page( $base_url, $all_page, $per_page, $page );
 if ( ! empty( $generate_page ) )

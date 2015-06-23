@@ -35,7 +35,7 @@ function viewcat_list( $array_catpage, $array_cat_block, $catid, $page, $generat
 	}
 	if( !empty($global_array_cat[$catid]['last_update'] ))
 	{
-		$xtpl->assign( 'LAST_UPDATE', nv_date( 'd/m/Y h:i:s', $global_array_cat[$catid]['last_update'] ));
+		$xtpl->assign( 'LAST_UPDATE', nv_date( 'd/m/Y H:i:s', $global_array_cat[$catid]['last_update'] ));
 		$xtpl->parse( 'main.viewdescription.last_update' );
 	}
 	if(!empty( $global_array_cat[$catid]['authors'] ))

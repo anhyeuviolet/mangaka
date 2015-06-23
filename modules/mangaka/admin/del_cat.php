@@ -105,6 +105,7 @@ if( $catid > 0 )
 					$db->query( "DROP TABLE " . NV_PREFIXLANG . "_" . $module_data . "_" . $catid );
 					$db->query( "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_cat WHERE catid=" . $catid );
 					$db->query( "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_block WHERE catid=" . $catid );
+					$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_comment WHERE module=' . $db->quote( $module_name ) . ' AND id = ' . $catid );
 					$db->query( "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_admins WHERE catid=" . $catid );
 
 					nv_del_moduleCache( $module_name );
@@ -152,6 +153,7 @@ if( $catid > 0 )
 						$db->query( "DROP TABLE " . NV_PREFIXLANG . "_" . $module_data . "_" . $catid );
 						$db->query( "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_cat WHERE catid=" . $catid );
 						$db->query( "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_block WHERE catid=" . $catid );
+						$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_comment WHERE module=' . $db->quote( $module_name ) . ' AND id = ' . $catid );
 						$db->query( "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_admins WHERE catid=" . $catid );
 
 						nv_del_moduleCache( $module_name );
@@ -180,6 +182,8 @@ if( $catid > 0 )
 				$db->query( "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_admins WHERE catid=" . $catid );
 				// Xoa bid tuong ung trong _block 
 				$db->query( "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . "_block WHERE catid=" . $catid );
+				// Xoa comment trong _comment
+				$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_comment WHERE module=' . $db->quote( $module_name ) . ' AND id = ' . $catid );
 				nv_del_moduleCache( $module_name );
 			}
 			else

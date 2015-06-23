@@ -161,7 +161,6 @@ if( empty( $contents ) )
 				'verygood' => $lang_module['star_verygood']
 			);
 		}
-		var_dump($viewcat_rating);
 		//$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 		$contents = viewcat_list( $array_catpage, $array_cat_block, $catid, $page,'', $viewcat_img, $viewcat_rating, $content_comment);
 	}

@@ -162,7 +162,7 @@ if($action == '2'){
 				$xtpl->parse( 'main.getchap_result.loop' );
 			}
 			
-			// Neu Chapter ton tai gia tri la so thi tien hanh. Neu chi la Ngoai truyen hay bonus thi bo qua
+			// Neu Chapter ton tai gia tri la so thi tien hanh. Neu chi la Ngoai truyen hay bonus thi bo qua(Leech thu cong)
 			if (!empty($this_chapter)){
 				$duplicate=false;
 				// Kiem tra trung Chapter
@@ -203,7 +203,7 @@ if($action == '2'){
 					}
 					
 					$img_full = array_shift($img_full);
-					
+					// Xoa cac doi tuong duoc cau hinh
 					if (!empty($data['replace_1'])){
 						$img_full =  preg_replace('/'.htmlspecialchars_decode($data['replace_1']).'/','',$img_full);
 					} 
@@ -339,11 +339,14 @@ if($action == '2'){
 						$stmt = $db->prepare( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext VALUES (' . $id . ', :bodytext )' );
 						$stmt->bindParam( ':bodytext', $bodytext, PDO::PARAM_STR, strlen( $bodytext ) );
 						$stmt->execute();
+						
+						//Bump last_update Category
+						$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET last_update ='. NV_CURRENTTIME .' WHERE catid =' . $catid );
+
 					}
 				}
 			}
 		} //End of each chapter
-		//Bump last_update Category
 		$html->clear(); 
 		unset($html);
 	} else{

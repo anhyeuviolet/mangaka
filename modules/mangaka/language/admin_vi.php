@@ -309,6 +309,7 @@ $lang_module['showhidecat'] = 'Ẩn/Hiện danh sách';
 $lang_module['addcat'] = 'Thêm danh mục mới';
 $lang_module['genre_nums'] = 'danh mục';
 $lang_module['chapter_manage'] = 'Quản lý chương truyện';
+$lang_module['chapter_list'] = 'Danh sách các chương trong truyện';
 $lang_module['chapter_main'] = 'Quay lại quản lý chương truyện';
 $lang_module['last_chapter'] = 'Chương mới nhất';
 $lang_module['last_update'] = 'Cập nhật gần nhất';
@@ -350,21 +351,12 @@ $lang_module['number'] = 'STT';
 $lang_module['title'] = 'Tiêu đề';
 $lang_module['structure_1'] = 'Cấu trúc URL';
 $lang_module['structure_2'] = 'Cấu trúc trang con ( phần tử lấy nội dung )';
-$lang_module['error_required_title'] = 'Lỗi: bạn cần nhập dữ liệu cho Tiêu đề';
-$lang_module['error_required_structure_1'] = 'Lỗi: bạn cần nhập dữ liệu cho Cấu trúc URL';
-$lang_module['error_required_structure_2'] = 'Lỗi: bạn cần nhập dữ liệu cho Cấu trúc trang con ( phần tử lấy nội dung )';
 
-//Lang for function getchap_conf
 $lang_module['search_submit'] = 'Tìm kiếm';
 $lang_module['numbers'] = 'Vị trí chap No của URL';
-$lang_module['error_required_numbers'] = 'Lỗi: bạn cần nhập dữ liệu cho Vị trí chap No của URL';
 $lang_module['submit'] = 'Tiến hành';
 
-//Lang for function getchap_conf
 $lang_module['url_host'] = 'Url host';
-$lang_module['error_required_url_host'] = 'Lỗi: bạn cần nhập dữ liệu cho Url host';
-
-//Lang for function getchap_conf
 $lang_module['url_html_pattern'] = 'Mảng chứa danh sách link chap';
 $lang_module['url_pattern'] = 'Phần tử chứa link';
 $lang_module['url_structure'] = 'Cấu trúc URL';
@@ -375,6 +367,11 @@ $lang_module['error_required_url_pattern'] = 'Lỗi: bạn cần nhập dữ li�
 $lang_module['error_required_url_structure'] = 'Lỗi: bạn cần nhập dữ liệu cho Cấu trúc URL';
 $lang_module['error_required_img_structure'] = 'Lỗi: bạn cần nhập dữ liệu cho Mảng chứa hình ảnh';
 $lang_module['error_required_chapno_structure'] = 'Lỗi: bạn cần nhập dữ liệu cho Thứ tự khi replace URL';
+$lang_module['error_required_url_host'] = 'Lỗi: bạn cần nhập dữ liệu cho Url host';
+$lang_module['error_required_numbers'] = 'Lỗi: bạn cần nhập dữ liệu cho Vị trí chap No của URL';
+$lang_module['error_required_title'] = 'Lỗi: bạn cần nhập dữ liệu cho Tiêu đề';
+$lang_module['error_required_structure_1'] = 'Lỗi: bạn cần nhập dữ liệu cho Cấu trúc URL';
+$lang_module['error_required_structure_2'] = 'Lỗi: bạn cần nhập dữ liệu cho Cấu trúc trang con ( phần tử lấy nội dung )';
 
 $lang_module['preg_img_structure'] = 'Cấu trúc mảng chứa ảnh (Preg_replace)';
 $lang_module['replace_1'] = 'Đối tượng cần xoá 1';

@@ -9,43 +9,36 @@
  */
 
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
+$page_title = $lang_module['chapter_list'];
 
 $catid = $nv_Request->get_int( 'catid', 'get', 0 );
 
-$contents = nv_show_content_list( $catid );
+global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $global_array_cat, $module_file, $global_config, $nv_Request;
 
-// List chapter inside Manga
 
-/**
- * nv_show_block_list()
- *
- * @param mixed $catid
- * @return
- */
-function nv_show_content_list( $catid )
+$xtpl = new XTemplate( 'chapterlist.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
+$xtpl->assign( 'LANG', $lang_module );
+$xtpl->assign( 'GLANG', $lang_global );
+$xtpl->assign( 'NV_BASE_ADMINURL', NV_BASE_ADMINURL );
+$xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
+$xtpl->assign( 'NV_OP_VARIABLE', NV_OP_VARIABLE );
+$xtpl->assign( 'MODULE_NAME', $module_name );
+$xtpl->assign( 'OP', $op );
+
+$xtpl->assign('NO_CHAPTER',$lang_module['no_chapter']);
+$xtpl->assign('ADD_CHAPTER',NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=content&catid='. $catid);
+$xtpl->assign('MANAGE_CHAPTER',NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=chapter_manage');
+
+$check_catid = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat WHERE catid= ' . $catid )->fetchColumn();
+if ( $check_catid > 0 )
 {
-	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $global_array_cat, $module_file, $global_config, $nv_Request;
+	$xtpl->assign( 'CATID', $catid );
+	$xtpl->assign('CAT_TITLE',$global_array_cat[$catid]['title']);
 
 	$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '='. $op .'&catid=' .$catid;
 	$page = $nv_Request->get_int( 'page', 'get', 1 );
 	$per_page = 20;
 	$all_page = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE catid= ' . $catid )->fetchColumn();
-
-
-	$xtpl = new XTemplate( 'chapterlist.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
-	$xtpl->assign( 'LANG', $lang_module );
-	$xtpl->assign( 'GLANG', $lang_global );
-	$xtpl->assign( 'NV_BASE_ADMINURL', NV_BASE_ADMINURL );
-	$xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
-	$xtpl->assign( 'NV_OP_VARIABLE', NV_OP_VARIABLE );
-	$xtpl->assign( 'MODULE_NAME', $module_name );
-	$xtpl->assign( 'OP', $op );
-	
-	$xtpl->assign( 'CATID', $catid );
-	$xtpl->assign('CAT_TITLE',$global_array_cat[$catid]['title']);
-	$xtpl->assign('NO_CHAPTER',$lang_module['no_chapter']);
-	$xtpl->assign('ADD_CHAPTER',NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=content&catid='. $catid);
-	$xtpl->assign('MANAGE_CHAPTER',NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=chapter_manage');
 
 
 	$global_array_cat[0] = array( 'alias' => 'Other' );
@@ -54,7 +47,7 @@ function nv_show_content_list( $catid )
 	$array_block = $db->query( $sql )->fetchAll();
 
 	$num = sizeof( $array_block );
-	
+
 	$generate_page = nv_generate_page( $base_url, $all_page, $per_page, $page );
 	if ( ! empty( $generate_page ) )
 	{
@@ -77,7 +70,6 @@ function nv_show_content_list( $catid )
 			die;
 		}
 	}
-	
 
 	if( $num > 0 )
 	{
@@ -109,9 +101,13 @@ function nv_show_content_list( $catid )
 		$xtpl->parse( 'main.nochapter' );
 	}
 	$xtpl->parse( 'main' );
-	$contents = $xtpl->text( 'main' );
+	$contents .= $xtpl->text( 'main' );
 
-	return $contents;
+}
+else
+{
+	Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=chapter_manage' );
+	die();
 }
 
 include NV_ROOTDIR . '/includes/header.php';
