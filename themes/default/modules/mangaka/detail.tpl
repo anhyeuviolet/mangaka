@@ -57,14 +57,25 @@
 			<img src="{BODY_SRC}"/><br/>
 		<!-- END: body -->
 		</div>
-		<!-- BEGIN: pre -->
-		<a href="{PREV.link}" title="{PREV.chapter}">{LANG.pre_chapter}</a>
-		<!-- END: pre -->
-		
-		<!-- BEGIN: next -->
-		<a href="{NEXT.link}" title="{NEXT.chapter}">{LANG.next_chapter}</a>
-		<!-- END: next -->
-		
+		<div class="row" align="center">
+			<div class="col-md-8">
+			<!-- BEGIN: pre -->
+			<a href="{PREV.link}" title="{PREV.chapter}"><span class="btn btn-info"><i class="fa fa-chevron-circle-left"></i>&nbsp;{LANG.pre_chapter}</span></a>
+			<!-- END: pre -->
+			</div>
+			<div class="col-md-8">
+			<select class="form form-control">
+			<!-- BEGIN: list_chap -->
+			<option {LIST_CHAP.selected}> {LANG.chapter} {LIST_CHAP.chapter}</option>
+			<!-- END: list_chap -->
+			</select>
+			</div>
+			<div class="col-md-8">
+			<!-- BEGIN: next -->
+			<a href="{NEXT.link}" title="{NEXT.chapter}"><span class="btn btn-info">{LANG.next_chapter}&nbsp;<i class="fa fa-chevron-circle-right"></i></span></a>
+			<!-- END: next -->
+			</div>
+		</div>
 		<!-- BEGIN: author -->
 		<!-- BEGIN: name -->
 		<p class="text-right">
@@ -77,12 +88,6 @@
 		</p>
 		<!-- END: source -->
 		<!-- END: author -->
-		<!-- BEGIN: copyright -->
-		<div class="alert alert-info copyright">
-			{COPYRIGHT}
-		</div>
-		<!-- END: copyright -->
-
 		<hr />
         <!-- BEGIN: socialbutton -->
         <div class="socialicon pull-left">

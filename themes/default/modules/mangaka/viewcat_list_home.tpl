@@ -17,12 +17,11 @@
 	<a class="show" href="{CONTENT.link}" data-content="{CONTENT.hometext}" data-img="{CONTENT.imghome}" data-rel="tooltip">
 		<h2 class="list-group-item-heading">
 			{CONTENT.title}
-
 		</h2>
 	</a>
 	
 	<!-- BEGIN: block -->
-	<a class="label label-info" href="{BID.link}">{BID.title}</a>
+	<a class="label label-info" href="{BID.link}" title="{BID.title}">{BID.title}</a>
 	<!-- END: block -->
 	
 	<!-- END: viewcatloop -->

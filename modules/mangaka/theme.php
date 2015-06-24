@@ -129,6 +129,8 @@ function viewcat_list( $array_catpage, $array_cat_block, $catid, $page, $generat
 		$xtpl->parse( 'main.tooltip' );
 	}
 	//Comment system
+	if( ! defined( 'FACEBOOK_JSSDK' ) )
+	{
 		global $meta_property;
 		$lang = ( NV_LANG_DATA == 'vi' ) ? 'vi_VN' : 'en_US';
 		$facebookappid = $module_config[$module_name]['facebookappid'];
@@ -153,7 +155,8 @@ function viewcat_list( $array_catpage, $array_cat_block, $catid, $page, $generat
 		{
 			$meta_property['fb:admin_id'] = $facebookadminid;
 		}
-	define( 'FACEBOOK_JSSDK', true );
+		define( 'FACEBOOK_JSSDK', true );
+	}
 	if( $module_config[$module_name]['socialbutton'] ) // Neu su dung cac nut like, share MXH
 	{
 		$xtpl->parse( 'main.socialbutton' );
@@ -214,8 +217,6 @@ function viewcat_full_home( $array_catpage, $generate_page )
 		if( !empty($array_row_i['imghome'] ))
 		{
 			$xtpl->assign( 'HOMEIMG1', $array_row_i['imghome'] );
-			$xtpl->parse( 'main.viewdescription.image' );
-			$xtpl->parse( 'main.viewcatloop.image' );
 		}
 		if( !empty( $array_row_i['bid'] ) )
 		{
@@ -261,14 +262,10 @@ function viewcat_list_home( $array_catpage, $generate_page )
  
 	foreach( $array_catpage as $array_row_i )
 	{
- 
-	 
 		$array_row_i['link'] = $global_array_cat[$array_row_i['catid']]['link'];
- 
 		$array_row_i['chapter'] = round($array_row_i['chapter'],1);
 		$xtpl->clear_autoreset();
 		$xtpl->assign( 'CONTENT', $array_row_i );
-
 
 		if( $array_row_i['imghome'] != '' )
 		{
@@ -374,17 +371,9 @@ function viewcat_top( $array_catcontent, $generate_page )
 	return $xtpl->text( 'main' );
 }
 // Bai viet chi tiet
-function detail_theme( $news_contents, $next_chapter, $previous_chapter)
+function detail_theme( $news_contents, $next_chapter, $previous_chapter, $list_chaps)
 {
 	global $global_config, $module_info, $lang_module, $module_name, $module_file, $module_config, $my_head, $lang_global, $user_info, $admin_info, $client_info, $global_array_cat, $catid;
-
-	if( ! defined( 'SHADOWBOX' ) )
-	{
-		$my_head .= "<link type=\"text/css\" rel=\"Stylesheet\" href=\"" . NV_BASE_SITEURL . "js/shadowbox/shadowbox.css\" />\n";
-		$my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "js/shadowbox/shadowbox.js\"></script>\n";
-		$my_head .= "<script type=\"text/javascript\">Shadowbox.init({ handleOversize: \"drag\" });</script>";
-		define( 'SHADOWBOX', true );
-	}
 
 	$my_head .= "<script type=\"text/javascript\" src=\"" . NV_BASE_SITEURL . "js/star-rating/jquery.rating.pack.js\"></script>\n";
 	$my_head .= "<script src='" . NV_BASE_SITEURL . "js/star-rating/jquery.MetaData.js' type=\"text/javascript\"></script>\n";
@@ -414,6 +403,16 @@ function detail_theme( $news_contents, $next_chapter, $previous_chapter)
 		$xtpl->parse( 'main.pre' );
 	}
 
+	if (!empty($list_chaps))
+	{
+		foreach ($list_chaps as $list_chap)
+		{
+			$list_chap['selected']=( $news_contents['id'] == $list_chap['id']?"selected":'' );
+			$xtpl->assign( 'LIST_CHAP', $list_chap );
+			$xtpl->parse( 'main.list_chap' );
+		}
+	}
+	
 	if( $news_contents['allowed_rating'] == 1 )
 	{
 		$xtpl->assign( 'LANGSTAR', $news_contents['langstar'] );
@@ -467,28 +466,31 @@ function detail_theme( $news_contents, $next_chapter, $previous_chapter)
 	}
 
 	global $meta_property;
-	$lang = ( NV_LANG_DATA == 'vi' ) ? 'vi_VN' : 'en_US';
-	$facebookappid = $module_config[$module_name]['facebookappid'];
-	$facebookadminid = $module_config[$module_name]['facebookadminid'];
-	$facebookcomment = $module_config[$module_name]['facebookcomment'];
-	$xtpl->assign( 'FACEBOOK_LANG', $lang );
-	$xtpl->assign( 'FACEBOOK_APPID', $facebookappid );
-	
-	if( ! empty( $facebookappid ) && ! empty( $facebookcomment ) ) // Neu co ca FB ID va cho phep comment FB
+	if( ! defined( 'FACEBOOK_JSSDK' ) )
 	{
-		$meta_property['fb:app_id'] = $facebookappid; // MetaData cho FB ID
-		$xtpl->parse( 'main.facebookjssdk' ); // Xuat SDK dung FB ID
-		$xtpl->parse( 'main.fb_comment' ); // Xuat Comment cua ID tuong ung
-	} 
-	else if(! empty( $facebookcomment )){   // Neu KHONG co FB ID va Cho phep comment FB
-		$xtpl->parse( 'main.facebook_pubsdk' ); // Xuat SDK Public Facebook
-		$xtpl->parse( 'main.fb_comment' ); // Xuat FB Comment
+		$lang = ( NV_LANG_DATA == 'vi' ) ? 'vi_VN' : 'en_US';
+		$facebookappid = $module_config[$module_name]['facebookappid'];
+		$facebookadminid = $module_config[$module_name]['facebookadminid'];
+		$facebookcomment = $module_config[$module_name]['facebookcomment'];
+		$xtpl->assign( 'FACEBOOK_LANG', $lang );
+		$xtpl->assign( 'FACEBOOK_APPID', $facebookappid );
+		
+		if( ! empty( $facebookappid ) && ! empty( $facebookcomment ) ) // Neu co ca FB ID va cho phep comment FB
+		{
+			$meta_property['fb:app_id'] = $facebookappid; // MetaData cho FB ID
+			$xtpl->parse( 'main.facebookjssdk' ); // Xuat SDK dung FB ID
+			$xtpl->parse( 'main.fb_comment' ); // Xuat Comment cua ID tuong ung
+		} 
+		else if(! empty( $facebookcomment )){   // Neu KHONG co FB ID va Cho phep comment FB
+			$xtpl->parse( 'main.facebook_pubsdk' ); // Xuat SDK Public Facebook
+			$xtpl->parse( 'main.fb_comment' ); // Xuat FB Comment
+		}
+		if( ! empty( $facebookadminid ) ) // MetaData cho FB admin - quan ly comment
+		{
+			$meta_property['fb:admin_id'] = $facebookadminid;
+		}
+		define( 'FACEBOOK_JSSDK', true );
 	}
-	if( ! empty( $facebookadminid ) ) // MetaData cho FB admin - quan ly comment
-	{
-		$meta_property['fb:admin_id'] = $facebookadminid;
-	}
-	define( 'FACEBOOK_JSSDK', true );
 	if( $module_config[$module_name]['socialbutton'] ) // Neu su dung cac cong cu MXH
 	{
 		$xtpl->parse( 'main.socialbutton' );

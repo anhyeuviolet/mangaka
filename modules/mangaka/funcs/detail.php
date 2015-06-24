@@ -170,22 +170,38 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	
 	$next_chapter = $previous_chapter = '';
 	//Next Chapter
-	$sql = 'SELECT id, catid, alias, ROUND(chapter,1) as chapter, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE ROUND(chapter,1) > '.$news_contents['chapter'].' AND catid ='.$news_contents['catid'].' ORDER BY chapter ASC LIMIT 1';
+	$sql = 'SELECT id, catid, alias, ROUND(chapter,1) as chapter, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_'.$news_contents['catid'].' WHERE ROUND(chapter,1) > '.$news_contents['chapter'].' ORDER BY chapter ASC LIMIT 1';
 	$list = nv_db_cache( $sql, 'id', $module_name );
 	foreach( $list as $next )
 	{
 		$next_chapter['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$next['catid']]['alias'] . '/' . $next['alias'] . '-' . $next['id'] . $global_config['rewrite_exturl'];
 		$next_chapter['chapter'] = $next['chapter'];
 	}
+	unset($sql,$list);
 	//Previous Chapter
-	$sql1 = 'SELECT id, catid, alias, ROUND(chapter,1) as chapter, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE ROUND(chapter,1) < '.$news_contents['chapter'].' AND catid ='.$news_contents['catid'].' ORDER BY chapter DESC LIMIT 1';
-	$list1 = nv_db_cache( $sql1, 'id', $module_name );
-	foreach( $list1 as $previous )
+	$sql = 'SELECT id, catid, alias, ROUND(chapter,1) as chapter, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_'.$news_contents['catid'].' WHERE ROUND(chapter,1) < '.$news_contents['chapter'].' ORDER BY chapter DESC LIMIT 1';
+	$list = nv_db_cache( $sql, 'id', $module_name );
+	foreach( $list as $previous )
 	{
 		$previous_chapter['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$previous['catid']]['alias'] . '/' . $previous['alias'] . '-' . $previous['id'] . $global_config['rewrite_exturl'];
 		$previous_chapter['chapter'] = $previous['chapter'];
 	}
-	$contents = detail_theme( $news_contents, $next_chapter, $previous_chapter );
+	unset($sql,$list);
+	
+	//List dropdown of all chapters
+	$list_chaps = array();
+	$sql = 'SELECT id, catid, title, alias, ROUND(chapter,1) as chapter FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' WHERE status=1 ORDER BY chapter DESC';
+	$array_block = $db->query( $sql )->fetchAll();
+	$num = sizeof( $array_block );
+	if( $num > 0 )
+	{
+		foreach ($array_block as $ls)
+		{
+			$list_chaps[]=$ls;
+		}
+	}
+	unset($sql,$array_block);
+	$contents = detail_theme( $news_contents, $next_chapter, $previous_chapter, $list_chaps );
 
 	$page_title = $global_array_cat[$catid]['title']." - ". $lang_module['chapter'] ." ". $news_contents['chapter'];
 	$description = $global_array_cat[$catid]['title']." - ". $lang_module['chapter'] ." ". $news_contents['chapter'] ." - ".$global_array_cat[$catid]['description'] ;

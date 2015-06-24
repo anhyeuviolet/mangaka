@@ -38,12 +38,12 @@ if ( $check_catid > 0 )
 	$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '='. $op .'&catid=' .$catid;
 	$page = $nv_Request->get_int( 'page', 'get', 1 );
 	$per_page = 20;
-	$all_page = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE catid= ' . $catid )->fetchColumn();
+	$all_page = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid )->fetchColumn();
 
 
 	$global_array_cat[0] = array( 'alias' => 'Other' );
 
-	$sql = 'SELECT id, catid, title, alias, ROUND(chapter,1) as chapter, edittime, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE catid= ' . $catid . ' ORDER BY chapter ASC LIMIT ' .  ( $page - 1 ) * $per_page . ', ' . $per_page;
+	$sql = 'SELECT id, catid, title, alias, ROUND(chapter,1) as chapter, edittime, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' ORDER BY chapter ASC LIMIT ' .  ( $page - 1 ) * $per_page . ', ' . $per_page;
 	$array_block = $db->query( $sql )->fetchAll();
 
 	$num = sizeof( $array_block );
@@ -102,7 +102,7 @@ if ( $check_catid > 0 )
 	}
 	$xtpl->parse( 'main' );
 	$contents .= $xtpl->text( 'main' );
-
+$db->sqlreset();
 }
 else
 {
