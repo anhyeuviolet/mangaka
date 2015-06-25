@@ -2,13 +2,14 @@
 <div class="list-group"> 
 	<!-- BEGIN: viewcatloop -->
 	<div class="row panel panel-body">
+		<h3 class="text-center"><a href="{CONTENT.link}" title="{CONTENT.title}">{CONTENT.title} <!-- BEGIN: last_chap -->- {LAST_CHAP}<!-- END: last_chap --></a></h3>
 		<div class="col-lg-24 col-md-24 col-xs-24 info">
 			<div class="col-lg-8 col-md-8 col-xs-24">
+				<!-- BEGIN: img -->
 				<a href="{CONTENT.link}" title="{CONTENT.title}"><img alt="{CONTENT.title}" src="{HOMEIMG1}" width="{IMGWIDTH1}" class="img-thumbnail imghome center-block" /></a>
+				<!-- END: img -->
 			</div>
-			
 			<div class="col-lg-16 col-md-16 col-xs-24">
-			<h3 class="text-center"><a href="{CONTENT.link}" title="{CONTENT.title}">{CONTENT.title}</a></h3>
 			<p class="text-justify">{CONTENT.descriptionhtml}</p>
 			</div>
 		</div>
@@ -23,12 +24,13 @@
 				{LANG.translator} : {TRANSLATOR}
 			<!-- END: translators -->
 			</div>
-
 			<div class="col-lg-16 col-md-16 col-xs-24">
+			<!-- BEGIN: block -->
 			<i class="fa fa-tags"></i>
-				<!-- BEGIN: block -->
+				<!-- BEGIN: loop -->
 				<a title="{BID.title}" href="{BID.link}" class="label label-success">{BID.title}</a>
-				<!-- END: block -->
+				<!-- END: loop -->
+			<!-- END: block -->
 			</div>
 			<div class="col-lg-8 col-md-8 col-xs-24">
 			<!-- BEGIN: last_update -->
@@ -37,10 +39,8 @@
 			</div>
 		</div>
 	</div>
-	
 	<!-- END: viewcatloop -->
 </div>
-
 <!-- BEGIN: generate_page -->
 <div class="text-center">
 	{GENERATE_PAGE}

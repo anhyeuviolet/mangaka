@@ -118,7 +118,10 @@ table .chapter-content{
     table-layout:fixed;
 }
 
-.div-table-content {
-  height:450px;
+.chapter-content {
+  max-height:350px;
   overflow-y:auto;
+}
+.chapter-content-head{
+	width: 98%;
 }

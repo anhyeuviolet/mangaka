@@ -70,10 +70,9 @@
 						</select>
 						</td>
 					</tr>
-					<tr><th class="text-right">{LANG.allowed_rating}: </th>
+					<tr><th class="text-right">{LANG.content_allowed_rating} </th>
 						<td>
 									<input type="checkbox" value="1" name="allowed_rating" {allowed_rating_checked}/>
-									<label> {LANG.content_allowed_rating} </label>
 						</td>
 					</tr>
 					

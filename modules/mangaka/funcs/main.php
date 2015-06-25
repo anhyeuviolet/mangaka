@@ -93,6 +93,17 @@ if( empty( $contents ) )
 					
 				}
 			}
+	
+			$sql = 'SELECT COUNT(*) as total_chapter, SUM(hitstotal) as total_view, max(chapter) as last_chapter FROM '. NV_PREFIXLANG . '_' . $module_data . '_'.$item['catid'].' WHERE status=1';
+			$rowall = $db->query( $sql )->fetchAll( 3 );
+			foreach ($rowall as $row)
+			{
+				list( $total_chapter, $total_view, $last_chapter ) = $row;
+			}
+			$item['last_chapter'] = $last_chapter;
+			$item['total_chapter'] = $total_chapter;
+			$item['total_view'] = $total_view;
+			
 			$array_catpage[] = $item;
 		}
 		unset($array_cat);

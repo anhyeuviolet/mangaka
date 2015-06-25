@@ -147,28 +147,29 @@
 		</div>
 
 	<!-- END: viewdescription -->
-	<table class="table table-bordered table-hover">
-		<colgroup>
-			<col span="3" />
-			<col class="w250" />
-		</colgroup>
+	<div class="chapter-content-head">
+	<table class="table">
 		<thead>
-			<tr>
-				<th class="text-center w250">{LANG.chapter}</th>
-				<th class="text-center">{LANG.last_update}</th>
-				<!-- BEGIN: adminlink -->	
+			<tr class="info">
+				<th class="text-center col-md-{CLASS1} col-lg-{CLASS1} col-xs-24 col-sm-{CLASS1}">{LANG.chapter}</th>
+				<th class="text-center col-md-{CLASS2} col-lg-{CLASS2} col-xs-24 col-sm-{CLASS2}">{LANG.last_update}</th>
+				<!-- BEGIN: adminlink_th -->	
 				<th>&nbsp;</th>
-				<!-- END: adminlink -->	
+				<!-- END: adminlink_th -->	
 			</tr>
 		</thead>
+	</table>
+	</div>
+	<div class="chapter-content">
+	<table class="table table-bordered table-hover">
 		<tbody>
 		<!-- BEGIN: viewcatloop -->
 			<tr>
-				<td class="text-center col-md-14">
+				<td class="text-center col-md-{CLASS1} col-lg-{CLASS1} col-xs-24 col-sm-{CLASS1}">
 					<a href="{CONTENT.link}">{LANG.chapter} {CONTENT.chapter}</a>
 					<a target="_blank" href="{CONTENT.link}"><i class="fa fa-external-link">&nbsp;</i></a>
 				</td>
-				<td class="text-center col-md-6">{CONTENT.publtime}</td>
+				<td class="text-center col-md-{CLASS2} col-lg-{CLASS2} col-xs-24 col-sm-{CLASS2}">{CONTENT.publtime}</td>
 			<!-- BEGIN: adminlink -->	
 				<td class="text-center">{ADMINLINK}</td>
 			<!-- END: adminlink -->
@@ -176,6 +177,7 @@
 		<!-- END: viewcatloop -->
 		</tbody>
 	</table>
+	</div>
 	<div id="tabs" class="tabs">
 		<nav>
 			<ul>

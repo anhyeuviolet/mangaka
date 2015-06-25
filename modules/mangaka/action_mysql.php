@@ -71,7 +71,6 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 add_time int(11) unsigned NOT NULL DEFAULT '0',
 	 edit_time int(11) unsigned NOT NULL DEFAULT '0',
 	 last_update int(11) unsigned NOT NULL DEFAULT '0',
- 	 last_chapter float default '0',
 	 groups_view varchar(255) DEFAULT '',
 	 allowed_comm varchar(255) DEFAULT '',
  	 hitscm mediumint(8) unsigned NOT NULL default '0',

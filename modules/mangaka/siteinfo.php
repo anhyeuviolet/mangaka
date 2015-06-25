@@ -60,17 +60,17 @@ if( $number > 0 )
 	$siteinfo[] = array( 'key' => $lang_siteinfo['siteinfo_exptime'], 'value' => $number );
 }
 
-// // Tong so binh luan duoc dang
-// $number = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_comment WHERE module=' . $db->quote( $mod ) . ' AND status = 1' )->fetchColumn();
-// if( $number > 0 )
-// {
-	// $siteinfo[] = array( 'key' => $lang_siteinfo['siteinfo_comment'], 'value' => $number );
-// }
+// Tong so binh luan duoc dang
+$number = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_comment WHERE module=' . $db->quote( $mod ) . ' AND status = 1' )->fetchColumn();
+if( $number > 0 )
+{
+	$siteinfo[] = array( 'key' => $lang_siteinfo['siteinfo_comment'], 'value' => $number );
+}
 
-// // So binh luan cho duyet
-// $number = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_comment WHERE module=' . $db->quote( $mod ) . ' AND status = 0' )->fetchColumn();
-// if( $number > 0 )
-// {
-	// $pendinginfo[] = array( 'key' => $lang_siteinfo['siteinfo_comment_pending'], 'value' => $number );
-// }
+// So binh luan cho duyet
+$number = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_comment WHERE module=' . $db->quote( $mod ) . ' AND status = 0' )->fetchColumn();
+if( $number > 0 )
+{
+	$pendinginfo[] = array( 'key' => $lang_siteinfo['siteinfo_comment_pending'], 'value' => $number );
+}
 

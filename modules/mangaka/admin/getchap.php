@@ -166,7 +166,7 @@ if($action == '2'){
 			if (!empty($this_chapter)){
 				$duplicate=false;
 				// Kiem tra trung Chapter
-				$query='SELECT id FROM '. NV_PREFIXLANG . '_' . $module_data .'_rows WHERE catid='.$catid.' AND chapter='.$this_chapter;
+				$query='SELECT id FROM '. NV_PREFIXLANG . '_' . $module_data .'_'.$catid.' WHERE chapter='.$this_chapter;
 				$query_id=$db->query( $query );
 				if( $query_id->fetch( 3 ) ){ $duplicate=true; }
 				if(isset($data_result) and $data_result){

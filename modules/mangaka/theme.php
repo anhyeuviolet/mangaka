@@ -104,11 +104,18 @@ function viewcat_list( $array_catpage, $array_cat_block, $catid, $page, $generat
 		if( defined( 'NV_IS_MODADMIN' ) )
 		{
 			$xtpl->assign( 'ADMINLINK', nv_link_edit_page( $array_row_i['id'] ) . " " . nv_link_delete_page( $array_row_i['id'] ) );
+			$xtpl->assign( 'CLASS1', "14" );$xtpl->assign( 'CLASS2', "6" );
 			$xtpl->parse( 'main.viewcatloop.adminlink' );
 		}
-
+		else{
+			$xtpl->assign( 'CLASS1', "18" );$xtpl->assign( 'CLASS2', "6" );
+		}
 		$xtpl->set_autoreset();
 		$xtpl->parse( 'main.viewcatloop' );
+	}
+	if( defined( 'NV_IS_MODADMIN' ) )
+	{
+		$xtpl->parse( 'main.adminlink_th' );
 	}
 	if( !empty( $content_comment ) )
 	{
@@ -217,14 +224,28 @@ function viewcat_full_home( $array_catpage, $generate_page )
 		if( !empty($array_row_i['imghome'] ))
 		{
 			$xtpl->assign( 'HOMEIMG1', $array_row_i['imghome'] );
+			$xtpl->parse( 'main.viewcatloop.img' );
 		}
+		$array_row_i['last_chap_update'] = "Update ".$lang_module['chapter']." ".$array_row_i['last_chapter'];
+		if(!empty($array_row_i['last_update']))
+		{
+			$last_7days = $array_row_i['last_update'] + (86400*7);
+		}
+
+		if($last_7days >= NV_CURRENTTIME && ($array_row_i['last_chapter'] > 0))
+		{
+			$xtpl->assign( 'LAST_CHAP',$array_row_i['last_chap_update'] );
+			$xtpl->parse( 'main.viewcatloop.last_chap' );
+		}
+		
 		if( !empty( $array_row_i['bid'] ) )
 		{
 			foreach( $array_row_i['bid'] as $bid )
 			{
 				$xtpl->assign( 'BID', $bid );
-				$xtpl->parse( 'main.viewcatloop.block' );
+				$xtpl->parse( 'main.viewcatloop.block.loop' );
 			}
+			$xtpl->parse( 'main.viewcatloop.block' );
 		}
 		$xtpl->assign( 'CONTENT', $array_row_i );
 		$xtpl->set_autoreset();
