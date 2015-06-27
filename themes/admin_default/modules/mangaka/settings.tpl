@@ -40,33 +40,6 @@
 					</select></td>
 				</tr>
 				<tr>
-					<th>{LANG.setting_st_links}</th>
-					<td>
-					<select class="form-control" name="st_links">
-						<!-- BEGIN: st_links -->
-						<option value="{ST_LINKS.key}"{ST_LINKS.selected}>{ST_LINKS.title}</option>
-						<!-- END: st_links -->
-					</select></td>
-				</tr>
-				<tr>
-					<th>{LANG.showtooltip}</th>
-					<td>
-						<input type="checkbox" value="1" name="showtooltip"{SHOWTOOLTIP}/>
-						&nbsp;&nbsp;&nbsp;<span class="text-middle">{LANG.showtooltip_position}</span>
-						<select name="tooltip_position" class="form-control">
-							<!-- BEGIN: tooltip_position -->
-							<option value="{TOOLTIP_P.key}"{TOOLTIP_P.selected}>{TOOLTIP_P.title}</option>
-							<!-- END: tooltip_position -->
-						</select>
-						&nbsp;&nbsp;&nbsp;<span class="text-middle">{LANG.showtooltip_length}</span>
-						<input type="text" name="tooltip_length" class="form-control" value="{DATA.tooltip_length}" style="width: 100px" />
-					</td>
-				</tr>
-				<tr>
-					<th>{LANG.showhometext}</th>
-					<td><input type="checkbox" value="1" name="showhometext"{SHOWHOMETEXT}/></td>
-				</tr>
-				<tr>
 					<th>{LANG.socialbutton}</th>
 					<td><input type="checkbox" value="1" name="socialbutton"{SOCIALBUTTON}/></td>
 				</tr>
@@ -83,19 +56,6 @@
 				<tr>
 					<th>{LANG.show_no_image}</th>
 					<td><input class="form-control" name="show_no_image" id="show_no_image" value="{SHOW_NO_IMAGE}" style="width:340px;" type="text"/> <input value="{GLANG.browse_image}" name="selectimg" type="button" class="btn btn-info"/></td>
-				</tr>
-				<tr>
-					<th>{LANG.config_source}</th>
-					<td>
-					<select class="form-control" name="config_source">
-						<!-- BEGIN: config_source -->
-						<option value="{CONFIG_SOURCE.key}"{CONFIG_SOURCE.selected}>{CONFIG_SOURCE.title}</option>
-						<!-- END: config_source -->
-					</select></td>
-				</tr>
-				<tr>
-					<th>{LANG.setting_copyright}</th>
-					<td>{COPYRIGHTHTML}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -128,10 +88,6 @@
 					<td><input type="checkbox" value="1" name="alias_lower"{ALIAS_LOWER}/></td>
 				</tr>
 				<tr>
-					<th>{LANG.tags_alias}</th>
-					<td><input type="checkbox" value="1" name="tags_alias"{TAGS_ALIAS}/></td>
-				</tr>
-				<tr>
 					<th>{LANG.structure_image_upload}</th>
 					<td>
 					<select class="form-control" name="structure_upload" id="structure_upload">
@@ -139,25 +95,6 @@
 						<option value="{STRUCTURE_UPLOAD.key}"{STRUCTURE_UPLOAD.selected}>{STRUCTURE_UPLOAD.title}</option>
 						<!-- END: structure_upload -->
 					</select></td>
-				</tr>
-				<tr>
-					<th>{LANG.imgpositiondefault}</th>
-					<td>
-						<select class="form-control" name="imgposition">
-							<!-- BEGIN: looppos -->
-							<option value="{id_imgposition}" {posl}>{title_imgposition}</option>
-							<!-- END: looppos -->
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th>{LANG.setting_auto_tags}</th>
-					<td><input type="checkbox" value="1" name="auto_tags"{AUTO_TAGS}/></td>
-				</tr>
-				<tr>
-					<th>{LANG.setting_tags_remind}</th>
-					<td><input type="checkbox" value="1" name="tags_remind"{TAGS_REMIND}/></td>
-				</tr>
 			</tbody>
 			<tfoot>
 				<tr>
@@ -186,38 +123,5 @@
 	});
 	//]]>
 </script>
-<!-- BEGIN: admin_config_post -->
-<form action="{FORM_ACTION}" method="post">
-	<div class="table-responsive">
-		<table class="table table-striped table-bordered table-hover">
-			<caption><em class="fa fa-file-text-o">&nbsp;</em>{LANG.group_content}</caption>
-			<thead>
-				<tr class="text-center">
-					<th>{GLANG.mod_groups}</th>
-					<th>{LANG.group_addcontent}</th>
-					<th>{LANG.group_postcontent}</th>
-					<th>{LANG.group_editcontent}</th>
-					<th>{LANG.group_delcontent}</th>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<td style="text-align: center;" colspan="5"><input class="btn btn-primary" type="submit" value="{LANG.save}" name="Submit1" /><input type="hidden" value="1" name="savepost" /></td>
-				</tr>
-			</tfoot>
-			<tbody>
-				<!-- BEGIN: loop -->
-				<tr>
-					<td><strong>{ROW.group_title}</strong><input type="hidden" value="{ROW.group_id}" name="array_group_id[]" /></td>
-					<td class="text-center"><input type="checkbox" value="1" name="array_addcontent[{ROW.group_id}]"{ROW.addcontent}/></td>
-					<td class="text-center"><input type="checkbox" value="1" name="array_postcontent[{ROW.group_id}]"{ROW.postcontent}/></td>
-					<td class="text-center"><input type="checkbox" value="1" name="array_editcontent[{ROW.group_id}]"{ROW.editcontent}/></td>
-					<td class="text-center"><input type="checkbox" value="1" name="array_delcontent[{ROW.group_id}]"{ROW.delcontent}/></td>
-				</tr>
-				<!-- END: loop -->
-			</tbody>
-		</table>
-	</div>
-</form>
-<!-- END: admin_config_post -->
+
 <!-- END: main -->
