@@ -384,7 +384,7 @@ $lang_module['edit_time'] = 'Chỉnh sửa lần cuối';
 
 $lang_module['select_method'] = 'Chọn Phương pháp Leech';
 $lang_module['select_structure'] = 'Chọn mẫu cấu trúc';
-$lang_module['select_manga'] = 'Chọn Chọn truyện để lưu nội dung';
+$lang_module['select_manga'] = 'Chọn truyện để lưu nội dung';
 
 $lang_module['dom'] = 'Dùng HTML DOM';
 $lang_module['preg_match'] = 'Dùng preg_match';

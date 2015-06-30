@@ -63,7 +63,7 @@
 										<tr>
 											<td>						
 											<select class="form-control w200" name="catids[]" id="catid">
-												<option value="">{LANG.select_manga} Chọn truyện</option>
+												<option value="">{LANG.select_manga}</option>
 												<!-- BEGIN: catid -->
 												<option value="{CATS.catid}" {CATS.selected}>{CATS.title}</option>
 												<!-- END: catid -->

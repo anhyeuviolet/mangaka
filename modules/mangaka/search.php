@@ -12,9 +12,8 @@ if( ! defined( 'NV_IS_MOD_SEARCH' ) ) die( 'Stop!!!' );
 
 $db->sqlreset()
 	->select( 'COUNT(*)' )
-	->from( NV_PREFIXLANG . '_' . $m_values['module_data'] . '_rows r')
-	->join( 'INNER JOIN ' . NV_PREFIXLANG . '_' . $m_values['module_data'] . '_bodytext c ON (r.id=c.id)' )
-	->where('(' . nv_like_logic( 'r.title', $dbkeywordhtml, $logic ) . ' OR ' . nv_like_logic( 'r.hometext', $dbkeyword, $logic ) . ') OR ' . nv_like_logic( 'c.bodytext', $dbkeyword, $logic ) . '	AND r.status= 1' );
+	->from( NV_PREFIXLANG . '_' . $m_values['module_data'] . '_cat')
+	->where('(' . nv_like_logic( 'title', $dbkeywordhtml, $logic ) . ' OR ' . nv_like_logic( 'description', $dbkeyword, $logic ) . ') OR ' . nv_like_logic( 'descriptionhtml', $dbkeyword, $logic ) . '	AND inhome= 1' );
 
 $num_items = $db->query( $db->sql() )->fetchColumn();
 
@@ -32,21 +31,20 @@ if( $num_items )
 
 	$link = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $m_values['module_name'] . '&amp;' . NV_OP_VARIABLE . '=';
 
-	$db->select( 'r.id, r.title, r.alias, r.catid, r.hometext, c.bodytext' )
-		->order( 'publtime DESC' )
+	$db->select( 'catid, title, alias, description, descriptionhtml' )
+		->order( 'alias ASC' )
 		->limit( $limit )
 		->offset( ( $page - 1 ) * $limit );
 	$result = $db->query( $db->sql() );
-	while( list( $id, $tilterow, $alias, $catid, $hometext, $bodytext ) = $result->fetch( 3 ) )
+	while( list( $catid, $tilterow, $alias, $description, $descriptionhtml ) = $result->fetch( 3 ) )
 	{
-		$content = $hometext . $bodytext;
 
-		$url = $link . $array_cat_alias[$catid] . '/' . $alias . '-' . $id . $global_config['rewrite_exturl'];
+		$url = $link . $array_cat_alias[$catid];
 
 		$result_array[] = array(
 			'link' => $url,
 			'title' => BoldKeywordInStr( $tilterow, $key, $logic ),
-			'content' => BoldKeywordInStr( $content, $key, $logic )
+			'content' => BoldKeywordInStr( $descriptionhtml, $key, $logic )
 		);
 	}
 }

@@ -37,6 +37,17 @@ function viewcat_list( $array_catpage, $array_cat_block, $catid, $page, $generat
 		$xtpl->assign( 'LAST_UPDATE', nv_date( 'd/m/Y H:i:s', $global_array_cat[$catid]['last_update'] ));
 		$xtpl->parse( 'main.viewdescription.last_update' );
 	}
+	
+	if(!empty( $global_array_cat[$catid]['titlesite'] ))
+	{
+		$xtpl->assign( 'AUTHOR',$global_array_cat[$catid]['titlesite'] );
+		
+	} else {
+		$global_array_cat[$catid]['titlesite'] = $lang_module['updating'];
+		$xtpl->assign( 'TITLE_SITE',$global_array_cat[$catid]['titlesite'] );
+	}
+	$xtpl->parse( 'main.viewdescription.titlesite' );
+	
 	if(!empty( $global_array_cat[$catid]['authors'] ))
 	{
 		$xtpl->assign( 'AUTHOR',$global_array_cat[$catid]['authors'] );
@@ -61,31 +72,11 @@ function viewcat_list( $array_catpage, $array_cat_block, $catid, $page, $generat
 		foreach( $array_cat_block as $array_cat_block_i )
 		{
 			$xtpl->assign( 'GENRE', $array_cat_block_i );
-			$xtpl->parse( 'main.viewdescription.genre' );
+			$xtpl->parse( 'main.viewdescription.genre.loop' );
 		}
+		$xtpl->parse( 'main.viewdescription.genre' );
 	}
 
-	if( $global_array_cat[$catid]['allowed_rating'] == 1 ) // Rating mode
-	{
-		$xtpl->assign( 'LANGSTAR', $viewcat_rating['langstar'] );
-		$xtpl->assign( 'STRINGRATING', $viewcat_rating['stringrating'] );
-		$xtpl->assign( 'NUMBERRATING', $viewcat_rating['numberrating'] );
-		$xtpl->assign( 'CLICK_RATING', $global_array_cat[$catid]['click_rating'] );
-
-		if( $viewcat_rating['disablerating'] == 1 )
-		{
-			$xtpl->parse( 'main.viewdescription.allowed_rating.disablerating' );
-		}
-
-		if( $viewcat_rating['numberrating'] >= $module_config[$module_name]['allowed_rating_point'] )
-		{
-			$xtpl->parse( 'main.viewdescription.allowed_rating.data_rating' );
-		}
-
-		$xtpl->parse( 'main.viewdescription.allowed_rating' );
-	}
-	
-	
 	$xtpl->assign( 'CONTENT', $global_array_cat[$catid] );
 
 	$xtpl->parse( 'main.viewdescription' );
@@ -100,21 +91,8 @@ function viewcat_list( $array_catpage, $array_cat_block, $catid, $page, $generat
 		$xtpl->assign( 'NUMBER', ++$a );
 		$xtpl->assign( 'CONTENT', $array_row_i );
 
-		if( defined( 'NV_IS_MODADMIN' ) )
-		{
-			$xtpl->assign( 'ADMINLINK', nv_link_edit_page( $array_row_i['id'] ) . " " . nv_link_delete_page( $array_row_i['id'] ) );
-			$xtpl->assign( 'CLASS1', "13" );$xtpl->assign( 'CLASS2', "7" );
-			$xtpl->parse( 'main.viewcatloop.adminlink' );
-		}
-		else{
-			$xtpl->assign( 'CLASS1', "16" );$xtpl->assign( 'CLASS2', "8" );
-		}
 		$xtpl->set_autoreset();
 		$xtpl->parse( 'main.viewcatloop' );
-	}
-	if( defined( 'NV_IS_MODADMIN' ) )
-	{
-		$xtpl->parse( 'main.adminlink_th' );
 	}
 	if( !empty( $content_comment ) )
 	{
@@ -129,11 +107,6 @@ function viewcat_list( $array_catpage, $array_cat_block, $catid, $page, $generat
 		$xtpl->parse( 'main.generate_page' );
 	}
 
-	if( $module_config[$module_name]['showtooltip'] )
-	{
-		$xtpl->assign( 'TOOLTIP_POSITION', $module_config[$module_name]['tooltip_position'] );
-		$xtpl->parse( 'main.tooltip' );
-	}
 	//Comment system
 	if( ! defined( 'FACEBOOK_JSSDK' ) )
 	{
@@ -587,3 +560,107 @@ function topic_theme( $topic_array, $generate_page, $page_title, $description, $
 }
 
 
+// Search
+function search_theme( $key, $check_num, $date_array, $array_cat_search )
+{
+	global $module_name, $module_info, $module_file, $lang_module, $module_name, $my_head;
+
+	$xtpl = new XTemplate( 'search.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
+	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'NV_LANG_VARIABLE', NV_LANG_VARIABLE );
+	$xtpl->assign( 'NV_LANG_DATA', NV_LANG_DATA );
+	$xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
+	$xtpl->assign( 'MODULE_NAME', $module_name );
+	$xtpl->assign( 'BASE_URL_SITE', NV_BASE_SITEURL . 'index.php' );
+	$xtpl->assign( 'TO_DATE', $date_array['to_date'] );
+	$xtpl->assign( 'FROM_DATE', $date_array['from_date'] );
+	$xtpl->assign( 'KEY', $key );
+	$xtpl->assign( 'NV_OP_VARIABLE', NV_OP_VARIABLE );
+	$xtpl->assign( 'OP_NAME', 'search' );
+
+	foreach( $array_cat_search as $search_cat )
+	{
+		$xtpl->assign( 'SEARCH_CAT', $search_cat );
+		$xtpl->parse( 'main.search_cat' );
+	}
+
+	for( $i = 0; $i <= 3; ++$i )
+	{
+		if( $check_num == $i )
+		{
+			$xtpl->assign( 'CHECK' . $i, 'selected=\'selected\'' );
+		}
+		else
+		{
+			$xtpl->assign( 'CHECK' . $i, '' );
+		}
+	}
+
+	$xtpl->parse( 'main' );
+	return $xtpl->text( 'main' );
+}
+
+function search_result_theme( $key, $numRecord, $per_pages, $page, $array_content, $catid )
+{
+	global $module_file, $module_info, $lang_module, $module_name, $global_array_cat, $module_config, $global_config;
+
+	$xtpl = new XTemplate( 'search.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
+	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'KEY', $key );
+	$xtpl->assign( 'IMG_WIDTH', $module_config[$module_name]['homewidth'] );
+	$xtpl->assign( 'TITLE_MOD', $lang_module['search_modul_title'] );
+
+	if( ! empty( $array_content ) )
+	{
+		foreach( $array_content as $value )
+		{
+			$catid_i = $value['catid'];
+
+			$xtpl->assign( 'LINK', $global_array_cat[$catid_i]['link'] . '/' . $value['alias'] . "-" . $value['id'] . $global_config['rewrite_exturl'] );
+			$xtpl->assign( 'TITLEROW', strip_tags( BoldKeywordInStr( $value['title'], $key ) ) );
+			$xtpl->assign( 'CONTENT', BoldKeywordInStr( $value['hometext'], $key ) . "..." );
+			$xtpl->assign( 'TIME', date( 'd/m/Y h:i:s A', $value['publtime'] ) );
+			$xtpl->assign( 'AUTHOR', BoldKeywordInStr( $value['author'], $key ) );
+			$xtpl->assign( 'SOURCE', BoldKeywordInStr( GetSourceNews( $value['sourceid'] ), $key ) );
+
+			if( ! empty( $value['homeimgfile'] ) )
+			{
+				$xtpl->assign( 'IMG_SRC', $value['homeimgfile'] );
+				$xtpl->parse( 'results.result.result_img' );
+			}
+
+			$xtpl->parse( 'results.result' );
+		}
+	}
+
+	if( $numRecord == 0 )
+	{
+		$xtpl->assign( 'KEY', $key );
+		$xtpl->assign( 'INMOD', $lang_module['search_modul_title'] );
+		$xtpl->parse( 'results.noneresult' );
+	}
+
+	if( $numRecord > $per_pages )// show pages
+	{
+		$url_link = $_SERVER['REQUEST_URI'];
+		if( strpos( $url_link, '&page=' ) > 0 )
+		{
+			$url_link = substr( $url_link, 0, strpos( $url_link, '&page=' ) );
+		}
+		elseif( strpos( $url_link, '?page=' ) > 0)
+		{
+			$url_link = substr( $url_link, 0, strpos( $url_link, '?page=' ) );
+		}
+		$_array_url = array( 'link' => $url_link, 'amp' => '&page=' );
+		$generate_page = nv_generate_page( $_array_url, $numRecord, $per_pages, $page );
+
+		$xtpl->assign( 'VIEW_PAGES', $generate_page );
+		$xtpl->parse( 'results.pages_result' );
+	}
+
+	$xtpl->assign( 'NUMRECORD', $numRecord );
+	$xtpl->assign( 'MY_DOMAIN', NV_MY_DOMAIN );
+
+	$xtpl->parse( 'results' );
+	return $xtpl->text( 'results' );
+}

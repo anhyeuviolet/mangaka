@@ -47,9 +47,10 @@
 							<!-- END: image -->
 						</div>
 						<div class="col-lg-16 col-md-16 col-xs-24">
-						<h4>{LANG.titlesite} : {CONTENT.titlesite}</h4>
+						<!-- BEGIN: titlesite -->
+						<h4>{LANG.titlesite} : {TITLE_SITE}</h4>
+						<!-- END: titlesite -->
 						<p class="text-justify">{CONTENT.description}</p>
-						
 						</div>
 					</div>
 				</td>
@@ -73,11 +74,13 @@
 			<tr class="active">
 				<td>
 					<div class="col-lg-16 col-md-16 col-xs-24">
+					<!-- BEGIN: genre -->
 					{LANG.genre} :
-						<!-- BEGIN: genre -->
+						<!-- BEGIN: loop -->
 						<a title="{GENRE.title}" href="{GENRE.link}" class="label label-success">{GENRE.title}</a>
-						<!-- END: genre -->
+						<!-- END: loop -->
 					</div>
+					<!-- END: genre -->
 					<div class="col-lg-8 col-md-8 col-xs-24 pull-right">
 					<!-- BEGIN: last_update -->
 						<i class="fa fa-clock-o"></i>&nbsp;{LAST_UPDATE}
@@ -87,75 +90,13 @@
 			</tr>
 		</tfoot>
 	</table>
-			<div class="row">
-			<div class="col-md-12">
-			<!-- BEGIN: allowed_rating -->
-				<form id="form3B" action="">
-					<div class="clearfix">
-						<div id="stringrating">
-							{STRINGRATING}
-						</div>
-			            <!-- BEGIN: data_rating -->
-			            <span itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
-			               {LANG.rating_average}:
-			               <span itemprop="rating">{NUMBERRATING}</span> -
-			               <span itemprop="votes">{CLICK_RATING}</span> {LANG.rating_count}
-			            </span>
-			            <!-- END: data_rating -->
-						<div style="padding: 5px;">
-							<input class="hover-star" type="radio" value="1" title="{LANGSTAR.verypoor}" /><input class="hover-star" type="radio" value="2" title="{LANGSTAR.poor}" /><input class="hover-star" type="radio" value="3" title="{LANGSTAR.ok}" /><input class="hover-star" type="radio" value="4" title="{LANGSTAR.good}" /><input class="hover-star" type="radio" value="5" title="{LANGSTAR.verygood}" /><span id="hover-test" style="margin: 0 0 0 20px;">{LANGSTAR.note}</span>
-						</div>
-					</div>
-				</form>
-				<script type="text/javascript">
-					var sr = 0;
-					$('.hover-star').rating({
-						focus : function(value, link) {
-							var tip = $('#hover-test');
-							if (sr != 2) {
-								tip[0].data = tip[0].data || tip.html();
-								tip.html(link.title || 'value: ' + value);
-								sr = 1;
-							}
-						},
-						blur : function(value, link) {
-							var tip = $('#hover-test');
-							if (sr != 2) {
-								$('#hover-test').html(tip[0].data || '');
-								sr = 1;
-							}
-						},
-						callback : function(value, link) {
-							if (sr == 1) {
-								sr = 2;
-								$('.hover-star').rating('disable');
-								sendrating_cat('{CATID}', value, '{CHECKSS}');
-							}
-						}
-					});
-
-					$('.hover-star').rating('select', '{NUMBERRATING}');
-				</script>
-				<!-- BEGIN: disablerating -->
-				<script type="text/javascript">
-					$(".hover-star").rating('disable');
-					sr = 2;
-				</script>
-				<!-- END: disablerating -->
-				<!-- END: allowed_rating -->
-			</div>
-		</div>
-
 	<!-- END: viewdescription -->
 	<div class="chapter-content-head">
 	<table class="table">
 		<thead>
 			<tr class="info">
-				<th class="text-center col-md-{CLASS1} col-lg-{CLASS1} col-xs-24 col-sm-{CLASS1}">{LANG.chapter}</th>
-				<th class="text-center col-md-{CLASS2} col-lg-{CLASS2} col-xs-24 col-sm-{CLASS2}">{LANG.last_update}</th>
-				<!-- BEGIN: adminlink_th -->	
-				<th class="col-hidden-xs">&nbsp;</th>
-				<!-- END: adminlink_th -->	
+				<th class="text-center col-md-16 col-lg-16 col-xs-24 col-sm-16">{LANG.chapter}</th>
+				<th class="text-center col-md-8 col-lg-8 col-xs-24 col-sm-8">{LANG.last_update}</th>
 			</tr>
 		</thead>
 	</table>
@@ -165,14 +106,11 @@
 		<tbody>
 		<!-- BEGIN: viewcatloop -->
 			<tr>
-				<td class="text-center col-md-{CLASS1} col-lg-{CLASS1} col-xs-12 col-sm-{CLASS1}">
+				<td class="text-center col-md-16 col-lg-16 col-xs-24 col-sm-16">
 					<a href="{CONTENT.link}">{LANG.chapter} {CONTENT.chapter}</a>
 					<a target="_blank" href="{CONTENT.link}"><i class="fa fa-external-link">&nbsp;</i></a>
 				</td>
-				<td class="text-center col-md-{CLASS2} col-lg-{CLASS2} col-xs-12 col-sm-{CLASS2}">{CONTENT.publtime}</td>
-			<!-- BEGIN: adminlink -->	
-				<td class="text-center hidden-xs">{ADMINLINK}</td>
-			<!-- END: adminlink -->
+				<td class="text-center col-md-8 col-lg-8 col-xs-24 col-sm-8">{CONTENT.publtime}</td>
 			</tr>
 		<!-- END: viewcatloop -->
 		</tbody>
