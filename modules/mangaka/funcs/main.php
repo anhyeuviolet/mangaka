@@ -109,10 +109,7 @@ if( empty( $contents ) )
 		unset($array_cat);
 					
 		$viewcat = 'viewcat_full_home';
-		$generate_page = nv_generate_page( $page_title, $base_url, $num_items, $per_page, $page );
-		
-					//$generate_page = nv_generate_page( $base_url, $num_items, $per_page_comment, $page, true, true, 'nv_urldecode_ajax', 'idcomment' );
-
+		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 		$contents = viewcat_full_home( $array_catpage, $generate_page );
 	}
 	elseif( $viewcat == 'viewcat_list_home'  ) // Hien thi danh sach, phong cach 3T.com
