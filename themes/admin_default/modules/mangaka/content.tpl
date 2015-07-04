@@ -28,7 +28,7 @@
 					</tr>
 					<tr>
 						<td><strong>{LANG.alias}: </strong></td>
-						<td><input class="form-control" name="alias" id="idalias" type="text" value="{rowcontent.alias}" maxlength="255"  style="width:350px"/>&nbsp; <em class="fa fa-refresh fa-lg fa-pointer" onclick="get_alias();">&nbsp;</em></td>
+						<td><input {rowcontent.readonly_alias} class="form-control" name="alias" id="idalias" type="text" value="{rowcontent.alias}" maxlength="255"  style="width:350px"/>&nbsp; <em class="fa fa-refresh fa-lg fa-pointer {rowcontent.hide_getalias}" onclick="get_alias();">&nbsp;</em></td>
 					</tr>
 				</tbody>
 			</table>

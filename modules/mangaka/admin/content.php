@@ -163,6 +163,8 @@ if( $rowcontent['id'] > 0 )
 				$check_permission = true;
 			}
 		}
+	$rowcontent['readonly_alias'] = "readonly";
+	$rowcontent['hide_getalias'] = "hidden";
 	}
 
 	if( ! $check_permission )
