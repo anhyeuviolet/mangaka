@@ -129,11 +129,11 @@ function viewcat_list( $array_catpage, $array_cat_block, $catid, $page, $generat
 		$xtpl->parse( 'main.generate_page' );
 	}
 
-	if( $module_config[$module_name]['showtooltip'] )
-	{
-		$xtpl->assign( 'TOOLTIP_POSITION', $module_config[$module_name]['tooltip_position'] );
-		$xtpl->parse( 'main.tooltip' );
-	}
+	// if( $module_config[$module_name]['showtooltip'] )
+	// {
+		// $xtpl->assign( 'TOOLTIP_POSITION', $module_config[$module_name]['tooltip_position'] );
+		// $xtpl->parse( 'main.tooltip' );
+	// }
 	//Comment system
 	if( ! defined( 'FACEBOOK_JSSDK' ) )
 	{

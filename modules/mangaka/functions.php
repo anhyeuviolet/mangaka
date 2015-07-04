@@ -116,7 +116,6 @@ $module_info['submenu'] = 0;
 
 $page = 1;
 $per_page = $module_config[$module_name]['per_page'];
-$st_links = $module_config[$module_name]['st_links'];
 $count_op = sizeof( $array_op );
 if( ! empty( $array_op ) and $op == 'main' )
 {
