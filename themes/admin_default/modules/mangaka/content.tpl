@@ -73,7 +73,6 @@
 								</table>
 							</div>
 						</li>
-
 						<li>
 							<p class="message_head">
 								<cite>{LANG.content_publ_date}</cite><span class="timestamp">{LANG.content_notetime}</span>
@@ -116,7 +115,7 @@
 							<p class="message_head">
 								<cite>{LANG.content_extra}:</cite>
 							</p>
-							<div class="message_body">
+							<div class="message_body" style="overflow: auto">
 								<div style="margin-bottom: 2px;">
 									<input type="checkbox" value="1" name="inhome" {inhome_checked}/>
 									<label> {LANG.content_inhome} </label>
@@ -183,7 +182,7 @@ $('[type="submit"]').hover(function(){
 <script type="text/javascript" src="{NV_BASE_SITEURL}js/ui/jquery.ui.autocomplete.min.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}js/ui/jquery.ui.datepicker.min.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}js/language/jquery.ui.datepicker-{NV_LANG_INTERFACE}.js"></script>
-<script type="text/javascript" src="{NV_BASE_SITEURL}modules/news/js/content.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}modules/mangaka/js/content.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#catid").select2();
@@ -210,7 +209,6 @@ $('[type="submit"]').hover(function(){
         });
     });
 </script>
-
 <!-- BEGIN: getalias -->
 <script type="text/javascript">
 //<![CDATA[

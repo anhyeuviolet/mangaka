@@ -20,11 +20,6 @@ $("#idtitle").bind("keyup paste", function() {
 	$("#titlelength").html($(this).val().length);
 });
 
-$("#descriptionlength").html($("#description").val().length);
-$("#description").bind("keyup paste", function() {
-	$("#descriptionlength").html($(this).val().length);
-});
-
 $(document).ready(function() {
 	$("input[name='catids[]']").click(function() {
 		var catid = $("input:radio[name=catid]:checked").val();
@@ -137,31 +132,6 @@ $(document).ready(function() {
 		}
 	});
 
-    $("#keywords-search").blur(function() {
-		// add placeholder to get the comma-and-space at the end
-        var keywords_add= $("#keywords-search").val();
-        keywords_add = trim( keywords_add );
-        if( keywords_add != '' ){
-            nv_add_element( 'keywords', keywords_add, keywords_add );
-            $(this).val('');
-        }
-        return false;
-	});
-    $("#keywords-search").bind("keyup", function(event) {
-		var keywords_add= $("#keywords-search").val();
-        if(keywords_add.search(',') > 0 )
-        {
-            keywords_add = keywords_add.split(",");
-            for (i = 0; i < keywords_add.length; i++) {
-                var str_keyword = trim( keywords_add[i] );
-                if( str_keyword != '' ){
-                    nv_add_element( 'keywords', str_keyword, str_keyword );
-                }
-            }
-            $(this).val('');
-        }
-        return false;
-	});
 
 	// hide message_body after the first one
 	$(".message_list .message_body:gt(1)").hide();
