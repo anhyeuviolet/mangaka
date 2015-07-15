@@ -33,7 +33,7 @@ if( !empty( $alias ) )
 	$sth->execute();
 
 	list( $bid, $page_title, $alias, $group_image, $description, $key_words ) = $sth->fetch( 3 );
-
+	$page_title = $lang_module['genre'].' '. $page_title;
 	if( $bid > 0 )
 	{
 		$base_url_rewrite = $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['groups'] . '/' . $alias;
@@ -84,11 +84,12 @@ if( !empty( $alias ) )
 			{
 				$item['letter'] = $item['f_letter'];
 			} else {$item['letter'] = '';}
-			$pre_letter = $item['f_letter']; // Ket thuc list theo ky tu dau cua bang chu cai
+			$pre_letter = $item['f_letter']; 
 			
-			if( ! empty( $item['image'] ) AND file_exists( NV_ROOTDIR. '/' . NV_FILES_DIR . '/' . $module_name . '/' . $item['image'] ) )//image thumb
+			// Image of each genre
+			if( ! empty( $item['image'] ) AND file_exists( NV_ROOTDIR. '/' . NV_FILES_DIR . '/' . $module_name . '/cover/' . $item['image'] ) )//image thumb
 			{
-				$item['src'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_name . '/' . $item['image'];
+				$item['src'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_name . '/cover/' . $item['image'];
 			}
 			elseif( ! empty( $item['image'] ) )//image URL
 			{
@@ -102,6 +103,7 @@ if( !empty( $alias ) )
 			{
 				$item['src'] = '';
 			}
+			
 			$item['alt'] = ! empty( $item['homeimgalt'] ) ? $item['homeimgalt'] : $item['title'];
 			$item['width'] = $module_config[$module_name]['homewidth'];
 
@@ -115,10 +117,24 @@ if( !empty( $alias ) )
 
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 
-		if( ! empty( $group_image ) )
+		// Genre thumb image
+		if( ! empty( $group_image ) AND file_exists( NV_ROOTDIR. '/' . NV_FILES_DIR . '/' . $module_name . '/genre/' . $group_image ) )//image thumb
 		{
 			$group_image = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_name . '/genre/' . $group_image;
 		}
+		elseif( ! empty( $group_image ) )//image URL
+		{
+			$group_image = $group_image;
+		}
+		elseif( ! empty( $show_no_image ) )//no image
+		{
+			$group_image = NV_BASE_SITEURL . $show_no_image;
+		}
+		else
+		{
+			$group_image = '';
+		}
+
 		$contents = group_theme( $group_array, $generate_page, $page_title, $description, $group_image);
 	}
 	else
@@ -136,19 +152,21 @@ else // List all genre
 	$result = $db->query( 'SELECT bid as id, title, alias, image, description as hometext, keywords, add_time FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block_cat ORDER BY alias ASC');
 	while( $item = $result->fetch() )
 	{
-		$item['f_letter'] = substr($item['alias'], 0, 1);
-	    if($pre_letter !== $item['f_letter']) {
-			$item['letter'] = $item['f_letter'];
-		} else {$item['letter'] = '';}
-	    $pre_letter = $item['f_letter'];
+		// Chuc nang tao ky tu dau tien cho Genre - tam thoi vo hieu hoa
+		// $item['f_letter'] = substr($item['alias'], 0, 1);
+	    // if($pre_letter !== $item['f_letter']) {
+			// $item['letter'] = $item['f_letter'];
+		// } else {$item['letter'] = '';}
+	    // $pre_letter = $item['f_letter'];
 
-		if( ! empty( $item['image'] ) AND file_exists( NV_ROOTDIR. '/' . NV_FILES_DIR . '/' . $module_name . '/' . $item['image'] ) )//image thumb
+		// Image of each genre
+		if( ! empty( $item['image'] ) AND file_exists( NV_ROOTDIR. '/' . NV_FILES_DIR . '/' . $module_name . '/genre/' . $item['image'] ) )//image thumb
 		{
-			$item['src'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_name . '/' . $item['image'];
+			$item['src'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_name . '/genre/' . $item['image'];
 		}
-		elseif( ! empty( $item['image'] ) )//image file
+		elseif( ! empty( $item['image'] ) )//image URL
 		{
-			$item['src'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/' . $item['image'];
+			$item['src'] = $item['image'];
 		}
 		elseif( ! empty( $show_no_image ) )//no image
 		{

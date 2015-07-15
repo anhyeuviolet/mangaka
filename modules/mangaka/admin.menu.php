@@ -90,15 +90,16 @@ if( ! isset( $site_mods['cms'] ) )
 
 if( $NV_IS_ADMIN_MODULE )
 {
-	$submenu['groups'] = $lang_module['genre_manage'];
-	$submenu['getchap_conf'] = $lang_module['getchap_conf'];
-	$submenu['getmanga_conf'] = $lang_module['getmanga_conf'];
-	$submenu['setting'] = $lang_module['setting'];
+	$menu_setting = array();
+	
+	$menu_setting['groups'] = $lang_module['genre_manage'];
+	$menu_setting['getchap_conf'] = $lang_module['getchap_conf'];
+	$menu_setting['getmanga_conf'] = $lang_module['getmanga_conf'];
+	
+	$submenu['setting'] = array( 'title' => $lang_module['setting'], 'submenu' => $menu_setting );
 	$submenu['admins'] = $lang_module['admin'];
 
-
 	$allow_func[] = 'admins';
-
 	$allow_func[] = 'block';
 	$allow_func[] = 'groups';
 	$allow_func[] = 'del_block_cat';
@@ -106,14 +107,11 @@ if( $NV_IS_ADMIN_MODULE )
 	$allow_func[] = 'chang_block_cat';
 	$allow_func[] = 'change_block';
 	$allow_func[] = 'list_block';
-
 	$allow_func[] = 'setting';
 	$allow_func[] = 'move';
 	$allow_func[] = 'tools';
-	
 	$allow_func[] = 'chapterlist';
 	$allow_func[] = 'chapter_manage';
-
 	$allow_func[] = 'getchap_conf';
 	$allow_func[] = 'getchap';
 	$allow_func[] = 'getmanga_conf';

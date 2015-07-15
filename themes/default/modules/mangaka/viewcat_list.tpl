@@ -47,7 +47,9 @@
 							<!-- END: image -->
 						</div>
 						<div class="col-lg-16 col-md-16 col-xs-24">
-						<h4>{LANG.titlesite} : {CONTENT.titlesite}</h4>
+						<!-- BEGIN: titlesite -->
+						<h4>{LANG.titlesite} : {TITLESITE}</h4>
+						<!-- END: titlesite -->
 						<p class="text-justify">{CONTENT.description}</p>
 						
 						</div>

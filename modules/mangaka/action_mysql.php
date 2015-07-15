@@ -111,7 +111,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_block_cat (
 	 bid smallint(5) unsigned NOT NULL AUTO_INCREMENT,
 	 adddefault tinyint(4) NOT NULL DEFAULT '0',
-	 numbers smallint(5) NOT NULL DEFAULT '10',
+	 numbers smallint(5) NOT NULL DEFAULT '20',
 	 title varchar(255) NOT NULL DEFAULT '',
 	 alias varchar(255) NOT NULL DEFAULT '',
 	 image varchar(255) DEFAULT '',
@@ -246,11 +246,11 @@ $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module,
 
 // Them the loai vao DB
 $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_block_cat (bid, adddefault, numbers, title, alias, image, description, weight, keywords, add_time, edit_time) VALUES
-(1, 0, 0, 'Shounen', 'shounen', '', '', 1, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
-(2, 0, 0, 'Ecchi', 'ecchi', '', '', 2, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
-(3, 0, 0, 'Adventure', 'adventure', '', '', 3, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
-(4, 0, 0, 'Drama', 'drama', '', '', 4, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
-(5, 0, 0, 'Horror', 'Horror', '', '', 5, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."')";
+(1, 20, 0, 'Shounen', 'shounen', '', '', 1, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
+(2, 20, 0, 'Ecchi', 'ecchi', '', '', 2, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
+(3, 20, 0, 'Adventure', 'adventure', '', '', 3, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
+(4, 20, 0, 'Drama', 'drama', '', '', 4, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
+(5, 20, 0, 'Horror', 'Horror', '', '', 5, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."')";
 
 //Mau leech Chapter Blogtruyen.Com, ComicVn, TruyenTranhTuan
 $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_get_chap (

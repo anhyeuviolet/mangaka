@@ -32,6 +32,10 @@ if( ! empty( $savecat ) )
 		$lu = strlen( NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_name . "/genre/" );
 		$image = substr( $image, $lu );
 	}
+	elseif( nv_is_url( $image ) )
+	{
+		$image = $image;
+	}
 	else
 	{
 		$image = '';
@@ -119,7 +123,7 @@ if( ! empty( $image ) and file_exists( NV_UPLOADS_REAL_DIR . "/" . $module_name 
 	$image = NV_BASE_SITEURL . NV_UPLOADS_DIR . "/" . $module_name . "/genre/" . $image;
 }
 $xtpl->assign( 'image', $image );
-$xtpl->assign( 'UPLOAD_CURRENT', NV_UPLOADS_DIR . '/genre/' . $module_name );
+$xtpl->assign( 'UPLOAD_CURRENT', NV_UPLOADS_DIR . '/' . $module_name . '/genre/'  );
 
 if( ! empty( $error ) )
 {

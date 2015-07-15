@@ -3,30 +3,36 @@
 <div class="news_column">
 	<div class="alert alert-info clearfix">
 		<h3>{GROUP_TITLE}</h3>
-		<!-- BEGIN: image -->
-		<img alt="{GROUP_TITLE}" src="{HOMEIMG1}" width="{IMGWIDTH1}" class="img-thumbnail pull-left imghome" />
-		<!-- END: image -->
-		<p class="text-justify">{GROUP_DESCRIPTION}</p>
+		<div class="col-md-7">
+			<!-- BEGIN: image -->
+			<img alt="{GROUP_TITLE}" src="{HOMEIMG1}" width="120" class="img-thumbnail pull-left imghome" />
+			<!-- END: image -->
+		</div>
+		<div class="col-md-16">
+			<p class="text-justify">{GROUP_DESCRIPTION}</p>
+		</div>
 	</div>
 </div>
 <!-- END: groupdescription -->
 
 <!-- BEGIN: group -->
+	<!-- BEGIN: letter -->
+	{F_LETTER}
+	<!-- END: letter -->
 <div class="news_column panel panel-default">
 	<div class="panel-body">
-		<a href="{GROUP.link}" title="{GROUP.title}"><img alt="{GROUP.alt}" src="{GROUP.src}" width="{GROUP.width}" class="img-thumbnail pull-left imghome" /></a>
-		<!-- BEGIN: letter -->
-		{F_LETTER}
-		<!-- END: letter -->
+		<div class="col-md-7">
+			<a href="{GROUP.link}" title="{GROUP.title}"><img alt="{GROUP.alt}" src="{GROUP.src}" width="120" class="img-thumbnail pull-left imghome" /></a>
+		</div>
 		<h3><a href="{GROUP.link}" title="{GROUP.title}">{GROUP.title}</a></h3>
-		<!-- BEGIN: time -->
-		<p>
-			<em class="fa fa-clock-o">&nbsp;</em><em>{TIME} {DATE}</em>
-		</p>
-		<!-- END: time -->
-		<p class="text-justify">
-			{GROUP.hometext}
-		</p>
+		<div class="col-md-16">
+			<p>
+				<em class="fa fa-clock-o">&nbsp;</em><em>{TIME} {DATE}</em>
+			</p>
+			<p class="text-justify">
+				{GROUP.hometext}
+			</p>
+		</div>
 	</div>
 </div>
 <!-- END: group -->

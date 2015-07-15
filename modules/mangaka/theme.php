@@ -55,7 +55,18 @@ function viewcat_list( $array_catpage, $array_cat_block, $catid, $page, $generat
 		$global_array_cat[$catid]['translators'] = $lang_module['updating'];
 		$xtpl->assign( 'TRANSLATOR',$global_array_cat[$catid]['translators'] );
 	}
-	$xtpl->parse( 'main.viewdescription.translators' );
+	$xtpl->parse( 'main.viewdescription.translators' );	
+	
+	if(!empty( $global_array_cat[$catid]['titlesite'] ))
+	{
+		$xtpl->assign( 'TITLESITE',$global_array_cat[$catid]['titlesite'] );
+		
+	} else {
+		$global_array_cat[$catid]['titlesite'] = $lang_module['updating'];
+		$xtpl->assign( 'TITLESITE',$global_array_cat[$catid]['titlesite'] );
+	}
+	
+	$xtpl->parse( 'main.viewdescription.titlesite' );
 	if( !empty($array_cat_block) )
 	{
 		foreach( $array_cat_block as $array_cat_block_i )
@@ -538,7 +549,7 @@ function group_theme( $group_array, $generate_page, $page_title, $description, $
 	$xtpl = new XTemplate( 'groups.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
 	$xtpl->assign( 'GROUP_TITLE', $page_title );
-	$xtpl->assign( 'IMGWIDTH1', $module_config[$module_name]['homewidth'] );
+	//$xtpl->assign( 'IMGWIDTH1', $module_config[$module_name]['homewidth'] );
 	if( ! empty( $page_title ) )
 	{
 		$xtpl->assign( 'GROUP_DESCRIPTION', $description );
@@ -557,13 +568,13 @@ function group_theme( $group_array, $generate_page, $page_title, $description, $
 			
 			$xtpl->assign( 'TIME', date( 'H:i', $group_array_i['add_time'] ) );
 			$xtpl->assign( 'DATE', date( 'd/m/Y', $group_array_i['add_time'] ) );
-			$xtpl->assign( 'F_LETTER', strtoupper($group_array_i['letter']  ));
 			if( ! empty( $group_array_i['src'] ) )
 			{
 				$xtpl->parse( 'main.group.homethumb' );
 			}
 			if( ! empty( $group_array_i['letter'] ) )
 			{
+				$xtpl->assign( 'F_LETTER', strtoupper($group_array_i['letter']  ));
 				$xtpl->parse( 'main.group.letter' );
 			}
 			$xtpl->parse( 'main.group' );
