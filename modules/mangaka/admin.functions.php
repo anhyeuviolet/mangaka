@@ -38,7 +38,7 @@ require_once NV_ROOTDIR . '/modules/' . $module_file . '/global.functions.php';
 
 global $global_array_cat;
 $global_array_cat = array();
-$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat ORDER BY sort ASC';
+$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat ORDER BY alias ASC';
 $result = $db->query( $sql );
 while( $row = $result->fetch() )
 {
@@ -100,63 +100,6 @@ function rv($rmv) {
 	$rmv = clean(LamDepURL($rmv));
 	return $rmv;
 }
-
-/**
- * nv_fix_cat_order()
- *
- * @param integer $parentid
- * @param integer $order
- * @param integer $lev
- * @return
- */
-function nv_fix_cat_order( $parentid = 0, $order = 0, $lev = 0 )
-{
-	global $db, $module_data;
-
-	$sql = 'SELECT catid, parentid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat WHERE parentid=' . $parentid . ' ORDER BY title ASC';
-	$result = $db->query( $sql );
-	$array_cat_order = array();
-	while( $row = $result->fetch() )
-	{
-		$array_cat_order[] = $row['catid'];
-	}
-	$result->closeCursor();
-	$weight = 0;
-	if( $parentid > 0 )
-	{
-		++$lev;
-	}
-	else
-	{
-		$lev = 0;
-	}
-	foreach( $array_cat_order as $catid_i )
-	{
-		++$order;
-		++$weight;
-		$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET weight=' . $weight . ', sort=' . $order . ', lev=' . $lev . ' WHERE catid=' . intval( $catid_i );
-		$db->query( $sql );
-		$order = nv_fix_cat_order( $catid_i, $order, $lev );
-	}
-	$numsubcat = $weight;
-	if( $parentid > 0 )
-	{
-		$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET numsubcat=' . $numsubcat;
-		if( $numsubcat == 0 )
-		{
-			$sql .= ",subcatid='', viewcat='viewcat_list_new'";
-		}
-		else
-		{
-			$sql .= ",subcatid='" . implode( ',', $array_cat_order ) . "'";
-		}
-		$sql .= ' WHERE catid=' . intval( $parentid );
-		$db->query( $sql );
-	}
-	return $order;
-}
-
-
 
 
 /**
@@ -415,60 +358,6 @@ function nv_show_cat_list( $parentid = 0 )
 	return $contents;
 }
 
-/**
- * nv_show_topics_list()
- *
- * @return
- */
-function nv_show_topics_list()
-{
-	global $db, $lang_module, $lang_global, $module_name, $module_data, $global_config, $module_file, $module_info;
-
-	$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_topics ORDER BY weight ASC';
-	$_array_topic = $db->query( $sql )->fetchAll();
-	$num = sizeof( $_array_topic );
-
-	if( $num > 0 )
-	{
-		$xtpl = new XTemplate( 'topics_list.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
-		$xtpl->assign( 'LANG', $lang_module );
-		$xtpl->assign( 'GLANG', $lang_global );
-		foreach ( $_array_topic as $row )
-		{
-			$numnews = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows where topicid=' . $row['topicid'] )->fetchColumn();
-
-			$xtpl->assign( 'ROW', array(
-				'topicid' => $row['topicid'],
-				'description' => $row['description'],
-				'title' => $row['title'],
-				'link' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=topicsnews&amp;topicid=' . $row['topicid'],
-				'linksite' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['topic'] . '/' . $row['alias'],
-				'numnews' => $numnews,
-				'url_edit' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=topics&amp;topicid=' . $row['topicid'] . '#edit'
-			) );
-
-			for( $i = 1; $i <= $num; ++$i )
-			{
-				$xtpl->assign( 'WEIGHT', array(
-					'key' => $i,
-					'title' => $i,
-					'selected' => $i == $row['weight'] ? ' selected="selected"' : ''
-				) );
-				$xtpl->parse( 'main.loop.weight' );
-			}
-
-			$xtpl->parse( 'main.loop' );
-		}
-
-		$xtpl->parse( 'main' );
-		$contents = $xtpl->text( 'main' );
-	}
-	else
-	{
-		$contents = '&nbsp;';
-	}
-	return $contents;
-}
 
 /**
  * nv_show_block_cat_list()
@@ -990,23 +879,23 @@ function nv_show_block_cat_list_new()
 }
 
 /**
- * nv_fix_cat_order()
+ * nv_fix_content_alias()
  *
  * @param integer $id
  */
-// function nv_fix_content_alias( $id )
-// {
-	// global $db, $module_data;
-	// $sql='SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE id=' . intval( $id); 
-	// $result = $db->query( $sql );			
-	// $data = $result->fetch();
-	// $data['alias'] = "chapter-" . preg_replace('/[.]/','-',$data['chapter']) . "-" . change_alias($data['title']);
+function nv_fix_content_alias( $id )
+{
+	global $db, $module_data;
+	$sql='SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE id=' . intval( $id); 
+	$result = $db->query( $sql );			
+	$data = $result->fetch();
+	$data['alias'] = "chapter-" . preg_replace('/[.]/','-',$data['chapter']) . "-" . change_alias($data['title']);
 
-	// $sth = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET alias=:alias WHERE id =' . $data['id'] );
-	// $sth->bindParam( ':alias', $data['alias'], PDO::PARAM_STR );
-	// $sth->execute();	
+	$sth = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET alias=:alias WHERE id =' . $data['id'] );
+	$sth->bindParam( ':alias', $data['alias'], PDO::PARAM_STR );
+	$sth->execute();	
 	
-	// $sthi = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_' . $data['catid'] . ' SET alias=:alias WHERE id =' . $data['id'] );
-	// $sthi->bindParam( ':alias', $data['alias'], PDO::PARAM_STR );
-	// $sthi->execute();
-// }
+	$sthi = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_' . $data['catid'] . ' SET alias=:alias WHERE id =' . $data['id'] );
+	$sthi->bindParam( ':alias', $data['alias'], PDO::PARAM_STR );
+	$sthi->execute();
+}

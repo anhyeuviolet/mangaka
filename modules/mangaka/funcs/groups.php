@@ -19,8 +19,6 @@ $array_mod_title[] = array(
 );
 
 $alias = isset( $array_op[1] ) ? trim( $array_op[1] ) : '';
-//List cat inside Genre
-//var_dump($array_op[1]);
 if( !empty( $alias ) )
 {
 	$page = ( isset( $array_op[2] ) and substr( $array_op[2], 0, 5 ) == 'page-' ) ? intval( substr( $array_op[2], 5 ) ) : 1;

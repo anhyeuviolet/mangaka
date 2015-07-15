@@ -1,5 +1,6 @@
 <!-- BEGIN: main -->
 <link rel="stylesheet" href="{NV_BASE_SITEURL}js/select2/select2.min.css">
+
 <script type="text/javascript" src="{NV_BASE_SITEURL}js/select2/select2.min.js"></script>
 <span class="show_cat"><button class="btn btn-info" onclick="nv_show_hidden('show_cat',2);" href="javascript:void(0);" id="show-comments">{LANG.showhidecat}</button></span>
 <button class="btn btn-warning" id="gotoedit">{LANG.addcat}</button><hr/>
@@ -96,11 +97,11 @@
 							<td>
 							<div class="message_body" style="overflow: auto">
 								<div class="group_list">
-                                <!-- BEGIN: loop -->
-								
-										<label><input class="group_list_id" type="checkbox" value="{BLOCKS.bid}" name="bids[]" {BLOCKS.checked}>{BLOCKS.title}</label>
-									
-                                <!-- END: loop -->
+									<select name="bids[]" id="bids" class="form-control" style="width: 100%" multiple="multiple">
+										<!-- BEGIN: loop -->
+										<option value="{BLOCKS.bid}" {BLOCKS.selected}>{BLOCKS.title}</option>
+										<!-- END: loop -->
+									</select>
 								</div>
 							</div>
 							</td>
@@ -168,7 +169,9 @@
 	$(document).ready(function() {
 		$("#parentid").select2();
 	});
-
+	$("#bids").select2({
+		placeholder: "{LANG.content_block}"
+	});
 	$("#titlelength").html($("#idtitle").val().length);
 	$("#idtitle").bind("keyup paste", function() {
 		$("#titlelength").html($(this).val().length);

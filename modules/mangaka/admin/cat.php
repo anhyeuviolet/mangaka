@@ -170,10 +170,9 @@ if( ! empty( $savecat ) )
 	if( $catid == 0 and $title != '' )
 	{
 		$viewcat = 'viewcat_list';
-		$subcatid = '';
 
-		$sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_cat ( title, titlesite, alias, description, descriptionhtml, image, image_type, progress, sort, viewcat, numsubcat, subcatid, inhome, allowed_rating, numlinks, newday, keywords, authors, translators, admins, add_time, edit_time, groups_view, allowed_comm, bid, last_update) VALUES
-			(:title, :titlesite, :alias, :description, :descriptionhtml, :image, :image_type, '" . $progress . "','0', :viewcat, '0', :subcatid, '" . $inhome . "', '" . $allowed_rating . "', '3', '2', :keywords, :authors, :translators, :admins, " . NV_CURRENTTIME . ", " . NV_CURRENTTIME . ", :groups_view, :allowed_comm, :bid, " . NV_CURRENTTIME . " )";
+		$sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_cat ( title, titlesite, alias, description, descriptionhtml, image, image_type, progress, viewcat, inhome, allowed_rating, keywords, authors, translators, admins, add_time, edit_time, groups_view, allowed_comm, bid, last_update) VALUES
+			(:title, :titlesite, :alias, :description, :descriptionhtml, :image, :image_type, '" . $progress . "', :viewcat, '" . $inhome . "', '" . $allowed_rating . "', :keywords, :authors, :translators, :admins, " . NV_CURRENTTIME . ", " . NV_CURRENTTIME . ", :groups_view, :allowed_comm, :bid, " . NV_CURRENTTIME . " )";
 
 		$data_insert = array();
 		$data_insert['title'] = $title;
@@ -184,7 +183,6 @@ if( ! empty( $savecat ) )
 		$data_insert['image'] = $image;
 		$data_insert['image_type'] = $image_type;
 		$data_insert['viewcat'] = $viewcat;
-		$data_insert['subcatid'] = $subcatid;
 		$data_insert['keywords'] = $keywords;
 		$data_insert['authors'] = $authors;
 		$data_insert['translators'] = $translators;
@@ -268,25 +266,6 @@ $array_cat_list = array();
 if( defined( 'NV_IS_ADMIN_MODULE' ) )
 {
 	$array_cat_list[0] = $lang_module['cat_sub_sl'];
-}
-foreach( $global_array_cat as $catid_i => $array_value )
-{
-	$lev_i = $array_value['lev'];
-	if( defined( 'NV_IS_ADMIN_MODULE' ) or ( isset( $array_cat_admin[$admin_id][$catid_i] ) and $array_cat_admin[$admin_id][$catid_i]['admin'] == 1 ) )
-	{
-		$xtitle_i = '';
-		if( $lev_i > 0 )
-		{
-			$xtitle_i .= '&nbsp;&nbsp;&nbsp;|';
-			for( $i = 1; $i <= $lev_i; ++$i )
-			{
-				$xtitle_i .= '---';
-			}
-			$xtitle_i .= '>&nbsp;';
-		}
-		$xtitle_i .= $array_value['title'];
-		$array_cat_list[$catid_i] = $xtitle_i;
-	}
 }
 
 if( ! empty( $array_cat_list ) )
@@ -380,7 +359,7 @@ if( sizeof( $array_block_cat_module ) )
 {
 	foreach( $array_block_cat_module as $bid_i => $bid_title )
 	{
-		$xtpl->assign( 'BLOCKS', array( 'title' => $bid_title, 'bid' => $bid_i, 'checked' =>  in_array( $bid_i, $block_id ) ? 'checked="checked"' : '' ) );
+		$xtpl->assign( 'BLOCKS', array( 'title' => $bid_title, 'bid' => $bid_i, 'selected' =>  in_array( $bid_i, $block_id ) ? 'selected="selected"' : '' ) );
 		$xtpl->parse( 'main.content.block_cat.loop' );
 	}
 	$xtpl->parse( 'main.content.block_cat' );

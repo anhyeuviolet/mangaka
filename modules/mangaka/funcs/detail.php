@@ -40,7 +40,6 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 					$db->query( $query );
 				}
 			}
-			$news_contents['showhometext'] = $module_config[$module_name]['showhometext'];
 			if( ! empty( $news_contents['homeimgfile'] ) )
 			{
 				$src = $alt = $note = '';
