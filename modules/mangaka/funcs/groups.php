@@ -11,9 +11,12 @@
 if( ! defined( 'NV_IS_MOD_NEWS' ) ) die( 'Stop!!!' );
 
 $show_no_image = $module_config[$module_name]['show_no_image'];
-if (!empty($show_no_image)){
+if (!empty($show_no_image))
+{
 	$show_no_image = $show_no_image;
-} else {
+} 
+else 
+{
 	$show_no_image = '/themes/default/images/'.$module_name.'/no_cover.jpg';
 }
 $array_mod_title[] = array(
@@ -28,11 +31,11 @@ if( !empty( $alias ) )
 {
 	$page = ( isset( $array_op[2] ) and substr( $array_op[2], 0, 5 ) == 'page-' ) ? intval( substr( $array_op[2], 5 ) ) : 1;
 
-	$sth = $db->prepare( 'SELECT bid, title, alias, image, description, keywords FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block_cat WHERE alias= :alias' );
+	$sth = $db->prepare( 'SELECT bid, numbers, title, alias, image, description, keywords FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block_cat WHERE alias= :alias' );
 	$sth->bindParam( ':alias', $alias, PDO::PARAM_STR );
 	$sth->execute();
 
-	list( $bid, $page_title, $alias, $group_image, $description, $key_words ) = $sth->fetch( 3 );
+	list( $bid, $per_page, $page_title, $alias, $group_image, $description, $key_words ) = $sth->fetch( 3 );
 	$page_title = $lang_module['genre'].' '. $page_title;
 	if( $bid > 0 )
 	{
@@ -54,12 +57,11 @@ if( !empty( $alias ) )
 			'title' => $page_title,
 			'link' => $base_url
 		);
-
+		// Total result 
 		$db->sqlreset()
 			->select( 'COUNT(*)' )
 			->from( NV_PREFIXLANG . '_' . $module_data . '_block' )
 			->where( 'bid = ' . $bid );
-
 		$num_items = $db->query( $db->sql() )->fetchColumn();
 	
 		$db->sqlreset()
@@ -78,6 +80,10 @@ if( !empty( $alias ) )
 		$pre_letter = '';
 		while( $item = $result->fetch() )
 		{
+			$db->sqlreset()
+				->select( 'COUNT(*)' )
+				->from( NV_PREFIXLANG . '_' . $module_data . '_'. $item['catid'] );
+			$item['total_chap'] = $db->query( $db->sql() )->fetchColumn();
 			// Ky tu dau cho moi chu cai
 			$item['f_letter'] = substr($item['alias'], 0, 1);
 			if($pre_letter !== $item['f_letter']) 
@@ -114,7 +120,6 @@ if( !empty( $alias ) )
 		}
 		$result->closeCursor();
 		unset( $result, $row );
-
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 
 		// Genre thumb image

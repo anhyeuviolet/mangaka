@@ -458,15 +458,6 @@ function nv_show_block_cat_list_new()
 			) );
 			$xtpl->assign( 'STT', $a );
 			$xtpl->parse( 'main.loop.stt' );
-			for( $i = 1; $i <= $num; ++$i )
-			{
-				$xtpl->assign( 'WEIGHT', array(
-					'key' => $i,
-					'title' => $i,
-					'selected' => $i == $row['weight'] ? ' selected="selected"' : ''
-				) );
-				$xtpl->parse( 'main.loop.weight' );
-			}
 
 			foreach( $array_adddefault as $key => $val )
 			{

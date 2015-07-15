@@ -56,7 +56,7 @@ foreach( $list as $l )
 }
 unset( $sql, $list );
 $global_array_block = array();
-$sql = 'SELECT bid, title, alias FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block_cat ORDER BY weight ASC';
+$sql = 'SELECT bid, title, alias FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block_cat ORDER BY alias ASC';
 $list = nv_db_cache( $sql, 'bid', $module_name );
 foreach( $list as $l )
 {

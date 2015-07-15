@@ -29,6 +29,11 @@
 			<p>
 				<em class="fa fa-clock-o">&nbsp;</em><em>{TIME} {DATE}</em>
 			</p>
+			<!-- BEGIN: total_chap -->
+			<p>
+				<em class="fa fa-clock-o">&nbsp;</em><em>{GROUP.total_chap}</em>
+			</p>
+			<!-- END: total_chap -->
 			<p class="text-justify">
 				{GROUP.hometext}
 			</p>

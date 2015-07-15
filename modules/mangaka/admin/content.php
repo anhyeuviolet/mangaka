@@ -634,11 +634,9 @@ foreach( $global_array_cat as $catid_i => $array_value )
 	}
 	if( ! empty( $check_show ) )
 	{
-		$space = intval( $array_value['lev'] ) * 30;
 		$catiddisplay = ( sizeof( $array_catid_in_row ) > 1 and ( in_array( $catid_i, $array_catid_in_row ) ) ) ? '' : ' display: none;';
 		$temp = array(
 			'catid' => $catid_i,
-			'space' => $space,
 			'title' => $array_value['title'],
 			'disabled' => ( ! in_array( $catid_i, $array_cat_check_content ) ) ? ' disabled="disabled"' : '',
 			'selected' => ( in_array( $catid_i, $array_catid_in_row ) ) ? ' selected="selected"' : '',

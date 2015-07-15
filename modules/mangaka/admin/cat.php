@@ -197,7 +197,7 @@ if( ! empty( $savecat ) )
 			// Them moi bid khi them moi Cat
 			foreach( $_block_id_post as $gb_id_add )
 			{
-				$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_block (bid, catid, weight) VALUES (' . $gb_id_add . ', ' . $newcatid . ', 0)' );
+				$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_block (bid, catid) VALUES (' . $gb_id_add . ', ' . $newcatid . ')' );
 			}
 			nv_copy_structure_table( NV_PREFIXLANG . '_' . $module_data . '_' . $newcatid , NV_PREFIXLANG . '_' . $module_data . '_rows' );
 			//nv_fix_cat_order();
@@ -242,7 +242,7 @@ if( ! empty( $savecat ) )
 			$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block WHERE catid = ' . $catid );
 			foreach( $_block_id_post as $gb_id_add )
 			{
-				$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_block (bid, catid, weight) VALUES (' . $gb_id_add . ', ' . $catid . ', 0)' );
+				$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_block (bid, catid) VALUES (' . $gb_id_add . ', ' . $catid . ')' );
 			}
 			nv_del_moduleCache( $module_name );
 			Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op );

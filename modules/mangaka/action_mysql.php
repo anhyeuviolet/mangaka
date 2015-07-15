@@ -116,7 +116,6 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 alias varchar(255) NOT NULL DEFAULT '',
 	 image varchar(255) DEFAULT '',
 	 description varchar(255) DEFAULT '',
-	 weight smallint(5) NOT NULL DEFAULT '0',
 	 keywords text,
 	 add_time int(11) NOT NULL DEFAULT '0',
 	 edit_time int(11) NOT NULL DEFAULT '0',
@@ -129,10 +128,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	bid mediumint(8) unsigned NOT NULL,
 	catid mediumint(8) unsigned NOT NULL,
 	id int(11) unsigned NOT NULL,
-	weight int(11) unsigned NOT NULL,
 	UNIQUE KEY bid (bid,catid)
 	) ENGINE=MyISAM";
-	
 
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows (
 	 id int(11) unsigned NOT NULL auto_increment,
@@ -210,9 +207,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 app_content tinyint(4) NOT NULL default '0',
 	 UNIQUE KEY userid (userid,catid)
 	) ENGINE=MyISAM";
-	
 
-	
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'indexfile', 'viewcat_full_home')";
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'per_page', '20')";
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'homewidth', '400')";
@@ -245,12 +240,12 @@ $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module,
 $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $module_name . "', 'captcha', '1')";
 
 // Them the loai vao DB
-$sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_block_cat (bid, adddefault, numbers, title, alias, image, description, weight, keywords, add_time, edit_time) VALUES
-(1, 20, 0, 'Shounen', 'shounen', '', '', 1, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
-(2, 20, 0, 'Ecchi', 'ecchi', '', '', 2, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
-(3, 20, 0, 'Adventure', 'adventure', '', '', 3, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
-(4, 20, 0, 'Drama', 'drama', '', '', 4, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
-(5, 20, 0, 'Horror', 'Horror', '', '', 5, '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."')";
+$sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_block_cat (bid, adddefault, numbers, title, alias, image, description, keywords, add_time, edit_time) VALUES
+(1, 0, 20, 'Shounen', 'shounen', '', '', '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
+(2, 0, 20, 'Ecchi', 'ecchi', '', '', '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
+(3, 0, 20, 'Adventure', 'adventure', '', '', '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
+(4, 0, 20, 'Drama', 'drama', '', '', '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
+(5, 0, 20, 'Horror', 'Horror', '', '', '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."')";
 
 //Mau leech Chapter Blogtruyen.Com, ComicVn, TruyenTranhTuan
 $sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_get_chap (

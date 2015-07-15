@@ -549,7 +549,6 @@ function group_theme( $group_array, $generate_page, $page_title, $description, $
 	$xtpl = new XTemplate( 'groups.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
 	$xtpl->assign( 'GROUP_TITLE', $page_title );
-	//$xtpl->assign( 'IMGWIDTH1', $module_config[$module_name]['homewidth'] );
 	if( ! empty( $page_title ) )
 	{
 		$xtpl->assign( 'GROUP_DESCRIPTION', $description );
@@ -576,6 +575,10 @@ function group_theme( $group_array, $generate_page, $page_title, $description, $
 			{
 				$xtpl->assign( 'F_LETTER', strtoupper($group_array_i['letter']  ));
 				$xtpl->parse( 'main.group.letter' );
+			}
+			if(  !empty($group_array_i['total_chap'] ) )
+			{
+				$xtpl->parse( 'main.group.total_chap' );
 			}
 			$xtpl->parse( 'main.group' );
 		}
