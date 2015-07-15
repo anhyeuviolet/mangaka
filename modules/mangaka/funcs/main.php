@@ -38,8 +38,12 @@ if( empty( $contents ) )
 {
 	$viewcat = $module_config[$module_name]['indexfile'];
 	$show_no_image = $module_config[$module_name]['show_no_image'];
+	if (!empty($show_no_image)){
+		$show_no_image = $show_no_image;
+	} else {
+		$show_no_image = '/themes/default/images/'.$module_name.'/no_cover.jpg';
+	}
 	$array_catpage = array();
-	$array_cat_other = array();
 
 	if(  $viewcat == 'viewcat_none' )
 	{
@@ -59,11 +63,11 @@ if( empty( $contents ) )
 		{
 			if( $item['image_type'] == 1 ) //image thumb
 			{
-				$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/' . $item['image'];
+				$item['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_name . '/cover/' . $item['image'];
 			}
 			elseif( $item['image_type'] == 2 ) //image file
 			{
-				$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/' . $item['image'];
+				$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/cover/' . $item['image'];
 			}
 			elseif( $item['image_type'] == 3 ) //image url
 			{
@@ -127,11 +131,11 @@ if( empty( $contents ) )
 		{
 			if( $item['image'] == 1 ) //image thumb
 			{
-				$item['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_name . '/' . $item['homeimgfile'];
+				$item['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_name . '/cover/' . $item['homeimgfile'];
 			}
 			elseif( $item['image'] == 2 ) //image file
 			{
-				$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/' . $item['homeimgfile'];
+				$item['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/cover/' . $item['homeimgfile'];
 			}
 			elseif( $item['image'] == 3 ) //image url
 			{
@@ -145,7 +149,6 @@ if( empty( $contents ) )
 			{
 				$item['imghome'] = '';
 			}
-
 			$item['link'] = $global_array_cat[$catid]['link'];
 			
 			$bid = $global_array_cat[$item['catid']]['bid'];
@@ -162,12 +165,10 @@ if( empty( $contents ) )
 					
 				}
 			}
-
 			$array_catpage[] = $item;
 		}
 		unset($array_cat);
-					
-		$viewcat = 'viewcat_list_home';
+
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 		$contents = viewcat_list_home( $array_catpage, $generate_page );
 	}

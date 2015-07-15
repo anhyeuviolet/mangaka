@@ -1,37 +1,35 @@
 <!-- BEGIN: main -->
-<!-- BEGIN: topicdescription -->
+<!-- BEGIN: groupdescription -->
 <div class="news_column">
 	<div class="alert alert-info clearfix">
-		<h3>{TOPIC_TITLE}</h3> {TOPIC_NUM}
+		<h3>{GROUP_TITLE}</h3>
 		<!-- BEGIN: image -->
-		<img alt="{TOPIC_TITLE}" src="{HOMEIMG1}" width="{IMGWIDTH1}" class="img-thumbnail pull-left imghome" />
+		<img alt="{GROUP_TITLE}" src="{HOMEIMG1}" width="{IMGWIDTH1}" class="img-thumbnail pull-left imghome" />
 		<!-- END: image -->
-		<p class="text-justify">{TOPIC_DESCRIPTION}</p>
+		<p class="text-justify">{GROUP_DESCRIPTION}</p>
 	</div>
 </div>
-<!-- END: topicdescription -->
+<!-- END: groupdescription -->
 
-<!-- BEGIN: topic -->
+<!-- BEGIN: group -->
 <div class="news_column panel panel-default">
 	<div class="panel-body">
-		<!-- BEGIN: hide_homethumb -->
-		<a href="{TOPIC.link}" title="{TOPIC.title}"><img alt="{TOPIC.alt}" src="{TOPIC.src}" width="{TOPIC.width}" class="img-thumbnail pull-left imghome" /></a>
-		<!-- END: hide_homethumb -->
+		<a href="{GROUP.link}" title="{GROUP.title}"><img alt="{GROUP.alt}" src="{GROUP.src}" width="{GROUP.width}" class="img-thumbnail pull-left imghome" /></a>
 		<!-- BEGIN: letter -->
 		{F_LETTER}
 		<!-- END: letter -->
-		<h3><a href="{TOPIC.link}" title="{TOPIC.title}">{TOPIC.title}</a></h3>
+		<h3><a href="{GROUP.link}" title="{GROUP.title}">{GROUP.title}</a></h3>
 		<!-- BEGIN: time -->
 		<p>
 			<em class="fa fa-clock-o">&nbsp;</em><em>{TIME} {DATE}</em>
 		</p>
 		<!-- END: time -->
 		<p class="text-justify">
-			{TOPIC.hometext}
+			{GROUP.hometext}
 		</p>
 	</div>
 </div>
-<!-- END: topic -->
+<!-- END: group -->
 <!-- BEGIN: generate_page -->
 <div class="text-center">
 	{GENERATE_PAGE}

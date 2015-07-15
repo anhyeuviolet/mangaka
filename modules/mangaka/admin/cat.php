@@ -138,9 +138,9 @@ if( ! empty( $savecat ) )
 	$image_type = 0;
 	if( ! nv_is_url( $image ) and is_file( NV_DOCUMENT_ROOT . $image ) )
 	{
-		$lu = strlen( NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/' );
+		$lu = strlen( NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/cover/' );
 		$image = substr( $image, $lu );
-		if( file_exists( NV_ROOTDIR . '/' . NV_FILES_DIR . '/' . $module_name . '/' . $image ) )
+		if( file_exists( NV_ROOTDIR . '/' . NV_FILES_DIR . '/' . $module_name . '/cover/' . $image ) )
 		{
 			$image_type = 1;
 		}
@@ -304,10 +304,10 @@ $xtpl->assign( 'translators', $translators );
 $xtpl->assign( 'description', nv_htmlspecialchars( nv_br2nl( $description ) ) );
 
 $xtpl->assign( 'CAT_LIST', nv_show_cat_list_new() );
-$xtpl->assign( 'UPLOAD_CURRENT', NV_UPLOADS_DIR . '/' . $module_name . '/' );
-if( ! empty( $image ) and file_exists( NV_UPLOADS_REAL_DIR . '/' . $module_name . '/' . $image ) )
+$xtpl->assign( 'UPLOAD_CURRENT', NV_UPLOADS_DIR . '/' . $module_name . '/cover/' );
+if( ! empty( $image ) and file_exists( NV_UPLOADS_REAL_DIR . '/' . $module_name . '/cover/' . $image ) )
 {
-	$image = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/' . $image;
+	$image = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/cover/' . $image;
 }
 $xtpl->assign( 'image', $image );
 
@@ -386,7 +386,7 @@ if( ! empty( $array_cat_list ) )
 	$descriptionhtml = nv_htmlspecialchars( nv_editor_br2nl( $descriptionhtml ) );
 	if( defined( 'NV_EDITOR' ) and nv_function_exists( 'nv_aleditor' ) )
 	{
-		$_uploads_dir = NV_UPLOADS_DIR . '/' . $module_name;
+		$_uploads_dir = NV_UPLOADS_DIR . '/' . $module_name.'/cover/';
 		$descriptionhtml = nv_aleditor( 'descriptionhtml', '100%', '200px', $descriptionhtml, 'Basic', $_uploads_dir, $_uploads_dir );
 	}
 	else

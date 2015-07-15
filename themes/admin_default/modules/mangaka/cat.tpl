@@ -150,9 +150,8 @@
 							<!-- END: content_note_comm -->
 						</td>
 					</tr>
-					
 					<tr>
-						<th class="text-right">{LANG.content_bodytext}: </th>
+						<th class="text-right">{LANG.description_html}: </th>
 						<td>{DESCRIPTIONHTML}</td>
 					</tr>
 				</tbody>
@@ -164,7 +163,6 @@
 		</div>
 	</form>
 </div>
-
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#parentid").select2();
@@ -195,7 +193,6 @@
 		return false;
 	});
 </script>
-
 <!-- BEGIN: getalias -->
 <script type="text/javascript">
 	$("#idtitle").change(function() {

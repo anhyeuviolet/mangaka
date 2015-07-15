@@ -10,16 +10,16 @@
 if( ! defined( 'NV_ADMIN' ) or ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
 $module_version = array(
-	'name' => 'Mangaka', // Tieu de module
-	'modfuncs' => 'main,viewcat,groups,detail,rss,suggest', // Cac function co block
+	'name' => 'Mangaka', 
+	'modfuncs' => 'main,viewcat,groups,detail,rss,suggest', 
 	'change_alias' => 'groups,viewcat,rss',
 	'submenu' => 'content,rss,search',
-	'is_sysmod' => 0, // 1:0 => Co phai la module he thong hay khong
-	'virtual' => 1, // 1:0 => Co cho phep ao hao module hay khong
-	'version' => '1.0.00', // Phien ban cua modle
-	'date' => 'Wed, 20 May 2015 00:00:00 GMT', // Ngay phat hanh phien ban
-	'author' => 'KENNYNGUYEN (nguyentiendat713@gmail)', // Tac gia
-	'note' => '', // Ghi chu
-	'uploads_dir' => array( $module_name, $module_name . '/chapter', $module_name . '/temp_pic', $module_name . '/cover' ),
+	'is_sysmod' => 0, 
+	'virtual' => 1, 
+	'version' => '1.1.02', 
+	'date' => 'Wed, 20 May 2015 00:00:00 GMT', 
+	'author' => 'KENNYNGUYEN (nguyentiendat713@gmail)', 
+	'note' => '', 
+	'uploads_dir' => array( $module_name, $module_name . '/temp_pic', $module_name . '/cover',$module_name . '/genre' ),
 	'files_dir' => array( $module_name . '/cover' )
 );

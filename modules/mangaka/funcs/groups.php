@@ -1,24 +1,29 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @authors VINADES.,JSC (contact@vinades.vn)
+ * @Project MANGA ON NUKEVIET 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
  * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
  * @License GNU/GPL version 2 or any later version
- * @Createdate 3-6-2010 0:14
+ * @Createdate 15/07/2015 10:51
  */
 
 if( ! defined( 'NV_IS_MOD_NEWS' ) ) die( 'Stop!!!' );
 
 $show_no_image = $module_config[$module_name]['show_no_image'];
-
+if (!empty($show_no_image)){
+	$show_no_image = $show_no_image;
+} else {
+	$show_no_image = '/themes/default/images/'.$module_name.'/no_cover.jpg';
+}
 $array_mod_title[] = array(
-	'catid' => 0,
-	'title' => $module_info['funcs'][$op]['func_custom_name'],
-	'link' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['groups']
+'catid' => 0,
+'title' => $lang_module['genre'],
+'link' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['groups']
 );
 
 $alias = isset( $array_op[1] ) ? trim( $array_op[1] ) : '';
+//List cat inside Genre
 if( !empty( $alias ) )
 {
 	$page = ( isset( $array_op[2] ) and substr( $array_op[2], 0, 5 ) == 'page-' ) ? intval( substr( $array_op[2], 5 ) ) : 1;
@@ -27,7 +32,7 @@ if( !empty( $alias ) )
 	$sth->bindParam( ':alias', $alias, PDO::PARAM_STR );
 	$sth->execute();
 
-	list( $bid, $page_title, $alias, $topic_image, $description, $key_words ) = $sth->fetch( 3 );
+	list( $bid, $page_title, $alias, $group_image, $description, $key_words ) = $sth->fetch( 3 );
 
 	if( $bid > 0 )
 	{
@@ -66,7 +71,7 @@ if( !empty( $alias ) )
 			->limit( $per_page )
 			->offset( ( $page - 1 ) * $per_page );
 
-		$topic_array = array();
+		$group_array = array();
 		$end_last_update = 0;
 
 		$result = $db->query( $db->sql() );
@@ -85,9 +90,9 @@ if( !empty( $alias ) )
 			{
 				$item['src'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_name . '/' . $item['image'];
 			}
-			elseif( ! empty( $item['image'] ) )//image file
+			elseif( ! empty( $item['image'] ) )//image URL
 			{
-				$item['src'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/' . $item['image'];
+				$item['src'] = $item['image'];
 			}
 			elseif( ! empty( $show_no_image ) )//no image
 			{
@@ -103,19 +108,18 @@ if( !empty( $alias ) )
 			$end_last_update = $item['last_update'];
 
 			$item['link'] = $global_array_cat[$item['catid']]['link'];
-			$topic_array[] = $item;
+			$group_array[] = $item;
 		}
 		$result->closeCursor();
 		unset( $result, $row );
 
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 
-		if( ! empty( $topic_image ) )
+		if( ! empty( $group_image ) )
 		{
-			$topic_image = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_name . '/' . $topic_image;
+			$group_image = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_name . '/genre/' . $group_image;
 		}
-
-		$contents = topic_theme( $topic_array, $generate_page, $page_title, $description, $topic_image, $num_items);
+		$contents = group_theme( $group_array, $generate_page, $page_title, $description, $group_image);
 	}
 	else
 	{
@@ -125,7 +129,7 @@ if( !empty( $alias ) )
 }
 else // List all genre
 {
-	$page_title = $module_info['custom_title'];
+	$page_title = $lang_module['list'].' '.strtolower($lang_module['genre']);
 	$key_words = $module_info['keywords'];
 	
 	$pre_letter = '';
@@ -154,16 +158,17 @@ else // List all genre
 		{
 			$item['src'] = '';
 		}
-		$item['alt'] = ! empty( $item['homeimgalt'] ) ? $item['homeimgalt'] : $item['title'];
+		$item['alt'] = $item['title'];
 		$item['width'] = $module_config[$module_name]['homewidth'];
 
 		$item['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['groups'] . '/' . $item['alias'];
-		$topic_array[] = $item;
+		$group_array[] = $item;
 	}
 	$result->closeCursor();
 	unset( $result, $row );
-
-	$contents = topic_theme( $topic_array, '', $page_title, $description, '', '');
+	
+	$generate_page = $group_image = '';
+	$contents = group_theme( $group_array, $generate_page, $page_title, $description, $group_image );
 }
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme( $contents );

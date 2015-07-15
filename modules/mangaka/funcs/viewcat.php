@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
+ * @Project MANGA ON NUKEVIET 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
  * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
  * @License GNU/GPL version 2 or any later version
- * @Createdate 3-6-2010 0:14
+ * @Createdate 15/07/2015 10:51
  */
 
 if( ! defined( 'NV_IS_MOD_NEWS' ) ) die( 'Stop!!!' );
@@ -49,6 +49,11 @@ if( empty( $contents ) )
 	$viewcat_img = array();
 	$base_url = $global_array_cat[$catid]['link'];
 	$show_no_image = $module_config[$module_name]['show_no_image'];
+	if (!empty($show_no_image)){
+		$show_no_image = $show_no_image;
+	} else {
+		$show_no_image = '/themes/default/images/'.$module_name.'/no_cover.jpg';
+	}
 
 	if( $viewcat == 'viewcat_list' ) // Xem theo danh sach
 	{
@@ -111,30 +116,27 @@ if( empty( $contents ) )
 		}
 		
 		// Image of Category
-		$global_array_cat[$catid]['imghome'] = '';
-		if( $global_array_cat[$catid]['image'] )
+		if( $global_array_cat[$catid]['image_type'] == 1 ) //image thumb
 		{
-			if( $global_array_cat[$catid]['image_type'] == 1 ) //image thumb
-			{
-				$global_array_cat[$catid]['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_name . '/' . $global_array_cat[$catid]['image'];
-			}
-			elseif( $global_array_cat[$catid]['image_type'] == 2 ) //image file
-			{
-				$global_array_cat[$catid]['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/' . $global_array_cat[$catid]['image'];
-			}
-			elseif( $global_array_cat[$catid]['image_type'] == 3 ) //image url
-			{
-				$global_array_cat[$catid]['imghome'] = $global_array_cat[$catid]['image'];
-			}
-			elseif( ! empty( $show_no_image ) ) //no image
-			{
-				$global_array_cat[$catid]['imghome'] = NV_BASE_SITEURL . $show_no_image;
-			}
-			else
-			{
-				$global_array_cat[$catid]['imghome'] = '';
-			}
+			$global_array_cat[$catid]['imghome'] = NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_name . '/cover/' . $global_array_cat[$catid]['image'];
 		}
+		elseif( $global_array_cat[$catid]['image_type'] == 2 ) //image file
+		{
+			$global_array_cat[$catid]['imghome'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/cover/' . $global_array_cat[$catid]['image'];
+		}
+		elseif( $global_array_cat[$catid]['image_type'] == 3 ) //image url
+		{
+			$global_array_cat[$catid]['imghome'] = $global_array_cat[$catid]['image'];
+		}
+		elseif( ! empty( $show_no_image ) ) //no image
+		{
+			$global_array_cat[$catid]['imghome'] = NV_BASE_SITEURL . $show_no_image;
+		}
+		else
+		{
+			$global_array_cat[$catid]['imghome'] = '';
+		}
+		
 		$viewcat_img = $global_array_cat[$catid]['imghome'];
 
 		//Rating
@@ -161,7 +163,6 @@ if( empty( $contents ) )
 				'verygood' => $lang_module['star_verygood']
 			);
 		}
-		//$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 		$contents = viewcat_list( $array_catpage, $array_cat_block, $catid, $page,'', $viewcat_img, $viewcat_rating, $content_comment);
 	}
 	if( ! defined( 'NV_IS_MODADMIN' ) and $contents != '' and $cache_file != '' )

@@ -5,7 +5,7 @@
  * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
  * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
  * @License GNU/GPL version 2 or any later version
- * @Createdate 12/31/2009 0:51
+ * @Createdate 15/07/2015 10:51
  */
 
 if( ! defined( 'NV_IS_MOD_NEWS' ) ) die( 'Stop!!!' );
@@ -219,12 +219,7 @@ function viewcat_full_home( $array_catpage, $generate_page )
 			$xtpl->assign( 'TRANSLATOR',$array_row_i['translators'] );
 		}
 		$xtpl->parse( 'main.viewcatloop.translators' );
-		
-		if( !empty($array_row_i['imghome'] ))
-		{
-			$xtpl->assign( 'HOMEIMG1', $array_row_i['imghome'] );
-			$xtpl->parse( 'main.viewcatloop.img' );
-		}
+	
 		$array_row_i['last_chap_update'] = "Update ".$lang_module['chapter']." ".$array_row_i['last_chapter'];
 		if(!empty($array_row_i['last_update']))
 		{
@@ -242,9 +237,9 @@ function viewcat_full_home( $array_catpage, $generate_page )
 			foreach( $array_row_i['bid'] as $bid )
 			{
 				$xtpl->assign( 'BID', $bid );
-				$xtpl->parse( 'main.viewcatloop.block.loop' );
+				$xtpl->parse( 'main.viewcatloop.block_loop' );
 			}
-			$xtpl->parse( 'main.viewcatloop.block' );
+			$xtpl->parse( 'main.viewcatloop.block_icon' );
 		}
 		$xtpl->assign( 'CONTENT', $array_row_i );
 		$xtpl->set_autoreset();
@@ -536,43 +531,42 @@ function no_permission()
 	return $xtpl->text( 'no_permission' );
 }
 // Group (Genre cua danh muc)
-function topic_theme( $topic_array, $generate_page, $page_title, $description, $topic_image, $num_items )
+function group_theme( $group_array, $generate_page, $page_title, $description, $group_image )
 {
-	global $lang_module, $module_info, $module_name, $module_file, $topicalias, $module_config;
+	global $lang_module, $module_info, $module_name, $module_file, $module_config;
 
 	$xtpl = new XTemplate( 'groups.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
-	$xtpl->assign( 'TOPIC_TITLE', $page_title );
-	$xtpl->assign( 'TOPIC_NUM', $num_items );
+	$xtpl->assign( 'GROUP_TITLE', $page_title );
 	$xtpl->assign( 'IMGWIDTH1', $module_config[$module_name]['homewidth'] );
 	if( ! empty( $page_title ) )
 	{
-		$xtpl->assign( 'TOPIC_DESCRIPTION', $description );
-		if(!empty($topic_image))
+		$xtpl->assign( 'GROUP_DESCRIPTION', $description );
+		if(!empty($group_image))
 		{
-			$xtpl->assign( 'HOMEIMG1', $topic_image );
-			$xtpl->parse( 'main.topicdescription.image' );
+			$xtpl->assign( 'HOMEIMG1', $group_image );
+			$xtpl->parse( 'main.groupdescription.image' );
 		}
-		$xtpl->parse( 'main.topicdescription' );
+		$xtpl->parse( 'main.groupdescription' );
 	}
-	if( ! empty( $topic_array ) )
+	if( ! empty( $group_array ) )
 	{
-		foreach( $topic_array as $topic_array_i )
+		foreach( $group_array as $group_array_i )
 		{
-			$xtpl->assign( 'TOPIC', $topic_array_i );
+			$xtpl->assign( 'GROUP', $group_array_i );
 			
-			$xtpl->assign( 'TIME', date( 'H:i', $topic_array_i['add_time'] ) );
-			$xtpl->assign( 'DATE', date( 'd/m/Y', $topic_array_i['add_time'] ) );
-			$xtpl->assign( 'F_LETTER', strtoupper($topic_array_i['letter']  ));
-			if( ! empty( $topic_array_i['src'] ) )
+			$xtpl->assign( 'TIME', date( 'H:i', $group_array_i['add_time'] ) );
+			$xtpl->assign( 'DATE', date( 'd/m/Y', $group_array_i['add_time'] ) );
+			$xtpl->assign( 'F_LETTER', strtoupper($group_array_i['letter']  ));
+			if( ! empty( $group_array_i['src'] ) )
 			{
-				$xtpl->parse( 'main.topic.homethumb' );
+				$xtpl->parse( 'main.group.homethumb' );
 			}
-			if( ! empty( $topic_array_i['letter'] ) )
+			if( ! empty( $group_array_i['letter'] ) )
 			{
-				$xtpl->parse( 'main.topic.letter' );
+				$xtpl->parse( 'main.group.letter' );
 			}
-			$xtpl->parse( 'main.topic' );
+			$xtpl->parse( 'main.group' );
 		}
 	}
 
@@ -585,5 +579,3 @@ function topic_theme( $topic_array, $generate_page, $page_title, $description, $
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );
 }
-
-
