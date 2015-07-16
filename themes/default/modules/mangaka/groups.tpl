@@ -26,12 +26,14 @@
 		</div>
 		<h3><a href="{GROUP.link}" title="{GROUP.title}">{GROUP.title}</a></h3>
 		<div class="col-md-16">
+			<!-- BEGIN: time -->
 			<p>
-				<em class="fa fa-clock-o">&nbsp;</em><em>{TIME} {DATE}</em>
+				<em class="fa fa-clock-o">&nbsp;</em><em>{LANG.last_update}</em> : {TIME} - {DATE}
 			</p>
+			<!-- END: time -->
 			<!-- BEGIN: total_chap -->
 			<p>
-				<em class="fa fa-clock-o">&nbsp;</em><em>{GROUP.total_chap}</em>
+				<em class="fa fa-file">&nbsp;</em><em>{LANG.total_chapter}</em> : {GROUP.total_chap}
 			</p>
 			<!-- END: total_chap -->
 			<p class="text-justify">

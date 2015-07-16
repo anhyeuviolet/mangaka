@@ -140,11 +140,6 @@ function viewcat_list( $array_catpage, $array_cat_block, $catid, $page, $generat
 		$xtpl->parse( 'main.generate_page' );
 	}
 
-	// if( $module_config[$module_name]['showtooltip'] )
-	// {
-		// $xtpl->assign( 'TOOLTIP_POSITION', $module_config[$module_name]['tooltip_position'] );
-		// $xtpl->parse( 'main.tooltip' );
-	// }
 	//Comment system
 	if( ! defined( 'FACEBOOK_JSSDK' ) )
 	{
@@ -329,73 +324,6 @@ function viewcat_list_home( $array_catpage, $generate_page )
 	$xtpl->parse( 'main' );
 	return $xtpl->text( 'main' );
 }
-//
-function viewcat_top( $array_catcontent, $generate_page )
-{
-	global $module_name, $module_file, $lang_module, $module_config, $module_info, $global_array_cat, $catid, $page;
-
-	$xtpl = new XTemplate( 'viewcat_top.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
-	$xtpl->assign( 'LANG', $lang_module );
-	$xtpl->assign( 'IMGWIDTH0', $module_config[$module_name]['homewidth'] );
-	if( ($global_array_cat[$catid]['viewdescription'] and $page == 1) OR $global_array_cat[$catid]['viewdescription'] == 2 )
-	{
-		$xtpl->assign( 'CONTENT', $global_array_cat[$catid] );
-		if( $global_array_cat[$catid]['image'] )
-		{
-			$xtpl->assign( 'HOMEIMG1', NV_BASE_SITEURL . NV_FILES_DIR . '/' . $module_name . '/' . $global_array_cat[$catid]['image'] );
-			$xtpl->parse( 'main.viewdescription.image' );
-		}
-		$xtpl->parse( 'main.viewdescription' );
-	}
-	// Cac bai viet phan dau
-	if( ! empty( $array_catcontent ) )
-	{
-		foreach( $array_catcontent as $key => $array_catcontent_i )
-		{
-			$newday = $array_catcontent_i['publtime'] + ( 86400 * $array_catcontent_i['newday'] );
-			$array_catcontent_i['publtime'] = nv_date( 'd/m/Y h:i:s A', $array_catcontent_i['publtime'] );
-			$xtpl->assign( 'CONTENT', $array_catcontent_i );
-
-			if( $key == 0 )
-			{
-				if( $array_catcontent_i['imghome'] != '' )
-				{
-					$xtpl->assign( 'HOMEIMG0', $array_catcontent_i['imghome'] );
-					$xtpl->assign( 'HOMEIMGALT0', $array_catcontent_i['homeimgalt'] );
-					$xtpl->parse( 'main.catcontent.image' );
-				}
-
-				if( defined( 'NV_IS_MODADMIN' ) )
-				{
-					$xtpl->assign( 'ADMINLINK', nv_link_edit_page( $array_catcontent_i['id'] ) . " " . nv_link_delete_page( $array_catcontent_i['id'] ) );
-					$xtpl->parse( 'main.catcontent.adminlink' );
-				}
-				if ( $newday >= NV_CURRENTTIME )
-				{
-					$xtpl->parse( 'main.catcontent.newday' );
-				}
-				$xtpl->parse( 'main.catcontent' );
-			}
-			else
-			{
-				if ( $newday >= NV_CURRENTTIME )
-				{
-					$xtpl->parse( 'main.catcontentloop.newday' );
-				}
-				$xtpl->parse( 'main.catcontentloop' );
-			}
-		}
-	}
-	// Het cac bai viet phan dau
-	if( ! empty( $generate_page ) )
-	{
-		$xtpl->assign( 'GENERATE_PAGE', $generate_page );
-		$xtpl->parse( 'main.generate_page' );
-	}
-
-	$xtpl->parse( 'main' );
-	return $xtpl->text( 'main' );
-}
 // Bai viet chi tiet
 function detail_theme( $news_contents, $next_chapter, $previous_chapter, $list_chaps)
 {
@@ -564,9 +492,12 @@ function group_theme( $group_array, $generate_page, $page_title, $description, $
 		foreach( $group_array as $group_array_i )
 		{
 			$xtpl->assign( 'GROUP', $group_array_i );
-			
-			$xtpl->assign( 'TIME', date( 'H:i', $group_array_i['add_time'] ) );
-			$xtpl->assign( 'DATE', date( 'd/m/Y', $group_array_i['add_time'] ) );
+			if (!empty($group_array_i['last_update']))
+			{
+				$xtpl->assign( 'TIME', date( 'H:i', $group_array_i['last_update'] ) );
+				$xtpl->assign( 'DATE', date( 'd/m/Y', $group_array_i['last_update'] ) );
+				$xtpl->parse( 'main.group.time' );
+			}
 			if( ! empty( $group_array_i['src'] ) )
 			{
 				$xtpl->parse( 'main.group.homethumb' );

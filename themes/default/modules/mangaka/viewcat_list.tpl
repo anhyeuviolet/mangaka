@@ -62,7 +62,7 @@
 				<td>
 					<div class="col-lg-16 col-md-16 col-xs-24">
 						<!-- BEGIN: authors -->
-						{LANG.authors} :{AUTHOR}
+						{LANG.authors} : {AUTHOR}
 						<!-- END: authors -->
 					</div>
 					<div class="col-lg-8 col-md-8 col-xs-24 pull-right">
@@ -77,7 +77,7 @@
 					<div class="col-lg-16 col-md-16 col-xs-24">
 					{LANG.genre} :
 						<!-- BEGIN: genre -->
-						<a title="{GENRE.title}" href="{GENRE.link}" class="label label-success">{GENRE.title}</a>
+						<a title="{GENRE.title}" href="{GENRE.link}" class="label label-success genre">{GENRE.title}</a>
 						<!-- END: genre -->
 					</div>
 					<div class="col-lg-8 col-md-8 col-xs-24 pull-right">

@@ -81,9 +81,14 @@ if( !empty( $alias ) )
 		while( $item = $result->fetch() )
 		{
 			$db->sqlreset()
-				->select( 'COUNT(*)' )
+				->select( 'COUNT(*) as total_chapter, max(chapter) as last_chapter' )
 				->from( NV_PREFIXLANG . '_' . $module_data . '_'. $item['catid'] );
-			$item['total_chap'] = $db->query( $db->sql() )->fetchColumn();
+			$_m = $db->query( $db->sql() )->fetchAll( 3 );
+			foreach ($_m as $_m_i)
+			{
+				list( $item['total_chap'],$item['last_chapter'] ) = $_m_i;
+			}
+			unset( $_m );
 			// Ky tu dau cho moi chu cai
 			$item['f_letter'] = substr($item['alias'], 0, 1);
 			if($pre_letter !== $item['f_letter']) 
@@ -154,7 +159,7 @@ else // List all genre
 	$key_words = $module_info['keywords'];
 	
 	$pre_letter = '';
-	$result = $db->query( 'SELECT bid as id, title, alias, image, description as hometext, keywords, add_time FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block_cat ORDER BY alias ASC');
+	$result = $db->query( 'SELECT bid as id, title, alias, image, description as hometext, keywords FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block_cat ORDER BY alias ASC');
 	while( $item = $result->fetch() )
 	{
 		// Chuc nang tao ky tu dau tien cho Genre - tam thoi vo hieu hoa

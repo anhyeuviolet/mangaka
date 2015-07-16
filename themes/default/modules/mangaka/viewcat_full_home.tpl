@@ -28,7 +28,7 @@
 			<i class="fa fa-tags"></i>
 			<!-- END: block_icon -->
 			<!-- BEGIN: block_loop -->
-				<a title="{BID.title}" href="{BID.link}" class="label label-success">{BID.title}</a>
+				<a title="{BID.title}" href="{BID.link}" class="label label-success genre">{BID.title}</a>
 			<!-- END: block_loop -->
 			</div>
 			<div class="col-lg-8 col-md-8 col-xs-24">
