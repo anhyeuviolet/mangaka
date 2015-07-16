@@ -253,5 +253,5 @@ id, title, url_host, url_html_pattern, url_pattern, img_structure, chapno_struct
 ) VALUES
 (1, 'Blogtruyen', 'http://blogtruyen.com', 'div[class=list-wrap]', '.title a', 'article[id=content]', 'h1', '', '', '', '', '', '', '',  '". NV_CURRENTTIME ."',  '". NV_CURRENTTIME ."'),
 (2, 'ComicVn', 'http://comicvn.net', 'table.listchapter', 'a', 'textarea[id=txtarea]', 'option[selected=selected]', '', '', '', '', '', '', '',  '". NV_CURRENTTIME ."',  '". NV_CURRENTTIME ."'),
-(3, 'TruyenTranhTuan.Com', '', 'div #manga-chapter', 'a', 'null', 'div #read-title p', 'var slides_page_url_path = \\[(.*?)\\]', '&quot;', ',', '&quot;', '1', '', '',  '". NV_CURRENTTIME ."',  '". NV_CURRENTTIME ."')";
+(3, 'TruyenTranhTuan.Com', '', 'div #manga-chapter', 'a', 'null', 'div #read-title p', 'var slides_page_url_path = \\\[(.*?)\\\]', '&quot;', ',', '&quot;', '1', '', '',  '". NV_CURRENTTIME ."',  '". NV_CURRENTTIME ."')";
 

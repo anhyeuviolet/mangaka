@@ -152,6 +152,51 @@
 		<br />
 	</div>
 </form>
+
+<form class="bs-example form-horizontal" method="POST" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}">
+<input type="hidden" name="leech" value="1" />
+<input type="hidden" name="checkss" value="{CHECKSS}" />
+<fieldset>
+  <legend>Bước 2: Leech nội dung từng tập</legend>
+	<div class="form-group">
+		<label class="col-lg-2 control-label">{LANG.select_structure}:</label>
+		<div class="col-lg-20">
+		  <select class="form-control" name="form_chap" id="form_chap" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')">
+			<option value="">----- {LANG.select_structure} ----- </option>
+		  <!-- BEGIN: getlist_loop_chap-->
+			<option value="{GETLIST.id}">{GETLIST.title}</option>
+		  <!-- END: getlist_loop_chap-->
+		  </select>
+		</div>
+	</div>	
+	<div class="form-group">
+		<label class="col-lg-2 control-label">{LANG.select_method} :</label>
+		<div class="col-lg-20">
+			<input type="radio" name="method" value="1" checked>{LANG.dom}<br>
+			<input type="radio" name="method" value="2">{LANG.preg_match} </input>
+		</div>
+	</div>	
+  <div class="form-group">
+	<label class="col-lg-2 control-label">URL truyện</label>
+	<div class="col-lg-20">
+	  <input class="form-control" rows="5" name="url_chap" placeholder="Dán những tập mà bạn muốn grab vào đây, có dạng : http://"></input>
+	  Dán URL tập mà bạn muốn grab vào đây.
+	</div>
+  </div>
+  <div class="clearfix form-group">
+	<div class="col-lg-20 col-lg-offset-4"> 
+	  <button type="submit" class="btn btn-primary">{LANG.submit}</button> 
+	</div>
+  </div>
+   <!-- BEGIN: getchap_result-->
+    Kết quả:
+		 <div class="well">
+			{URL_FULL}
+		</div>
+	<!-- END: getchap_result-->  
+</fieldset>
+</form>
+
 <div id="message"></div>
 <script type="text/javascript">
 //<![CDATA[

@@ -519,3 +519,49 @@ function nv_fix_content_alias( $id )
 	$sthi->bindParam( ':alias', $data['alias'], PDO::PARAM_STR );
 	$sthi->execute();
 }
+function nv_singlechap_content( $form, $url_chap, $method )
+{
+	global $db, $module_data, $module_name;
+	include NV_ROOTDIR . '/modules/' . $module_name . '/dom.php';
+
+	$sql='SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_get_chap WHERE id=' . intval($form); 
+	$result = $db->query( $sql );			
+	$data = $result->fetch();
+
+	$chapter = preg_replace('/ /', '%20', $url_chap);
+	$html = file_get_html($chapter);
+
+	$img_full = NULL;
+	if($method == 1)
+	{
+		foreach($html->find($data['img_structure']) as $element)
+		{
+			$img = $element->find('img');
+			foreach($img as $element) 
+			$img_full = $img_full.$element->src;
+		}
+	// Dung preg_replace 
+	}else if($method == 2)
+	{
+		preg_match_all('/'.$data['preg_img_structure'].'/is',$html,$preg);
+		if (!empty($data['numget_img'])){
+			$img_full = $preg[$data['numget_img']];
+		} else{
+			$img_full = $preg;
+		}
+		
+		$img_full = array_shift($img_full);
+		// Xoa cac doi tuong duoc cau hinh
+		if (!empty($data['replace_1'])){
+			$img_full =  preg_replace('/'.htmlspecialchars_decode($data['replace_1']).'/','',$img_full);
+		} 
+		if (!empty($data['replace_2'])){
+			$img_full = preg_replace('/'.htmlspecialchars_decode($data['replace_2']).'/','',$img_full);
+		} 
+		if (!empty($data['replace_3'])){
+			$img_full = preg_replace('/'.htmlspecialchars_decode($data['replace_3']).'/','',$img_full);
+		} 
+	}
+	//var_dump($data);die;
+	return $img_full;
+}

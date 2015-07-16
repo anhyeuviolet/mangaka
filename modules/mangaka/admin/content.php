@@ -733,6 +733,33 @@ if( empty( $rowcontent['alias'] ) )
 $xtpl->assign( 'UPLOADS_DIR_USER', $uploads_dir_user );
 $xtpl->assign( 'UPLOAD_CURRENT', $currentpath );
 
+// List of Get Chap Config
+$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_get_chap ORDER BY title ASC';
+$result = $db->query( $sql );
+while( list($str_id, $str_title) = $result->fetch( 3 ) )
+{
+	$get_list['id'] = $str_id;
+	$get_list['title'] = $str_title;
+	if(!empty($get_list))
+	{
+		$xtpl->assign( 'GETLIST', $get_list );
+	}
+	$xtpl->parse( 'main.getlist_loop_chap' );
+}
+unset($sql);
+if( $nv_Request->get_int( 'leech', 'post' ) == 1 )
+{
+	$form = $nv_Request->get_int( 'form_chap', 'post' );
+	$method = $nv_Request->get_int( 'method', 'post' );
+	$url_chap = $nv_Request->get_string( 'url_chap', 'post' );
+	$_url_result = nv_singlechap_content( $form, $url_chap, $method );
+	if(!empty($_url_result))
+	{
+		$xtpl->assign( 'URL_FULL', $_url_result );
+		$xtpl->parse( 'main.getchap_result' );
+	}
+}
+
 $xtpl->parse( 'main' );
 $contents .= $xtpl->text( 'main' );
 
