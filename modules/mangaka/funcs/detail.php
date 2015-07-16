@@ -196,6 +196,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	{
 		foreach ($array_block as $ls)
 		{
+			$ls['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$ls['catid']]['alias'] . '/' . $ls['alias'] . '-' . $ls['id'] . $global_config['rewrite_exturl'];
 			$list_chaps[]=$ls;
 		}
 	}

@@ -64,9 +64,9 @@
 			<!-- END: pre -->
 			</div>
 			<div class="col-md-8">
-			<select class="form form-control">
+			<select class="form form-control" onchange="window.location.href=$(this).val()">
 			<!-- BEGIN: list_chap -->
-			<option {LIST_CHAP.selected}> {LANG.chapter} {LIST_CHAP.chapter}</option>
+			<option value="{LIST_CHAP.link}" {LIST_CHAP.selected}> {LANG.chapter} {LIST_CHAP.chapter}</option>
 			<!-- END: list_chap -->
 			</select>
 			</div>
