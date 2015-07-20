@@ -19,7 +19,6 @@ if( defined( 'NV_EDITOR' ) )
 
 $error = $admins = '';
 $savecat = 0;
-
 list( $catid, $title, $titlesite, $alias, $description, $descriptionhtml, $keywords, $authors, $translators, $groups_view, $block_id, $image, $image_type, $progress, $inhome, $allowed_rating ) = array( 0, '', '', '', '', '', '', '', '', '6','', '','', '', 1,1 );
 
 $groups_list = nv_groups_list();
@@ -55,12 +54,10 @@ if( $catid > 0 and isset( $global_array_cat[$catid] ) )
 	}
 
 	$caption = $lang_module['edit_cat'];
-	//$array_in_cat = GetCatidInParent( $catid );
 }
 else
 {
 	$caption = $lang_module['add_cat'];
-	//$array_in_cat = array();
 }
 
 $array_block_cat_module = array();
@@ -166,91 +163,97 @@ if( ! empty( $savecat ) )
 			die();
 		}
 	}
-
-	if( $catid == 0 and $title != '' )
+	if( empty( $error ) )
 	{
-		$viewcat = 'viewcat_list';
+		if( $catid == 0 and $title != '' )
+		{
+			$viewcat = 'viewcat_list';
 
-		$sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_cat ( title, titlesite, alias, description, descriptionhtml, image, image_type, progress, viewcat, inhome, allowed_rating, keywords, authors, translators, admins, add_time, edit_time, groups_view, allowed_comm, bid, last_update) VALUES
-			(:title, :titlesite, :alias, :description, :descriptionhtml, :image, :image_type, '" . $progress . "', :viewcat, '" . $inhome . "', '" . $allowed_rating . "', :keywords, :authors, :translators, :admins, " . NV_CURRENTTIME . ", " . NV_CURRENTTIME . ", :groups_view, :allowed_comm, :bid, " . NV_CURRENTTIME . " )";
+			$sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_cat ( title, titlesite, alias, description, descriptionhtml, image, image_type, progress, viewcat, inhome, allowed_rating, keywords, authors, translators, admins, add_time, edit_time, groups_view, allowed_comm, bid, last_update) VALUES
+				(:title, :titlesite, :alias, :description, :descriptionhtml, :image, :image_type, '" . $progress . "', :viewcat, '" . $inhome . "', '" . $allowed_rating . "', :keywords, :authors, :translators, :admins, " . NV_CURRENTTIME . ", " . NV_CURRENTTIME . ", :groups_view, :allowed_comm, :bid, " . NV_CURRENTTIME . " )";
 
-		$data_insert = array();
-		$data_insert['title'] = $title;
-		$data_insert['titlesite'] = $titlesite;
-		$data_insert['alias'] = $alias;
-		$data_insert['description'] = $description;
-		$data_insert['descriptionhtml'] = $descriptionhtml;
-		$data_insert['image'] = $image;
-		$data_insert['image_type'] = $image_type;
-		$data_insert['viewcat'] = $viewcat;
-		$data_insert['keywords'] = $keywords;
-		$data_insert['authors'] = $authors;
-		$data_insert['translators'] = $translators;
-		$data_insert['admins'] = $admins;
-		$data_insert['groups_view'] = $groups_view;
-		$data_insert['allowed_comm'] = $allowed_comm;
-		$data_insert['bid'] = $block_id;
-		$newcatid = $db->insert_id( $sql, 'catid', $data_insert );
-		if( $newcatid > 0 )
-		{
-			require_once NV_ROOTDIR . '/includes/action_' . $db->dbtype . '.php';
-			// Them moi bid khi them moi Cat
-			foreach( $_block_id_post as $gb_id_add )
+			$data_insert = array();
+			$data_insert['title'] = $title;
+			$data_insert['titlesite'] = $titlesite;
+			$data_insert['alias'] = $alias;
+			$data_insert['description'] = $description;
+			$data_insert['descriptionhtml'] = $descriptionhtml;
+			$data_insert['image'] = $image;
+			$data_insert['image_type'] = $image_type;
+			$data_insert['viewcat'] = $viewcat;
+			$data_insert['keywords'] = $keywords;
+			$data_insert['authors'] = $authors;
+			$data_insert['translators'] = $translators;
+			$data_insert['admins'] = $admins;
+			$data_insert['groups_view'] = $groups_view;
+			$data_insert['allowed_comm'] = $allowed_comm;
+			$data_insert['bid'] = $block_id;
+			$newcatid = $db->insert_id( $sql, 'catid', $data_insert );
+			if( $newcatid > 0 )
 			{
-				$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_block (bid, catid) VALUES (' . $gb_id_add . ', ' . $newcatid . ')' );
+				require_once NV_ROOTDIR . '/includes/action_' . $db->dbtype . '.php';
+				// Them moi bid khi them moi Cat
+				foreach( $_block_id_post as $gb_id_add )
+				{
+					$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_block (bid, catid) VALUES (' . $gb_id_add . ', ' . $newcatid . ')' );
+				}
+				nv_copy_structure_table( NV_PREFIXLANG . '_' . $module_data . '_' . $newcatid , NV_PREFIXLANG . '_' . $module_data . '_rows' );
+				//nv_fix_cat_order();
+				if( ! defined( 'NV_IS_ADMIN_MODULE' ) )
+				{
+					$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_admins (userid, catid, admin, add_content, pub_content, edit_content, del_content) VALUES (' . $admin_id . ', ' . $newcatid . ', 1, 1, 1, 1, 1)' );
+				}
+				nv_del_moduleCache( $module_name );
+				nv_insert_logs( NV_LANG_DATA, $module_name, $lang_module['add_cat'], $title, $admin_info['userid'] );
 			}
-			nv_copy_structure_table( NV_PREFIXLANG . '_' . $module_data . '_' . $newcatid , NV_PREFIXLANG . '_' . $module_data . '_rows' );
-			//nv_fix_cat_order();
-			if( ! defined( 'NV_IS_ADMIN_MODULE' ) )
+			else
 			{
-				$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_admins (userid, catid, admin, add_content, pub_content, edit_content, del_content) VALUES (' . $admin_id . ', ' . $newcatid . ', 1, 1, 1, 1, 1)' );
+				$error = $lang_module['errorsave'];
 			}
-			nv_del_moduleCache( $module_name );
-			nv_insert_logs( NV_LANG_DATA, $module_name, $lang_module['add_cat'], $title, $admin_info['userid'] );
-			Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op );
-			die();
 		}
-		else
+		elseif( $catid > 0 and $title != '' )
 		{
-			$error = $lang_module['errorsave'];
-		}
-	}
-	elseif( $catid > 0 and $title != '' )
-	{
-		$stmt = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET title= :title, titlesite=:titlesite, alias = :alias, description = :description, descriptionhtml = :descriptionhtml, image= :image, image_type= :image_type, progress= :progress, inhome= :inhome, allowed_rating= :allowed_rating, keywords= :keywords, authors= :authors, translators= :translators, groups_view= :groups_view, allowed_comm= :allowed_comm, bid= :bid, edit_time=' . NV_CURRENTTIME . ' WHERE catid =' . $catid );
-		$stmt->bindParam( ':title', $title, PDO::PARAM_STR );
-		$stmt->bindParam( ':titlesite', $titlesite, PDO::PARAM_STR );
-		$stmt->bindParam( ':alias', $alias, PDO::PARAM_STR );
-		$stmt->bindParam( ':image', $image, PDO::PARAM_STR );
-		$stmt->bindParam( ':image_type', $image_type, PDO::PARAM_STR );
-		$stmt->bindParam( ':progress', $progress, PDO::PARAM_STR );
-		$stmt->bindParam( ':inhome', $inhome, PDO::PARAM_STR );
-		$stmt->bindParam( ':allowed_rating', $allowed_rating, PDO::PARAM_STR );
-		$stmt->bindParam( ':keywords', $keywords, PDO::PARAM_STR );
-		$stmt->bindParam( ':authors', $authors, PDO::PARAM_STR );
-		$stmt->bindParam( ':translators', $translators, PDO::PARAM_STR );
-		$stmt->bindParam( ':description', $description, PDO::PARAM_STR, strlen( $description ) );
-		$stmt->bindParam( ':descriptionhtml', $descriptionhtml, PDO::PARAM_STR, strlen( $descriptionhtml ) );
-		$stmt->bindParam( ':groups_view', $groups_view, PDO::PARAM_STR );
-		$stmt->bindParam( ':allowed_comm', $allowed_comm, PDO::PARAM_STR );
-		$stmt->bindParam( ':bid', $block_id, PDO::PARAM_STR );
-		$stmt->execute();
+			$stmt = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET title= :title, titlesite=:titlesite, alias = :alias, description = :description, descriptionhtml = :descriptionhtml, image= :image, image_type= :image_type, progress= :progress, inhome= :inhome, allowed_rating= :allowed_rating, keywords= :keywords, authors= :authors, translators= :translators, groups_view= :groups_view, allowed_comm= :allowed_comm, bid= :bid, edit_time=' . NV_CURRENTTIME . ' WHERE catid =' . $catid );
+			$stmt->bindParam( ':title', $title, PDO::PARAM_STR );
+			$stmt->bindParam( ':titlesite', $titlesite, PDO::PARAM_STR );
+			$stmt->bindParam( ':alias', $alias, PDO::PARAM_STR );
+			$stmt->bindParam( ':image', $image, PDO::PARAM_STR );
+			$stmt->bindParam( ':image_type', $image_type, PDO::PARAM_STR );
+			$stmt->bindParam( ':progress', $progress, PDO::PARAM_STR );
+			$stmt->bindParam( ':inhome', $inhome, PDO::PARAM_STR );
+			$stmt->bindParam( ':allowed_rating', $allowed_rating, PDO::PARAM_STR );
+			$stmt->bindParam( ':keywords', $keywords, PDO::PARAM_STR );
+			$stmt->bindParam( ':authors', $authors, PDO::PARAM_STR );
+			$stmt->bindParam( ':translators', $translators, PDO::PARAM_STR );
+			$stmt->bindParam( ':description', $description, PDO::PARAM_STR, strlen( $description ) );
+			$stmt->bindParam( ':descriptionhtml', $descriptionhtml, PDO::PARAM_STR, strlen( $descriptionhtml ) );
+			$stmt->bindParam( ':groups_view', $groups_view, PDO::PARAM_STR );
+			$stmt->bindParam( ':allowed_comm', $allowed_comm, PDO::PARAM_STR );
+			$stmt->bindParam( ':bid', $block_id, PDO::PARAM_STR );
+			$stmt->execute();
 
-		if( $stmt->rowCount() )
-		{
-			//Xoa bid cua cat tuong ung va chen vao bid moi
-			$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block WHERE catid = ' . $catid );
-			foreach( $_block_id_post as $gb_id_add )
+			if( $stmt->rowCount() )
 			{
-				$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_block (bid, catid) VALUES (' . $gb_id_add . ', ' . $catid . ')' );
+				//Xoa bid cua cat tuong ung va chen vao bid moi
+				$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block WHERE catid = ' . $catid );
+				foreach( $_block_id_post as $gb_id_add )
+				{
+					$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_block (bid, catid) VALUES (' . $gb_id_add . ', ' . $catid . ')' );
+				}
+				nv_del_moduleCache( $module_name );
 			}
-			nv_del_moduleCache( $module_name );
-			Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op );
-			die();
+			else
+			{
+				$error = $lang_module['errorsave'];
+			}
 		}
-		else
+		nv_set_status_module();
+		if( empty( $error ) )
 		{
-			$error = $lang_module['errorsave'];
+			$url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&op=cat_manage';
+			$msg1 = $lang_module['content_saveok'];
+			$msg2 = $lang_module['back']. ' ' .$lang_module['categories_list'];
+			redirect( $msg1, $msg2, $url, '' );
 		}
 	}
 	else
@@ -292,6 +295,7 @@ $xtpl->assign( 'NV_BASE_ADMINURL', NV_BASE_ADMINURL );
 $xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
 $xtpl->assign( 'MODULE_NAME', $module_name );
 $xtpl->assign( 'OP', $op );
+$xtpl->assign( 'TO_CAT_LIST',  NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=cat_manage' );
 
 $xtpl->assign( 'caption', $caption );
 $xtpl->assign( 'catid', $catid );
@@ -303,7 +307,6 @@ $xtpl->assign( 'authors', $authors );
 $xtpl->assign( 'translators', $translators );
 $xtpl->assign( 'description', nv_htmlspecialchars( nv_br2nl( $description ) ) );
 
-$xtpl->assign( 'CAT_LIST', nv_show_cat_list_new() );
 $xtpl->assign( 'UPLOAD_CURRENT', NV_UPLOADS_DIR . '/' . $module_name . '/cover/' );
 if( ! empty( $image ) and file_exists( NV_UPLOADS_REAL_DIR . '/' . $module_name . '/cover/' . $image ) )
 {
@@ -394,10 +397,8 @@ if( ! empty( $array_cat_list ) )
 		$descriptionhtml = "<textarea style=\"width: 100%\" name=\"descriptionhtml\" id=\"descriptionhtml\" cols=\"20\" rows=\"15\">" . $descriptionhtml . "</textarea>";
 	}
 	$xtpl->assign( 'DESCRIPTIONHTML', $descriptionhtml );
-	if( defined( 'NV_IS_ADMIN_MODULE' ) or ( isset( $array_cat_admin[$admin_id][$catid] ) and $array_cat_admin[$admin_id][$catid]['add_content'] == 1 ) )
-	{
+	
 		$xtpl->parse( 'main.content' );
-	}
 
 }
 $xtpl->parse( 'main' );

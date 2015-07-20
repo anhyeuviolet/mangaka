@@ -3,10 +3,10 @@
 /**
  * @Project MANGA ON NUKEVIET 4.x
  * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
  * @License GNU/GPL version 2 or any later version
- * @Createdate 05/07/2010 09:47
+ * @Createdate 05/07/2015 09:47
  */
+
 
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
 
@@ -73,11 +73,10 @@ if( defined( 'NV_IS_ADMIN_FULL_MODULE' ) )
 	$orders = array(
 		'userid',
 		'username',
-		'first_name',
-		'last_name',
+		'full_name',
 		'email' );
 
-	$orderby = $nv_Request->get_string( 'sortby', 'get', 'userid' );
+	$orderby = $nv_Request->get_string( 'sortby', 'get', 'userid' );//die($orderby);
 	$ordertype = $nv_Request->get_string( 'sorttype', 'get', 'DESC' );
 	if( $ordertype != "ASC" ) $ordertype = "DESC";
 
@@ -113,7 +112,7 @@ if( defined( 'NV_IS_ADMIN_FULL_MODULE' ) )
 			$array_del_content =  $nv_Request->get_typed_array( 'del_content', 'post', 'int', array() );
             $array_app_content =  $nv_Request->get_typed_array( 'app_content', 'post', 'int', array() );
 
-			$sql = "SELECT catid, title, subcatid FROM " . NV_PREFIXLANG . "_" . $module_data . "_cat ORDER BY sort ASC";
+			$sql = "SELECT catid, title, subcatid FROM " . NV_PREFIXLANG . "_" . $module_data . "_cat ORDER BY alias ASC";
 			$result_cat = $db->query( $sql );
 			while( $row = $result_cat->fetch() )
 			{
@@ -163,7 +162,8 @@ if( defined( 'NV_IS_ADMIN_FULL_MODULE' ) )
 		$sql = "SELECT * FROM " . NV_USERS_GLOBALTABLE . " where userid IN (" . $module_info['admins'] . ")";
 		if( ! empty( $orderby ) and in_array( $orderby, $orders ) )
 		{
-			$sql .= " ORDER BY " . $orderby . " " . $ordertype;
+			$orderby_sql = $orderby != 'full_name' ? $orderby : ($global_config['name_show'] == 0 ? "concat(first_name,' ',last_name)" : "concat(last_name,' ',first_name)");
+			$sql .= " ORDER BY " . $orderby_sql . " " . $ordertype;
 			$base_url .= "&amp;sortby=" . $orderby . "&amp;sorttype=" . $ordertype;
 		}
 		$result = $db->query( $sql );
@@ -181,8 +181,7 @@ if( defined( 'NV_IS_ADMIN_FULL_MODULE' ) )
 			$users_list[$row['userid']] = array(
 				'userid' => $userid_i,
 				'username' => ( string )$row['username'],
-				'first_name' => ( string )$row['first_name'],
-				'last_name' => ( string )$row['last_name'],
+				'full_name' =>  nv_show_name_user( $row['first_name'], $row['last_name'], $row['username'] ),
 				'email' => ( string )$row['email'],
 				'admin_module_cat' => $admin_module_cat,
 				'is_edit' => $is_edit );
@@ -196,10 +195,8 @@ if( defined( 'NV_IS_ADMIN_FULL_MODULE' ) )
 		$head_tds['userid']['href'] = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "&amp;sortby=userid&amp;sorttype=ASC";
 		$head_tds['username']['title'] = $lang_module['admin_username'];
 		$head_tds['username']['href'] = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "&amp;sortby=username&amp;sorttype=ASC";
-		$head_tds['first_name']['title'] = $lang_module['admin_first_name'];
-		$head_tds['first_name']['href'] = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "&amp;sortby=first_name&amp;sorttype=ASC";
-		$head_tds['last_name']['title'] = $lang_module['admin_last_name'];
-		$head_tds['last_name']['href'] = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "&amp;sortby=last_name&amp;sorttype=ASC";
+		$head_tds['full_name']['title'] = $global_config['name_show'] == 0 ? $lang_module['lastname_firstname'] : $lang_module['firstname_lastname'];
+		$head_tds['full_name']['href'] = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "&amp;sortby=full_name&amp;sorttype=ASC";
 		$head_tds['email']['title'] = $lang_module['admin_email'];
 		$head_tds['email']['href'] = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $op . "&amp;sortby=email&amp;sorttype=ASC";
 
@@ -264,7 +261,7 @@ if( defined( 'NV_IS_ADMIN_FULL_MODULE' ) )
 				}
 
 
-				$sql = "SELECT catid, title, lev FROM " . NV_PREFIXLANG . "_" . $module_data . "_cat ORDER BY sort ASC";
+				$sql = "SELECT catid, title FROM " . NV_PREFIXLANG . "_" . $module_data . "_cat ORDER BY alias ASC";
 				if( $db->query( $sql )->fetchColumn() == 0 )
 				{
 
@@ -277,17 +274,9 @@ if( defined( 'NV_IS_ADMIN_FULL_MODULE' ) )
 
 				while( $row = $result_cat->fetch( ))
 				{
-					$xtitle_i = "";
-					if( $row['lev'] > 0 )
-					{
-						for( $i = 1; $i <= $row['lev']; $i++ )
-						{
-							$xtitle_i .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-						}
-					}
 					$u = array();
 					$u['catid'] = $row['catid'];
-					$u['title'] = $xtitle_i . $row['title'];
+					$u['title'] = $row['title'];
 					$u['checked_admin'] = ( isset( $array_cat_admin[$userid][$row['catid']] ) and $array_cat_admin[$userid][$row['catid']]['admin'] == 1 ) ? " checked=\"checked\"" : "";
 					$u['checked_add_content'] = ( isset( $array_cat_admin[$userid][$row['catid']] ) and $array_cat_admin[$userid][$row['catid']]['add_content'] == 1 ) ? " checked=\"checked\"" : "";
 					$u['checked_pub_content'] = ( isset( $array_cat_admin[$userid][$row['catid']] ) and $array_cat_admin[$userid][$row['catid']]['pub_content'] == 1 ) ? " checked=\"checked\"" : "";
@@ -313,7 +302,7 @@ elseif( defined( 'NV_IS_ADMIN_MODULE' ) )
 }
 else
 {
-	$sql = "SELECT catid, title, lev FROM " . NV_PREFIXLANG . "_" . $module_data . "_cat ORDER BY sort ASC";
+	$sql = "SELECT catid, title FROM " . NV_PREFIXLANG . "_" . $module_data . "_cat ORDER BY alias ASC";
 
 	if( $db->query( $sql )->fetchColumn() == 0 )
 	{
@@ -356,17 +345,8 @@ else
 			}
 			if( $check_show )
 			{
-
-				$xtitle_i = "";
-				if( $row['lev'] > 0 )
-				{
-					for( $i = 1; $i <= $row['lev']; $i++ )
-					{
-						$xtitle_i .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-					}
-				}
 				$u['catid'] = $row['catid'];
-				$u['title'] = $xtitle_i . $row['title'];
+				$u['title'] = $row['title'];
 				$u['checked_admin'] = ( isset( $array_cat_admin[$admin_id][$row['catid']] ) and $array_cat_admin[$admin_id][$row['catid']]['admin'] == 1 ) ? "X" : "";
 				$u['checked_add_content'] = ( isset( $array_cat_admin[$admin_id][$row['catid']] ) and $array_cat_admin[$admin_id][$row['catid']]['add_content'] == 1 ) ? "X" : "";
 				$u['checked_pub_content'] = ( isset( $array_cat_admin[$admin_id][$row['catid']] ) and $array_cat_admin[$admin_id][$row['catid']]['pub_content'] == 1 ) ? "X" : "";

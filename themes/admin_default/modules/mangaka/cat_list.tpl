@@ -1,10 +1,5 @@
 <!-- BEGIN: main -->
 <div id="show_cat">
-	<!-- BEGIN: cat_title -->
-	<div style="background:#eee;padding:10px">
-		{CAT_TITLE}
-	</div>
-	<!-- END: cat_title -->
 	<!-- BEGIN: data -->
 	<div class="table-responsive">
 		<table class="table table-striped table-bordered table-hover">
@@ -16,6 +11,7 @@
 					<th class="text-center">{LANG.stt} </th>
 					<th class="text-center">{LANG.name}</th>
 					<th class="text-center">{LANG.inhome}</th>
+					<th class="text-center">{LANG.content_allowed_rating}</th>
 					<th class="text-center">{LANG.add_time}</th>
 					<th class="text-center">{LANG.last_update}</th>
 					<th>&nbsp;</th>
@@ -29,16 +25,35 @@
 					{STT}
 					<!-- END: stt -->
 					</td>
-					<td><strong><a href="{ROW.link}" target="_blank">{ROW.title}</a></strong>
-					<!-- BEGIN: numsubcat -->
-					<span class="red">({NUMSUBCAT})</span>
-					<!-- END: numsubcat -->
-					</a></td>
-					<td class="text-center">
-					<!-- BEGIN: inhome -->
-						{INHOME}
-					<!-- END: inhome -->
+					<td>
+						<strong><a href="{ROW.link}" target="_blank">{ROW.title}</a></strong>
 					</td>
+
+				<td class="text-center">
+				<!-- BEGIN: disabled_inhome -->
+				{INHOME}
+				<!-- END: disabled_inhome -->
+				<!-- BEGIN: inhome -->
+				<select class="form-control" id="id_inhome_{ROW.catid}" onchange="nv_chang_cat('{ROW.catid}','inhome');">
+					<!-- BEGIN: loop -->
+					<option value="{INHOME.key}"{INHOME.selected}>{INHOME.title}</option>
+					<!-- END: loop -->
+				</select>
+				<!-- END: inhome -->
+				</td>
+				
+				<td class="text-center">
+				<!-- BEGIN: disabled_rating -->
+				{RATING}
+				<!-- END: disabled_rating -->
+				<!-- BEGIN: rating -->
+				<select class="form-control" id="id_rating_{ROW.catid}" onchange="nv_chang_cat('{ROW.catid}','rating');">
+					<!-- BEGIN: loop -->
+					<option value="{RATING.key}"{RATING.selected}>{RATING.title}</option>
+					<!-- END: loop -->
+				</select>
+				<!-- END: rating -->
+				</td>
 					<td class="text-center">{ROW.add_time}</td>
 					<td class="text-center">{ROW.last_update}</td>
 					<td class="text-center">{ROW.adminfuncs}</td>

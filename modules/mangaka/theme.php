@@ -92,7 +92,6 @@ function viewcat_list( $array_cat_block, $catid, $viewcat_img, $viewcat_rating, 
 		{
 			$xtpl->parse( 'main.viewdescription.allowed_rating.data_rating' );
 		}
-
 		$xtpl->parse( 'main.viewdescription.allowed_rating' );
 	}
 	
@@ -316,11 +315,13 @@ function detail_theme( $news_contents, $next_chapter, $previous_chapter, $list_c
 	{
 		$xtpl->assign( 'NEXT', $next_chapter );
 		$xtpl->parse( 'main.next' );
+		$xtpl->parse( 'main.next_top' );
 	}
 	if (!empty($previous_chapter))
 	{
 		$xtpl->assign( 'PREV', $previous_chapter );
 		$xtpl->parse( 'main.pre' );
+		$xtpl->parse( 'main.pre_top' );
 	}
 
 	if (!empty($list_chaps))
@@ -330,6 +331,7 @@ function detail_theme( $news_contents, $next_chapter, $previous_chapter, $list_c
 			$list_chap['selected']=( $news_contents['id'] == $list_chap['id']?"selected":'' );
 			$xtpl->assign( 'LIST_CHAP', $list_chap );
 			$xtpl->parse( 'main.list_chap' );
+			$xtpl->parse( 'main.list_chap_top' );
 		}
 	}
 	
@@ -363,7 +365,6 @@ function detail_theme( $news_contents, $next_chapter, $previous_chapter, $list_c
 		{
 			$xtpl->parse( 'main.author.name' );
 		}
-
 		$xtpl->parse( 'main.author' );
 	}
 	
@@ -395,15 +396,18 @@ function detail_theme( $news_contents, $next_chapter, $previous_chapter, $list_c
 		$xtpl->assign( 'FACEBOOK_LANG', $lang );
 		$xtpl->assign( 'FACEBOOK_APPID', $facebookappid );
 		
-		if( ! empty( $facebookappid ) && ! empty( $facebookcomment ) ) // Neu co ca FB ID va cho phep comment FB
+		if ( (! empty( $facebookappid ) && ! empty( $facebookcomment )) or ($module_config[$module_name]['socialbutton']) ) // Neu co ca FB ID va cho phep comment FB
 		{
 			$meta_property['fb:app_id'] = $facebookappid; // MetaData cho FB ID
 			$xtpl->parse( 'main.facebookjssdk' ); // Xuat SDK dung FB ID
-			$xtpl->parse( 'main.fb_comment' ); // Xuat Comment cua ID tuong ung
+			$xtpl->parse( 'main.fb_comment' );
+			$xtpl->parse( 'main.fb_comment_tab' ); // Xuat Comment cua ID tuong ung
 		} 
-		else if(! empty( $facebookcomment )){   // Neu KHONG co FB ID va Cho phep comment FB
+		elseif( (!empty( $facebookcomment)) or ($module_config[$module_name]['socialbutton']) ) // Neu KHONG co FB ID va Cho phep comment FB
+		{   
 			$xtpl->parse( 'main.facebook_pubsdk' ); // Xuat SDK Public Facebook
-			$xtpl->parse( 'main.fb_comment' ); // Xuat FB Comment
+			$xtpl->parse( 'main.fb_comment' );
+			$xtpl->parse( 'main.fb_comment_tab' ); // Xuat FB Comment
 		}
 		if( ! empty( $facebookadminid ) ) // MetaData cho FB admin - quan ly comment
 		{
@@ -411,6 +415,7 @@ function detail_theme( $news_contents, $next_chapter, $previous_chapter, $list_c
 		}
 		define( 'FACEBOOK_JSSDK', true );
 	}
+
 	if( $module_config[$module_name]['socialbutton'] ) // Neu su dung cac cong cu MXH
 	{
 		$xtpl->parse( 'main.socialbutton' );

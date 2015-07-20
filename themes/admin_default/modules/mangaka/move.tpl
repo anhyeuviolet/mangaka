@@ -42,7 +42,7 @@
 						<!-- BEGIN: loop -->
 						<tr>
 							<td class="text-center"><input type="checkbox" value="{ROW.id}" name="idcheck[]" {ROW.checked}></td>
-							<td>{ROW.title}</td>
+							<td>{LANG.chapter} {ROW.chapter} - {ROW.manga_name}</td>
 						</tr>
 						<!-- END: loop -->
 					</tbody>

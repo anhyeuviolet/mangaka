@@ -16,15 +16,15 @@ function nv_chang_cat(catid, mod) {
 		}
 		clearTimeout(nv_timer);
 		var parentid = parseInt(r_split[1]);
-		nv_show_list_cat(parentid);
+		nv_show_list_cat();
 		return;
 	});
 	return;
 }
 
-function nv_show_list_cat(parentid) {
+function nv_show_list_cat() {
 	if (document.getElementById('module_show_list')) {
-		$('#module_show_list').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_cat&parentid=' + parentid + '&nocache=' + new Date().getTime());
+		$('#module_show_list').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_cat&nocache=' + new Date().getTime());
 	}
 	return;
 }
@@ -40,7 +40,7 @@ function nv_del_cat_result(res) {
 	var r_split = res.split('_');
 	if (r_split[0] == 'OK') {
 		var parentid = parseInt(r_split[1]);
-		nv_show_list_cat(parentid);
+		nv_show_list_cat();
 	} else if (r_split[0] == 'CONFIRM') {
 		if (confirm(nv_is_del_confirm[0])) {
 			var catid = r_split[1];

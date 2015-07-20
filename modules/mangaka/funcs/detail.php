@@ -204,7 +204,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	$contents = detail_theme( $news_contents, $next_chapter, $previous_chapter, $list_chaps );
 
 	$page_title = $global_array_cat[$catid]['title']." - ". $lang_module['chapter'] ." ". $news_contents['chapter'];
-	$description = $global_array_cat[$catid]['title']." - ". $lang_module['chapter'] ." ". $news_contents['chapter'] ." - ".$global_array_cat[$catid]['description'] ;
+	$description = $global_array_cat[$catid]['title']." - ". $lang_module['chapter'] ." ". $news_contents['chapter'] ." - ".$global_array_cat[$news_contents['catid']]['description'] ;
 
 }
 else

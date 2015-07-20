@@ -70,7 +70,7 @@ if( empty( $id_array ) )
 	die();
 }
 
-$db->sqlreset()->select( 'id, title' )->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )->where( 'id IN (' . implode( ',', $id_array ) . ')' )->order( 'id DESC' );
+$db->sqlreset()->select( 'id, title, chapter, listcatid' )->from( NV_PREFIXLANG . '_' . $module_data . '_rows' )->where( 'id IN (' . implode( ',', $id_array ) . ')' )->order( 'id DESC' );
 $result = $db->query( $db->sql() );
 
 $xtpl = new XTemplate( $op . '.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
@@ -80,11 +80,13 @@ $xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
 $xtpl->assign( 'MODULE_NAME', $module_name );
 $xtpl->assign( 'OP', $op );
 
-while( list( $id, $title ) = $result->fetch( 3 ) )
+while( list( $id, $title, $chapter, $listcatid ) = $result->fetch( 3 ) )
 {
 	$xtpl->assign( 'ROW', array(
 		'id' => $id,
 		'title' => $title,
+		'chapter' => $chapter,
+		'manga_name' => $global_array_cat[$listcatid]['title'],
 		'checked' => in_array( $id, $id_array ) ? ' checked="checked"' : ''
 	) );
 
@@ -93,11 +95,9 @@ while( list( $id, $title ) = $result->fetch( 3 ) )
 
 foreach( $global_array_cat as $catid_i => $array_value )
 {
-	$space = intval( $array_value['lev'] ) * 30;
 	$catiddisplay = (sizeof( $catids ) > 1 and ( in_array( $catid_i, $catids ))) ? '' : ' display: none;';
 	$temp = array(
 		'catid' => $catid_i,
-		'space' => $space,
 		'title' => $array_value['title'],
 		'checked' => ( in_array( $catid_i, $catids )) ? ' checked="checked"' : '',
 		'catidchecked' => ($catid_i == $catid) ? ' checked="checked"' : '',

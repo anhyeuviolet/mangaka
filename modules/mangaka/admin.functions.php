@@ -282,9 +282,9 @@ function nv_show_cat_list_new()
 
 	global $db, $lang_module, $lang_global, $module_name, $module_data, $array_viewcat_full, $array_viewcat_nosub, $array_cat_admin, $global_array_cat, $admin_id, $global_config, $module_file, $nv_Request;
 	
-	$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=cat';
+	$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=cat_manage';
 	$page = $nv_Request->get_int( 'page', 'get', 1 );
-	$per_page = 20;
+	$per_page = 25;
 	$all_page = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat' )->fetchColumn();
 
 	
@@ -321,16 +321,25 @@ function nv_show_cat_list_new()
 		}
 	}
 
-	$sql = 'SELECT catid, title, alias, add_time, last_update, inhome  FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat ORDER BY title ASC LIMIT ' .  ( $page - 1 ) * $per_page . ', ' . $per_page;
+	$sql = 'SELECT catid, title, alias, add_time, last_update, inhome, allowed_rating  FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat ORDER BY alias ASC LIMIT ' .  ( $page - 1 ) * $per_page . ', ' . $per_page;
 	$rowall = $db->query( $sql )->fetchAll( 3 );
 	
 	$num = sizeof( $rowall );
 	$a = 1;
 	if ($page > 1) $a = 1 + (( $page - 1 ) * $per_page);
+	$array_inhome = array(
+		$lang_global['no'],
+		$lang_global['yes']
+	);
+	$array_rating = array(
+		$lang_global['no'],
+		$lang_global['yes']
+	);
 
+	
 	foreach ($rowall as $row)
 	{
-		list( $catid, $title, $alias, $add_time, $last_update, $inhome ) = $row;
+		list( $catid, $title, $alias, $add_time, $last_update, $inhome, $allowed_rating ) = $row;
 		if( defined( 'NV_IS_ADMIN_MODULE' ) )
 		{
 			$check_show = 1;
@@ -373,18 +382,37 @@ function nv_show_cat_list_new()
 			$xtpl->assign( 'STT', $a );
 			$xtpl->parse( 'main.data.loop.stt' );
 
-			if( !empty($inhome) )
+			if( $func_cat_disabled )
 			{
-				if ($inhome == 1)
-				{ 
-					$inhome = $lang_global['yes'];
+				$xtpl->assign( 'INHOME', $array_inhome[$inhome] );
+				$xtpl->parse( 'main.data.loop.disabled_inhome' );
+
+				$xtpl->assign( 'RATING', $array_rating[$viewcat] );
+				$xtpl->parse( 'main.data.loop.disabled_rating' );
+			}
+			else
+			{
+				foreach( $array_inhome as $key => $val )
+				{
+					$xtpl->assign( 'INHOME', array(
+						'key' => $key,
+						'title' => $val,
+						'selected' => $key == $inhome ? ' selected="selected"' : ''
+					) );
+					$xtpl->parse( 'main.data.loop.inhome.loop' );
 				}
-				else{
-					$inhome = $lang_global['no'];
-				}
-			
-				$xtpl->assign( 'INHOME', $inhome );
 				$xtpl->parse( 'main.data.loop.inhome' );
+				
+				foreach( $array_rating as $key => $val )
+				{
+					$xtpl->assign( 'RATING', array(
+						'key' => $key,
+						'title' => $val,
+						'selected' => $key == $allowed_rating ? ' selected="selected"' : ''
+					) );
+					$xtpl->parse( 'main.data.loop.rating.loop' );
+				}
+				$xtpl->parse( 'main.data.loop.rating' );
 			}
 
 			$xtpl->parse( 'main.data.loop' );

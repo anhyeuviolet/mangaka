@@ -37,10 +37,6 @@ $page_title = $global_array_cat[$catid]['title'];
 $key_words = $global_array_cat[$catid]['keywords'];
 $description = $global_array_cat[$catid]['description'];
 $global_array_cat[$catid]['description'] = $global_array_cat[$catid]['descriptionhtml'];
-if( ! empty($global_array_cat[$catid]['image']))
-{
-	$meta_property['og:image'] = NV_MY_DOMAIN . NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/' . $global_array_cat[$catid]['image'];
-}
 
 if( empty( $contents ) )
 {
@@ -52,7 +48,7 @@ if( empty( $contents ) )
 	if (!empty($show_no_image)){
 		$show_no_image = $show_no_image;
 	} else {
-		$show_no_image = '/themes/default/images/'.$module_name.'/no_cover.jpg';
+		$show_no_image = 'themes/default/images/'.$module_name.'/no_cover.jpg';
 	}
 
 	if( $viewcat == 'viewcat_list' ) // Xem theo danh sach
@@ -118,7 +114,11 @@ if( empty( $contents ) )
 		{
 			$global_array_cat[$catid]['imghome'] = '';
 		}
-		
+		//OG Image
+		if( ! empty($global_array_cat[$catid]['imghome']))
+		{
+			$meta_property['og:image'] = $global_array_cat[$catid]['imghome'];
+		}
 		$viewcat_img = $global_array_cat[$catid]['imghome'];
 
 		//Rating

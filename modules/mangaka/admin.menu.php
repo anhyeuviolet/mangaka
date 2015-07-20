@@ -74,9 +74,12 @@ else
 	}
 }
 
-$allow_func = array( 'main', 'view', 'stop', 'publtime', 'waiting', 'declined', 're-published', 'content', 'chapterlist', 'rpc', 'del_content', 'alias', 'cat', 'catlist', 'change_cat', 'list_cat', 'del_cat', 'chapter_manage', 'getchap_conf' , 'getchap', 'getmanga_conf', 'getmanga' );
+$allow_func = array( 'main', 'view', 'stop', 'publtime', 'waiting', 'declined', 're-published', 'content', 'chapterlist', 'rpc', 'del_content', 'alias', 'cat', 'cat_manage', 'change_cat', 'list_cat', 'del_cat', 'chapter_manage', 'getchap_conf' , 'getchap', 'getmanga_conf', 'getmanga' );
 
-$submenu['cat'] = $lang_module['categories'];
+$menu_cat = array();
+$menu_cat['cat'] = $lang_module['categories'];
+$submenu['cat_manage'] = array( 'title' => $lang_module['categories_list'], 'submenu' => $menu_cat );
+
 $submenu['chapter_manage'] = $lang_module['chapter_manage'];
 
 

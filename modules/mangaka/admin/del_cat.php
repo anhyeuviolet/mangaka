@@ -30,24 +30,13 @@ if( $catid > 0 )
 				$catidnews = $nv_Request->get_int( 'catidnews', 'post', 0 );
 				if( empty( $delcatandrows ) and empty( $movecat ) )
 				{
-					$sql = "SELECT catid, title, lev FROM " . NV_PREFIXLANG . "_" . $module_data . "_cat WHERE catid !='" . $catid . "' ORDER BY title ASC";
+					$sql = "SELECT catid, title FROM " . NV_PREFIXLANG . "_" . $module_data . "_cat WHERE catid !='" . $catid . "' ORDER BY title ASC";
 					$result = $db->query( $sql );
 					$array_cat_list = array();
 					$array_cat_list[0] = "&nbsp;";
-					while( list( $catid_i, $title_i, $lev_i ) = $result->fetch( 3 ) )
+					while( list( $catid_i, $title_i ) = $result->fetch( 3 ) )
 					{
-						$xtitle_i = '';
-						if( $lev_i > 0 )
-						{
-							$xtitle_i .= "&nbsp;&nbsp;&nbsp;|";
-							for( $i = 1; $i <= $lev_i; ++$i )
-							{
-								$xtitle_i .= "---";
-							}
-							$xtitle_i .= ">&nbsp;";
-						}
-						$xtitle_i .= $title_i;
-						$array_cat_list[$catid_i] = $xtitle_i;
+						$array_cat_list[$catid_i] = $title_i;
 					}
 
 					$xtpl = new XTemplate( 'del_cat.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );

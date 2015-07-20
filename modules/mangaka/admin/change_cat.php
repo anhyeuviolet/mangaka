@@ -15,7 +15,7 @@ $mod = $nv_Request->get_string( 'mod', 'post', '' );
 $new_vid = $nv_Request->get_int( 'new_vid', 'post', 0 );
 $content = 'NO_' . $catid;
 
-list( $catid, $parentid, $numsubcat ) = $db->query( 'SELECT catid, parentid, numsubcat FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat WHERE catid=' . $catid  )->fetch( 3 );
+list( $catid ) = $db->query( 'SELECT catid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat WHERE catid=' . $catid  )->fetch( 3 );
 if( $catid > 0 )
 {
 	if( defined( 'NV_IS_ADMIN_MODULE' ) or ( isset( $array_cat_admin[$admin_id][$catid] ) and $array_cat_admin[$admin_id][$catid]['add_content'] == 1 ) )
@@ -24,7 +24,13 @@ if( $catid > 0 )
 		{
 			$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET inhome=' . $new_vid . ' WHERE catid=' . $catid ;
 			$db->query( $sql );
-			$content = 'OK_' . $parentid;
+			$content = 'OK_' . $catid;
+		}
+		elseif( $mod == 'rating' and ( $new_vid == 0 or $new_vid == 1 ) )
+		{
+			$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET allowed_rating=' . $new_vid . ' WHERE catid=' . $catid ;
+			$db->query( $sql );
+			$content = 'OK_' . $catid;
 		}
 
 	}

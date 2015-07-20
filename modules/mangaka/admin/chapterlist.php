@@ -9,12 +9,10 @@
  */
 
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
-$page_title = $lang_module['chapter_list'];
 
 $catid = $nv_Request->get_int( 'catid', 'get', 0 );
 
 global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $global_array_cat, $module_file, $global_config, $nv_Request;
-
 
 $xtpl = new XTemplate( 'chapterlist.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
 $xtpl->assign( 'LANG', $lang_module );
@@ -24,26 +22,26 @@ $xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
 $xtpl->assign( 'NV_OP_VARIABLE', NV_OP_VARIABLE );
 $xtpl->assign( 'MODULE_NAME', $module_name );
 $xtpl->assign( 'OP', $op );
-
 $xtpl->assign('NO_CHAPTER',$lang_module['no_chapter']);
 $xtpl->assign('ADD_CHAPTER',NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=content&catid='. $catid);
 $xtpl->assign('MANAGE_CHAPTER',NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=chapter_manage');
 
-$check_catid = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat WHERE catid= ' . $catid )->fetchColumn();
+$page_title = $lang_module['chapter_list']. ' - ' .$global_array_cat[$catid]['title'];
+$check_catid = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat WHERE catid= ' . intval($catid))->fetchColumn();
 if ( $check_catid > 0 )
 {
 	$xtpl->assign( 'CATID', $catid );
 	$xtpl->assign('CAT_TITLE',$global_array_cat[$catid]['title']);
 
-	$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '='. $op .'&catid=' .$catid;
+	$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '='. $op .'&catid=' .intval($catid);
 	$page = $nv_Request->get_int( 'page', 'get', 1 );
 	$per_page = 20;
-	$all_page = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid )->fetchColumn();
+	$all_page = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . intval($catid) )->fetchColumn();
 
 
 	$global_array_cat[0] = array( 'alias' => 'Other' );
 
-	$sql = 'SELECT id, catid, title, alias, ROUND(chapter,1) as chapter, edittime, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' ORDER BY chapter ASC LIMIT ' .  ( $page - 1 ) * $per_page . ', ' . $per_page;
+	$sql = 'SELECT id, catid, title, alias, ROUND(chapter,1) as chapter, edittime, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . intval($catid) . ' ORDER BY chapter ASC LIMIT ' .  ( $page - 1 ) * $per_page . ', ' . $per_page;
 	$array_block = $db->query( $sql )->fetchAll();
 
 	$num = sizeof( $array_block );
@@ -62,7 +60,7 @@ if ( $check_catid > 0 )
 		{
 			foreach ($array_id as $id)
 			{
-				nv_del_content_module( $id, $catid );
+				nv_del_content_module( $id );
 			}
 			nv_del_moduleCache();
 			Header( 'Location: '. NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '='. $op .'&catid=' .$catid);
@@ -94,7 +92,6 @@ if ( $check_catid > 0 )
 			$xtpl->parse( 'main.data.loop' );
 		}
 		$xtpl->parse( 'main.data' );
-		
 	}
 	else
 	{
@@ -102,7 +99,7 @@ if ( $check_catid > 0 )
 	}
 	$xtpl->parse( 'main' );
 	$contents .= $xtpl->text( 'main' );
-$db->sqlreset();
+	$db->sqlreset();
 }
 else
 {

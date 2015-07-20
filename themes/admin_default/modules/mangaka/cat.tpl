@@ -2,12 +2,8 @@
 <link rel="stylesheet" href="{NV_BASE_SITEURL}js/select2/select2.min.css">
 
 <script type="text/javascript" src="{NV_BASE_SITEURL}js/select2/select2.min.js"></script>
-<span class="show_cat"><button class="btn btn-info" onclick="nv_show_hidden('show_cat',2);" href="javascript:void(0);" id="show-comments">{LANG.showhidecat}</button></span>
-<button class="btn btn-warning" id="gotoedit">{LANG.addcat}</button><hr/>
-<div id="module_show_list">
-	{CAT_LIST}
-</div>
-<br />
+<a class="btn btn-warning" href="{TO_CAT_LIST}">{LANG.back} {LANG.categories_list}</a><hr/>
+<br/>
 
 <div id="edit">
 	<!-- BEGIN: error -->

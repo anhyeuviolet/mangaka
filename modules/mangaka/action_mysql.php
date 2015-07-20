@@ -55,7 +55,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 progress tinyint(2) NOT NULL DEFAULT '0',
 	 viewcat varchar(50) NOT NULL DEFAULT 'viewcat_list',
 	 numsubcat smallint(5) NOT NULL DEFAULT '0',
-	 inhome tinyint(1) unsigned NOT NULL DEFAULT '0',
+	 inhome tinyint(1) unsigned NOT NULL DEFAULT '1',
 	 keywords text,
 	 authors text,
 	 translators text,

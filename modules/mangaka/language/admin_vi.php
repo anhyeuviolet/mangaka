@@ -336,6 +336,7 @@ $lang_module['structure_2'] = 'Cấu trúc trang con ( phần tử lấy nội d
 $lang_module['search_submit'] = 'Tìm kiếm';
 $lang_module['numbers'] = 'Vị trí chap No của URL';
 $lang_module['submit'] = 'Tiến hành';
+$lang_module['success'] = 'Thành công';
 
 $lang_module['url_host'] = 'Url host';
 $lang_module['url_html_pattern'] = 'Mảng chứa danh sách link chap';
