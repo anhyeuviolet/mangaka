@@ -66,7 +66,6 @@ $result = $db->query( $sql );
 while( list( $bid_i, $title_i ) = $result->fetch( 3 ) )
 {
 	$array_block_cat_module[$bid_i] = $title_i;
-
 }
 
 $savecat = $nv_Request->get_int( 'savecat', 'post', 0 );
@@ -82,7 +81,6 @@ if( ! empty( $savecat ) )
 	$description = $nv_Request->get_string( 'description', 'post', '' );
 	$description = nv_nl2br( nv_htmlspecialchars( strip_tags( $description ) ), '<br />' );
 	$descriptionhtml = $nv_Request->get_editor( 'descriptionhtml', '', NV_ALLOWED_HTML_TAGS );
-
 	$progress = $nv_Request->get_int( 'progress', 'post', 0 );
 	$inhome = $nv_Request->get_int( 'inhome', 'post', 0 );
 	$allowed_rating = $nv_Request->get_int( 'allowed_rating', 'post', 0 );
@@ -94,7 +92,6 @@ if( ! empty( $savecat ) )
 	//Cau hinh binh luan
 	$_groups_comm = $nv_Request->get_array( 'allowed_comm', 'post', array() );
 	$allowed_comm = ! empty( $_groups_comm ) ? implode( ',', nv_groups_post( array_intersect( $_groups_comm, array_keys( $groups_list ) ) ) ) : '';
-
 
 	if( empty( $_alias ) or ! preg_match( "/^([a-zA-Z0-9\_\-]+)$/", $_alias ) )
 	{
@@ -126,7 +123,7 @@ if( ! empty( $savecat ) )
 
 	$_groups_post = $nv_Request->get_array( 'groups_view', 'post', array() );
 	$groups_view = ! empty( $_groups_post ) ? implode( ',', nv_groups_post( array_intersect( $_groups_post, array_keys( $groups_list ) ) ) ) : '';
-	
+
 	// Nhan gia tri truyen tu HTML bids
 	$_block_id_post = $nv_Request->get_array( 'bids', 'post', array() );
 	$block_id = implode( ',', $_block_id_post );
@@ -171,7 +168,7 @@ if( ! empty( $savecat ) )
 
 			$sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_cat ( title, titlesite, alias, description, descriptionhtml, image, image_type, progress, viewcat, inhome, allowed_rating, keywords, authors, translators, admins, add_time, edit_time, groups_view, allowed_comm, bid, last_update) VALUES
 				(:title, :titlesite, :alias, :description, :descriptionhtml, :image, :image_type, '" . $progress . "', :viewcat, '" . $inhome . "', '" . $allowed_rating . "', :keywords, :authors, :translators, :admins, " . NV_CURRENTTIME . ", " . NV_CURRENTTIME . ", :groups_view, :allowed_comm, :bid, " . NV_CURRENTTIME . " )";
-
+				
 			$data_insert = array();
 			$data_insert['title'] = $title;
 			$data_insert['titlesite'] = $titlesite;
@@ -198,7 +195,6 @@ if( ! empty( $savecat ) )
 					$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_block (bid, catid) VALUES (' . $gb_id_add . ', ' . $newcatid . ')' );
 				}
 				nv_copy_structure_table( NV_PREFIXLANG . '_' . $module_data . '_' . $newcatid , NV_PREFIXLANG . '_' . $module_data . '_rows' );
-				//nv_fix_cat_order();
 				if( ! defined( 'NV_IS_ADMIN_MODULE' ) )
 				{
 					$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_admins (userid, catid, admin, add_content, pub_content, edit_content, del_content) VALUES (' . $admin_id . ', ' . $newcatid . ', 1, 1, 1, 1, 1)' );
@@ -273,7 +269,6 @@ if( defined( 'NV_IS_ADMIN_MODULE' ) )
 
 if( ! empty( $array_cat_list ) )
 {
-
 	$groups_views = array();
 	foreach( $groups_list as $group_id => $grtl )
 	{
@@ -329,8 +324,6 @@ if( $module_config[$module_name]['allowed_comm'] != '-1' )
 {
 	$xtpl->parse( 'main.content.content_note_comm' );
 }
-
-
 // Tien do thuc hien
 for( $i = 1; $i <= 3; $i++ )
 {
@@ -397,9 +390,7 @@ if( ! empty( $array_cat_list ) )
 		$descriptionhtml = "<textarea style=\"width: 100%\" name=\"descriptionhtml\" id=\"descriptionhtml\" cols=\"20\" rows=\"15\">" . $descriptionhtml . "</textarea>";
 	}
 	$xtpl->assign( 'DESCRIPTIONHTML', $descriptionhtml );
-	
-		$xtpl->parse( 'main.content' );
-
+	$xtpl->parse( 'main.content' );
 }
 $xtpl->parse( 'main' );
 $contents .= $xtpl->text( 'main' );
