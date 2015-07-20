@@ -13,22 +13,28 @@
 
 <form class="form-inline m-bottom" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" enctype="multipart/form-data" method="post" class="confirm-reload">
 	<div class="row">
-		<div class="col-sm-24 col-md-18">
+		<div class="col-sm-24 col-md-16">
 			<table class="table table-striped table-bordered">
 				<col class="w200" />
 				<col />
 				<tbody>
 					<tr>
 						<td><strong>{LANG.chapter}: </strong></td>
-						<td><input class="form-control" name="chapter" id="chapter" type="text" value="{rowcontent.chapter}" maxlength="255"  style="width:350px"/></td>
+						<td>
+							<input class="form-control" name="chapter" id="chapter" type="text" value="{rowcontent.chapter}" maxlength="255"  style="width:350px"/>
+							<input type="hidden" value="{rowcontent.chapter}" name="old_chapter" />
+						</td>
 					</tr>
 					<tr>
 						<td><strong>{LANG.name}</strong></td>
-						<td><input type="text" maxlength="255" value="{rowcontent.title}" id="idtitle" name="title" class="form-control"  style="width:350px"/><span class="text-middle"> {GLANG.length_characters}: <span id="titlelength" class="red">0</span>. {GLANG.title_suggest_max} </span></td>
+						<td>
+							<input type="text" maxlength="255" value="{rowcontent.title}" id="idtitle" name="title" class="form-control"  style="width:350px" {rowcontent.required} oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')"/><br/>
+							<span class="text-middle"> {GLANG.length_characters}: <span id="titlelength" class="red">0</span>. {GLANG.title_suggest_max} </span>
+						</td>
 					</tr>
 					<tr>
 						<td><strong>{LANG.alias}: </strong></td>
-						<td><input {rowcontent.readonly_alias} class="form-control" name="alias" id="idalias" type="text" value="{rowcontent.alias}" maxlength="255"  style="width:350px"/>&nbsp; <em class="fa fa-refresh fa-lg fa-pointer {rowcontent.hide_getalias}" onclick="get_alias();">&nbsp;</em></td>
+						<td><input {rowcontent.readonly_alias} class="form-control" name="alias" id="idalias" type="text" value="{rowcontent.alias}" maxlength="255"  style="width:350px"/>&nbsp; <em class="fa fa-refresh fa-lg fa-pointer {rowcontent.hidden}" onclick="get_alias();">&nbsp;</em></td>
 					</tr>
 				</tbody>
 			</table>
@@ -49,11 +55,11 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="col-sm-24 col-md-6">
+		<div class="col-sm-24 col-md-8">
 			<div class="row">
 				<div class="col-sm-12 col-md-24">
 					<ul style="padding-left:4px; margin:0">
-						<li>
+						<li class="{rowcontent.hidden}">
 							<p class="message_head">
 								<cite>{LANG.content_cat}:</cite>
 							</p>
@@ -157,7 +163,7 @@
 <input type="hidden" name="leech" value="1" />
 <input type="hidden" name="checkss" value="{CHECKSS}" />
 <fieldset>
-  <legend>Bước 2: Leech nội dung từng tập</legend>
+  <div class="alert alert-info">{LANG.leech_single_tool}</div>
 	<div class="form-group">
 		<label class="col-lg-2 control-label">{LANG.select_structure}:</label>
 		<div class="col-lg-20">

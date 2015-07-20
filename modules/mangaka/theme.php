@@ -10,7 +10,7 @@
 
 if( ! defined( 'NV_IS_MOD_NEWS' ) ) die( 'Stop!!!' );
 
-function viewcat_list( $array_catpage, $array_cat_block, $catid, $page, $generate_page, $viewcat_img, $viewcat_rating, $content_comment)
+function viewcat_list( $array_cat_block, $catid, $viewcat_img, $viewcat_rating, $content_comment)
 {
 	global $module_name, $module_file, $lang_module, $module_config, $module_info, $global_array_cat, $my_head, $client_info;
 	
@@ -96,50 +96,16 @@ function viewcat_list( $array_catpage, $array_cat_block, $catid, $page, $generat
 		$xtpl->parse( 'main.viewdescription.allowed_rating' );
 	}
 	
-	
 	$xtpl->assign( 'CONTENT', $global_array_cat[$catid] );
-
 	$xtpl->parse( 'main.viewdescription' );
 	
-	//Begin list of content
-	$a = $page;
-	foreach( $array_catpage as $array_row_i )
-	{
-		$array_row_i['publtime'] = nv_date( 'd/m/Y', $array_row_i['publtime'] );
-		$array_row_i['chapter'] = round($array_row_i['chapter'],1);
-		$xtpl->clear_autoreset();
-		$xtpl->assign( 'NUMBER', ++$a );
-		$xtpl->assign( 'CONTENT', $array_row_i );
 
-		if( defined( 'NV_IS_MODADMIN' ) )
-		{
-			$xtpl->assign( 'ADMINLINK', nv_link_edit_page( $array_row_i['id'] ) . " " . nv_link_delete_page( $array_row_i['id'] ) );
-			$xtpl->assign( 'CLASS1', "13" );$xtpl->assign( 'CLASS2', "7" );
-			$xtpl->parse( 'main.viewcatloop.adminlink' );
-		}
-		else{
-			$xtpl->assign( 'CLASS1', "16" );$xtpl->assign( 'CLASS2', "8" );
-		}
-		$xtpl->set_autoreset();
-		$xtpl->parse( 'main.viewcatloop' );
-	}
-	if( defined( 'NV_IS_MODADMIN' ) )
-	{
-		$xtpl->parse( 'main.adminlink_th' );
-	}
 	if( !empty( $content_comment ) )
 	{
 		$xtpl->assign( 'CONTENT_COMMENT', $content_comment );
 		$xtpl->parse( 'main.comment' );
 		$xtpl->parse( 'main.comment_tab' );
 	}
-	
-	if( ! empty( $generate_page ) )
-	{
-		$xtpl->assign( 'GENERATE_PAGE', $generate_page );
-		$xtpl->parse( 'main.generate_page' );
-	}
-
 	//Comment system
 	if( ! defined( 'FACEBOOK_JSSDK' ) )
 	{

@@ -219,7 +219,7 @@ if($action == '2'){
 				if (!empty($img_full)) // Xu ly tranh gay trang trang khi khong lay duoc list link
 				{
 					$addtime=NV_CURRENTTIME+mt_rand(60,1000); //Tao thoi gian leech ngau nhien, do link la tu tren xuong duoi, nen link leech sau se co thoi gian lau hon
-					$title_new = rand(10000,99999); // Tao tieu de ngau nhien
+					$title_new = $catid.rand(10000,99999); // Tao tieu de ngau nhien
 					$alias = "chapter-" . preg_replace('/[.]/','-',$this_chapter) . "-" . change_alias($title_new);	// Tao alias		
 					$bodyhtml=$img_full;
 					

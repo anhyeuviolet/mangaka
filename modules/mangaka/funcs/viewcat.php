@@ -57,24 +57,6 @@ if( empty( $contents ) )
 
 	if( $viewcat == 'viewcat_list' ) // Xem theo danh sach
 	{
-		$order_by =  'chapter DESC';
-
-		$db->sqlreset()
-			->select( 'COUNT(*)' )
-			->from( NV_PREFIXLANG . '_' . $module_data . '_' . $catid )
-			->where( 'status=1' );
-		$num_items = $db->query( $db->sql() )->fetchColumn();
-
-		$db->select( 'id, title, alias, chapter, publtime' )
-			->order( $order_by );
-			// ->limit( $per_page )
-			// ->offset( ( $page - 1 ) * $per_page );
-		$result = $db->query( $db->sql() );
-		while( $item = $result->fetch() )
-		{
-			$item['link'] = $global_array_cat[$catid]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
-			$array_catpage[] = $item;
-		}
 		$bid = $global_array_cat[$catid]['bid'];
 		$bid_array = explode( ',', $bid );
 		$array_cat_block = array();
@@ -163,7 +145,8 @@ if( empty( $contents ) )
 				'verygood' => $lang_module['star_verygood']
 			);
 		}
-		$contents = viewcat_list( $array_catpage, $array_cat_block, $catid, $page,'', $viewcat_img, $viewcat_rating, $content_comment);
+
+		$contents = viewcat_list( $array_cat_block, $catid, $viewcat_img, $viewcat_rating, $content_comment);
 	}
 	if( ! defined( 'NV_IS_MODADMIN' ) and $contents != '' and $cache_file != '' )
 	{

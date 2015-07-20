@@ -99,6 +99,7 @@ $rowcontent = array(
 	'archive' => 1,
 	'title' => '',
 	'chapter' => '',
+	'old_chapter' => '',
 	'alias' => '',
 	'bodyhtml' => '',
 	'copyright' => 0,
@@ -111,7 +112,6 @@ $rowcontent = array(
 	'mode' => 'add'
 );
 
-$rowcontent['topictext'] = '';
 $page_title = $lang_module['content_add'];
 $error = array();
 $groups_list = nv_groups_list();
@@ -164,7 +164,8 @@ if( $rowcontent['id'] > 0 )
 			}
 		}
 	$rowcontent['readonly_alias'] = "readonly";
-	$rowcontent['hide_getalias'] = "hidden";
+	$rowcontent['hidden'] = "hidden";
+	$rowcontent['required'] = 'required="required"';
 	}
 
 	if( ! $check_permission )
@@ -173,8 +174,7 @@ if( $rowcontent['id'] > 0 )
 		die();
 	}
 
-	$page_title = $lang_module['content_edit'];
-	$rowcontent['topictext'] = '';
+	$page_title = $lang_module['content_edit'].' '.$rowcontent['chapter'].' - '.$global_array_cat[$rowcontent['catid']]['title'];
 
 	$body_contents = $db->query( 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $rowcontent['id'] / 2000 ) . ' where id=' . $rowcontent['id'] )->fetch();
 	$rowcontent = array_merge( $rowcontent, $body_contents );
@@ -313,6 +313,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 	}
 	$rowcontent['title'] = $nv_Request->get_title( 'title', 'post', '', 1 );
 	$rowcontent['chapter'] = rv($nv_Request->get_string( 'chapter', 'post', '', 1 ));
+	$rowcontent['old_chapter'] = rv($nv_Request->get_string( 'old_chapter', 'post', '', 1 ));
 
 	// Xử lý liên kết tĩnh
 	$alias = $nv_Request->get_title( 'alias', 'post', '' );
@@ -325,7 +326,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 		}
 		else
 		{
-			$rowcontent['title'] = rand(10000,99999);
+			$rowcontent['title'] = $rowcontent['listcatid'].rand(10000,99999);
 			$alias = "chapter-" . preg_replace('/[.]/','-',$rowcontent['chapter']) . "-" . change_alias( $rowcontent['title'] );
 			if( $module_config[$module_name]['alias_lower'] ) $alias = strtolower( $alias );
 
@@ -349,13 +350,9 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 	}
 
 	$rowcontent['bodyhtml'] = $nv_Request->get_editor( 'bodyhtml', '', NV_ALLOWED_HTML_TAGS );
-
 	$rowcontent['copyright'] = ( int )$nv_Request->get_bool( 'copyright', 'post' );
 	$rowcontent['inhome'] = ( int )$nv_Request->get_bool( 'inhome', 'post' );
-
-
 	$rowcontent['allowed_rating'] = ( int )$nv_Request->get_bool( 'allowed_rating', 'post' );
-
 
 	if( empty( $rowcontent['title'] ) )
 	{
@@ -370,11 +367,29 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 		$error[] = $lang_module['error_bodytext'];
 	}
 
+	// Kiem tra trung Chapter
+	if($rowcontent['chapter'] != $rowcontent['old_chapter'] )
+	{
+		$_query='SELECT id FROM '. NV_PREFIXLANG . '_' . $module_data .'_'.$rowcontent['listcatid'].' WHERE chapter='.$rowcontent['chapter'];
+		$_query_id=$db->query( $_query );
+		if( $_query_id->fetch( 3 ) ){ $error[] = $lang_module['duplicate_chapter']; }
+		if(isset($data_result) and $data_result){
+			foreach($data_result as $data){
+				if($data['chapter']==$rowcontent['chapter']){
+					$error[] = $lang_module['duplicate_chapter'];
+				}
+			}
+		}	
+	}
+	// else
+	// {
+		// $error[] = $lang_module['duplicate_chapter'];
+	// }
+	
 	if( empty( $error ) )
 	{
 		$rowcontent['catid'] = in_array( $rowcontent['catid'], $catids ) ? $rowcontent['catid'] : $catids[0];
 		$rowcontent['bodytext'] = nv_news_get_bodytext( $rowcontent['bodyhtml'] );
-
 
 		if( $rowcontent['id'] == 0 )
 		{
@@ -689,6 +704,40 @@ $xtpl->assign( 'allowed_rating_checked', $allowed_rating_checked );
 
 $xtpl->assign( 'edit_bodytext', $edits );
 
+// List of Get Chap Config
+$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_get_chap ORDER BY title ASC';
+$result = $db->query( $sql );
+while( list($str_id, $str_title) = $result->fetch( 3 ) )
+{
+	$get_list['id'] = $str_id;
+	$get_list['title'] = $str_title;
+	if(!empty($get_list))
+	{
+		$xtpl->assign( 'GETLIST', $get_list );
+	}
+	$xtpl->parse( 'main.getlist_loop_chap' );
+}
+unset($sql);
+if( $nv_Request->get_int( 'leech', 'post' ) == 1 )
+{
+	$form = $nv_Request->get_int( 'form_chap', 'post' );
+	$method = $nv_Request->get_int( 'method', 'post' );
+	$url_chap = $nv_Request->get_string( 'url_chap', 'post' );
+	if(!empty($form) && nv_is_url($url_chap) )
+	{
+		$_url_result = nv_singlechap_content( $form, $url_chap, $method );
+		if(!empty($_url_result))
+		{
+			$xtpl->assign( 'URL_FULL', $_url_result );
+			$xtpl->parse( 'main.getchap_result' );
+		}
+	}
+	else
+	{
+		$error[] = $lang_module['wrong_url_structure'];
+	}
+}
+
 if( ! empty( $error ) )
 {
 	$xtpl->assign( 'error', implode( '<br />', $error ) );
@@ -732,33 +781,6 @@ if( empty( $rowcontent['alias'] ) )
 }
 $xtpl->assign( 'UPLOADS_DIR_USER', $uploads_dir_user );
 $xtpl->assign( 'UPLOAD_CURRENT', $currentpath );
-
-// List of Get Chap Config
-$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_get_chap ORDER BY title ASC';
-$result = $db->query( $sql );
-while( list($str_id, $str_title) = $result->fetch( 3 ) )
-{
-	$get_list['id'] = $str_id;
-	$get_list['title'] = $str_title;
-	if(!empty($get_list))
-	{
-		$xtpl->assign( 'GETLIST', $get_list );
-	}
-	$xtpl->parse( 'main.getlist_loop_chap' );
-}
-unset($sql);
-if( $nv_Request->get_int( 'leech', 'post' ) == 1 )
-{
-	$form = $nv_Request->get_int( 'form_chap', 'post' );
-	$method = $nv_Request->get_int( 'method', 'post' );
-	$url_chap = $nv_Request->get_string( 'url_chap', 'post' );
-	$_url_result = nv_singlechap_content( $form, $url_chap, $method );
-	if(!empty($_url_result))
-	{
-		$xtpl->assign( 'URL_FULL', $_url_result );
-		$xtpl->parse( 'main.getchap_result' );
-	}
-}
 
 $xtpl->parse( 'main' );
 $contents .= $xtpl->text( 'main' );

@@ -11,7 +11,7 @@ if( ! defined( 'NV_ADMIN' ) or ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
 $module_version = array(
 	'name' => 'Mangaka', 
-	'modfuncs' => 'main,viewcat,groups,detail,rss,suggest', 
+	'modfuncs' => 'main,viewcat,viewcat_ajax,groups,detail,rss,suggest', 
 	'change_alias' => 'groups,viewcat,rss',
 	'submenu' => 'content,rss,search',
 	'is_sysmod' => 0, 

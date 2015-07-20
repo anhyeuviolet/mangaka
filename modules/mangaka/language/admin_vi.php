@@ -42,7 +42,7 @@ $lang_module['status_7'] = 'Đang duyệt bài';
 $lang_module['status_8'] = 'Chuyển đăng bài';
 $lang_module['status_9'] = 'Từ chối đăng bài';
 $lang_module['status_10'] = 'Đang kiểm tra để đăng';
-$lang_module['errorsave'] = 'Lỗi hệ thống không cập nhật được nội dung, bạn hãy kiểm tra lại liên kết tĩnh tiêu đề bài viết có thể bị trùng';
+$lang_module['errorsave'] = 'Lỗi hệ thống không cập nhật được nội dung, bạn hãy kiểm tra lại Liên kết tĩnh, Tiêu đề bài viết, Chapter có thể bị trùng';
 $lang_module['saveok'] = 'Cập nhật bài viết thành công';
 $lang_module['clickgotomodule'] = 'Click vào đây để chuyển vào trang quản lý bài viết.';
 $lang_module['alias'] = 'Liên kết tĩnh';
@@ -71,7 +71,7 @@ $lang_module['progress_3'] = 'Drop ( ngừng )';
 
 $lang_module['keywords'] = 'Từ khóa';
 $lang_module['content_list'] = 'Danh sách bài viết';
-$lang_module['content_add'] = 'Thêm bài viết';
+$lang_module['content_add'] = 'Thêm Chapter';
 $lang_module['add_cat'] = 'Thêm Manga';
 $lang_module['edit_cat'] = 'Sửa Manga';
 $lang_module['cat_sub'] = 'Thuộc Manga';
@@ -133,11 +133,12 @@ $lang_module['search_author'] = 'Tác giả bài viết';
 $lang_module['search_admin'] = 'Người nhập liệu';
 $lang_module['search_per_page'] = 'Số bài viết hiển thị';
 $lang_module['search_note'] = 'Từ khóa tìm kiếm không ít hơn 2 ký tự, không lớn hơn 64 ký tự, không dùng các mã html';
-$lang_module['content_edit'] = 'Sửa bài viết';
+$lang_module['content_edit'] = 'Sửa Chapter';
 $lang_module['error_title'] = 'Lỗi: Bài viết chưa có tiêu đề';
 $lang_module['error_bodytext'] = 'Lỗi: Bài viết chưa có nội dung';
 $lang_module['error_cat'] = 'Lỗi: Bài viết chưa có Manga';
 $lang_module['sources_sl'] = 'Hãy chọn hoặc tự điền';
+$lang_module['duplicate_chapter'] = 'Bị trùng Chapter';
 
 $lang_module['content_cat'] = 'Manga của bài viết';
 $lang_module['content_block'] = 'Thuộc thể loại';
@@ -368,3 +369,6 @@ $lang_module['select_manga'] = 'Chọn truyện để lưu nội dung';
 
 $lang_module['dom'] = 'Dùng HTML DOM';
 $lang_module['preg_match'] = 'Dùng preg_match';
+$lang_module['wrong_url_structure'] = 'Sai cấu trúc URL';
+
+$lang_module['leech_single_tool'] = 'Công cụ Leech nội dung từng tập';

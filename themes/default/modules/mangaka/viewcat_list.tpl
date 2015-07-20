@@ -1,5 +1,25 @@
-<!-- BEGIN: main -->
+<!-- BEGIN: viewcat_ajax -->
+<table class="table table-bordered table-hover">
+		<tbody>
+		<!-- BEGIN: loop -->
+			<tr>
+				<td class="text-center col-md-15 col-lg-15 col-xs-12 col-sm-15">
+					<a href="{CONTENT.link}">{LANG.chapter} {CONTENT.chapter}</a>
+					<a target="_blank" href="{CONTENT.link}"><i class="fa fa-external-link">&nbsp;</i></a>
+				</td>
+				<td class="text-center col-md-9 col-lg-9 col-xs-12 col-sm-9">{CONTENT.publtime}</td>
+			</tr>
+		<!-- END: loop -->
+		</tbody>
+	</table>
+	<!-- BEGIN: generate_page -->
+	<div class="text-center">
+		{PAGE}
+	</div>
+	<!-- END: generate_page -->
+<!-- END: viewcat_ajax -->
 
+<!-- BEGIN: main -->
 <!-- BEGIN: facebookjssdk -->
 <div id="fb-root"></div>
 <script type="text/javascript">
@@ -43,7 +63,7 @@
 					<div class="info clearfix">
 						<div class="col-lg-8 col-md-8 col-xs-24">
 							<!-- BEGIN: image -->
-							<img alt="{CONTENT.title}" src="{HOMEIMG1}" width="{IMGWIDTH1}" class="img-thumbnail imghome center-block" />
+							<img alt="{CONTENT.title}" src="{HOMEIMG1}" width="250" class="img-thumbnail imghome center-block" />
 							<!-- END: image -->
 						</div>
 						<div class="col-lg-16 col-md-16 col-xs-24">
@@ -51,7 +71,6 @@
 						<h4>{LANG.titlesite} : {TITLESITE}</h4>
 						<!-- END: titlesite -->
 						<p class="text-justify">{CONTENT.description}</p>
-						
 						</div>
 					</div>
 				</td>
@@ -153,33 +172,13 @@
 	<table class="table">
 		<thead>
 			<tr class="info">
-				<th class="text-center col-md-{CLASS1} col-lg-{CLASS1} col-xs-24 col-sm-{CLASS1}">{LANG.chapter}</th>
-				<th class="text-center col-md-{CLASS2} col-lg-{CLASS2} col-xs-24 col-sm-{CLASS2}">{LANG.last_update}</th>
-				<!-- BEGIN: adminlink_th -->	
-				<th class="col-hidden-xs">&nbsp;</th>
-				<!-- END: adminlink_th -->	
+				<th class="text-center col-md-15 col-lg-15 col-xs-24 col-sm-15">{LANG.chapter}</th>
+				<th class="text-center col-md-9 col-lg-9 col-xs-24 col-sm-9">{LANG.last_update}</th>
 			</tr>
 		</thead>
 	</table>
 	</div>
-	<div class="chapter-content">
-	<table class="table table-bordered table-hover">
-		<tbody>
-		<!-- BEGIN: viewcatloop -->
-			<tr>
-				<td class="text-center col-md-{CLASS1} col-lg-{CLASS1} col-xs-12 col-sm-{CLASS1}">
-					<a href="{CONTENT.link}">{LANG.chapter} {CONTENT.chapter}</a>
-					<a target="_blank" href="{CONTENT.link}"><i class="fa fa-external-link">&nbsp;</i></a>
-				</td>
-				<td class="text-center col-md-{CLASS2} col-lg-{CLASS2} col-xs-12 col-sm-{CLASS2}">{CONTENT.publtime}</td>
-			<!-- BEGIN: adminlink -->	
-				<td class="text-center hidden-xs">{ADMINLINK}</td>
-			<!-- END: adminlink -->
-			</tr>
-		<!-- END: viewcatloop -->
-		</tbody>
-	</table>
-	</div>
+	<div class="chapter_content" id="chapter_content"></div>
 	<div id="tabs" class="tabs">
 		<nav>
 			<ul>
@@ -235,11 +234,6 @@
 			<!-- END: comment -->
 		</div>
 	</div>
-	<!-- BEGIN: generate_page -->
-	<div class="text-center">
-		{GENERATE_PAGE}
-	</div>
-	<!-- END: generate_page -->
 </div>
 <!-- BEGIN: tooltip -->
 <script type="text/javascript">
@@ -254,5 +248,8 @@
 <script type="text/javascript">
 	var detail_error_group = '{LANG.detail_error_group}';
 	new CBPFWTabs(document.getElementById('tabs'));
+</script>
+<script type="text/javascript">
+	$('#chapter_content').load( nv_siteroot + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=viewcat_ajax&ajax=1&catid={CATID}&per_page={PER_PAGE}' );
 </script>
 <!-- END: main -->

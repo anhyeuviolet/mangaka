@@ -52,6 +52,25 @@
 		</div>
 		<!-- END: imgfull -->
 		<!-- END: showhometext -->
+		<div class="row" align="center">
+			<div class="col-md-8">
+			<!-- BEGIN: pre_top -->
+			<a href="{PREV.link}" title="{PREV.chapter}"><span class="btn btn-info"><i class="fa fa-chevron-circle-left"></i>&nbsp;{LANG.pre_chapter}</span></a>
+			<!-- END: pre_top -->
+			</div>
+			<div class="col-md-8">
+			<select class="form form-control" onchange="window.location.href=$(this).val()">
+			<!-- BEGIN: list_chap_top -->
+			<option value="{LIST_CHAP.link}" {LIST_CHAP.selected}> {LANG.chapter} {LIST_CHAP.chapter}</option>
+			<!-- END: list_chap_top -->
+			</select>
+			</div>
+			<div class="col-md-8">
+			<!-- BEGIN: next_top -->
+			<a href="{NEXT.link}" title="{NEXT.chapter}"><span class="btn btn-info">{LANG.next_chapter}&nbsp;<i class="fa fa-chevron-circle-right"></i></span></a>
+			<!-- END: next_top -->
+			</div>
+		</div>
 		<div class="bodytext">
 		<!-- BEGIN: body -->
 			<img src="{BODY_SRC}"/><br/>
