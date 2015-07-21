@@ -300,6 +300,7 @@ $lang_module['last_update'] = 'Cập nhật gần nhất';
 $lang_module['add_time'] = 'Khởi tạo';
 $lang_module['stt'] = 'Số thứ tự';
 $lang_module['no_chapter'] = 'Chưa có chương nào cho truyện này';
+$lang_module['no_manga'] = 'Chưa có Manga nào';
 $lang_module['back'] = 'Quay lại';
 $lang_module['add'] = 'Thêm';
 $lang_module['chapter'] = 'Chương';

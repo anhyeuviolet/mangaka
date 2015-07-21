@@ -52,5 +52,5 @@
 	</div>
 </form>
 <!-- END: data -->
-<a class="btn btn-info" href="{MANAGE_CHAPTER}"><i class="fa fa-reply"></i> {LANG.back} {LANG.chapter_manage} </a> <a class="btn btn-info" href="{ADD_CHAPTER}">{LANG.add} {LANG.chapter} <i class="fa fa-share"></i></a>
+<a class="btn btn-info" href="{MANAGE_CHAPTER}"><i class="fa fa-reply"></i> {LANG.back} {LANG.chapter_manage} </a> <a class="btn btn-info" href="{ADD_CHAPTER}">{LANG.add} {LANG.chapter}&nbsp;<i class="fa fa-share"></i></a>
 <!-- END: main -->

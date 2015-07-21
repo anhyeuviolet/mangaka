@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{NV_BASE_SITEURL}js/select2/select2.min.css">
 
 <script type="text/javascript" src="{NV_BASE_SITEURL}js/select2/select2.min.js"></script>
-<a class="btn btn-warning" href="{TO_CAT_LIST}">{LANG.back} {LANG.categories_list}</a><hr/>
+<a class="btn btn-warning" href="{TO_CAT_LIST}"><i class="fa fa-reply"></i>&nbsp;{LANG.back}&nbsp;{LANG.categories_list}</a><hr/>
 <br/>
 
 <div id="edit">

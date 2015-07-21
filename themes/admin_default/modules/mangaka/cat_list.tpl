@@ -1,6 +1,13 @@
 <!-- BEGIN: main -->
+<!-- BEGIN: nodata -->
+<p class="alert alert-info">{NO_MANGA}</p>
+<a class="btn btn-warning" href="{ADD_CAT}">{LANG.add_cat}&nbsp;<i class="fa fa-share"></i></a>
+<!-- END: nodata -->
+
 <div id="show_cat">
 	<!-- BEGIN: data -->
+<a class="btn btn-warning" href="{ADD_CAT}">{LANG.add_cat}&nbsp;<i class="fa fa-share"></i></a>
+<hr/>
 	<div class="table-responsive">
 		<table class="table table-striped table-bordered table-hover">
 			<col span="5" style="white-space: nowrap;" />
@@ -67,6 +74,8 @@
 	{GENERATE_PAGE}
 </div>
 <!-- END: generate_page -->
-	<!-- END: data -->
+<hr/>
+<a class="btn btn-warning" href="{ADD_CAT}">{LANG.add_cat}&nbsp;<i class="fa fa-share"></i></a>
+<!-- END: data -->
 </div>
 <!-- END: main -->
