@@ -1,11 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+ * @Project MANGA ON NUKEVIET 4.x
+ * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
  * @License GNU/GPL version 2 or any later version
- * @Createdate 3-6-2010 0:14
+ * @Createdate 15/07/2015 10:51
  */
 
 if( ! defined( 'NV_IS_MOD_NEWS' ) ) die( 'Stop!!!' );
@@ -94,7 +93,6 @@ if( empty( $contents ) )
 					{
 						$item['bid'][] = $global_array_block[$id];
 					}
-					
 				}
 			}
 	
@@ -107,16 +105,16 @@ if( empty( $contents ) )
 			$item['last_chapter'] = $last_chapter;
 			$item['total_chapter'] = $total_chapter;
 			$item['total_view'] = $total_view;
-			
+
 			$array_catpage[] = $item;
 		}
 		unset($array_cat);
-					
+
 		$viewcat = 'viewcat_full_home';
 		$generate_page = nv_alias_page( $page_title, $base_url, $num_items, $per_page, $page );
 		$contents = viewcat_full_home( $array_catpage, $generate_page );
 	}
-	elseif( $viewcat == 'viewcat_list_home'  ) // Hien thi danh sach, phong cach 3T.com
+	elseif( $viewcat == 'viewcat_list_home' ) // Hien thi danh sach, phong cach 3T.com
 	{
 		$db->sqlreset()
 			->select( 'COUNT(*)' )

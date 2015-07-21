@@ -15,10 +15,11 @@
 		<a href="{LINK.manage_manga}" class="btn btn-info btn-lg"> {LANG.manga_manage}</a>
 		<a href="{LINK.manage_chapter}" class="btn btn-primary btn-lg"> {LANG.chapter_manage}</a>
 		<a href="{LINK.add_chapter}" class="btn btn-warning btn-lg"> {LANG.add} {LANG.chapter}</a>
+		<!-- BEGIN: tools -->
 		<a href="{LINK.manage_genre}" class="btn btn-danger btn-lg"> {LANG.genre_manage}</a>
 		<a href="#" class="btn btn-default btn-lg"> {LANG.tool_upload}</a>
 		<a href="#" class="btn btn-success btn-lg"> {LANG.tool_leech}</a>
-
+		<!-- END: tools -->
 	</div>
 </div>
 <!-- END: main -->

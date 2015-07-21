@@ -112,7 +112,7 @@ if( defined( 'NV_IS_ADMIN_FULL_MODULE' ) )
 			$array_del_content =  $nv_Request->get_typed_array( 'del_content', 'post', 'int', array() );
             $array_app_content =  $nv_Request->get_typed_array( 'app_content', 'post', 'int', array() );
 
-			$sql = "SELECT catid, title, subcatid FROM " . NV_PREFIXLANG . "_" . $module_data . "_cat ORDER BY alias ASC";
+			$sql = "SELECT catid, title FROM " . NV_PREFIXLANG . "_" . $module_data . "_cat ORDER BY alias ASC";
 			$result_cat = $db->query( $sql );
 			while( $row = $result_cat->fetch() )
 			{
@@ -120,14 +120,6 @@ if( defined( 'NV_IS_ADMIN_FULL_MODULE' ) )
 				if( $admin_i )
 				{
 					$add_content_i = $pub_content_i = $edit_content_i = $del_content_i = $app_content_i = 1;
-					if( ! empty( $row['subcatid'] ) )
-					{
-						$array_subcatid_i = explode( ",", $row['subcatid'] );
-						foreach( $array_subcatid_i as $value )
-						{
-							$array_admin[] = $value;
-						}
-					}
 				}
 				else
 				{
@@ -136,18 +128,6 @@ if( defined( 'NV_IS_ADMIN_FULL_MODULE' ) )
 					$edit_content_i = ( in_array( $row['catid'], $array_edit_content ) ) ? 1 : 0;
 					$del_content_i = ( in_array( $row['catid'], $array_del_content ) ) ? 1 : 0;
 					$app_content_i = ( in_array( $row['catid'], $array_app_content ) ) ? 1 : 0;
-					if( ! empty( $row['subcatid'] ) )
-					{
-						$array_subcatid_i = explode( ",", $row['subcatid'] );
-						foreach( $array_subcatid_i as $value )
-						{
-							if( ! empty( $add_content_i ) ) $array_add_content[] = $value;
-							if( ! empty( $pub_content_i ) ) $array_pub_content[] = $value;
-							if( ! empty( $edit_content_i ) ) $array_edit_content[] = $value;
-							if( ! empty( $del_content_i ) ) $array_del_content[] = $value;
-                            if( ! empty( $app_content_i ) ) $array_app_content[] = $value;
-						}
-					}
 				}
                 $db->query( "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_admins (userid, catid, admin, add_content, pub_content, edit_content, del_content, app_content) VALUES ('" . $userid . "', '" . $row['catid'] . "', '" . $admin_i . "', '" . $add_content_i . "', '" . $pub_content_i . "', '" . $edit_content_i . "', '" . $del_content_i . "', '" . $app_content_i . "')" );
 			}

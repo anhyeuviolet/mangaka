@@ -74,6 +74,7 @@ $lang_module['content_list'] = 'Danh sách bài viết';
 $lang_module['content_add'] = 'Thêm Chapter';
 $lang_module['add_cat'] = 'Thêm Manga';
 $lang_module['edit_cat'] = 'Sửa Manga';
+$lang_module['add_edit_cat'] = 'Thêm/Sửa Manga';
 $lang_module['cat_sub'] = 'Thuộc Manga';
 $lang_module['cat_sub_sl'] = 'Là Manga chính';
 $lang_module['topic_sl'] = 'Chọn nhóm tin liên quan hoặc tự điền';
@@ -252,6 +253,8 @@ $lang_module['admin_full_name'] = 'Họ tên';
 $lang_module['admin_first_name'] = 'Tên';
 $lang_module['admin_last_name'] = 'Họ';
 $lang_module['admin_email'] = 'Email';
+$lang_module['firstname_lastname'] = 'Tên và Họ';
+$lang_module['lastname_firstname'] = 'Họ và Tên';
 
 $lang_module['permissions_admin'] = 'Quản lý Manga';
 $lang_module['permissions_add_content'] = 'Tạo bài viết';

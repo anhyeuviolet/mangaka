@@ -3,7 +3,6 @@
 /**
  * @Project MANGA ON NUKEVIET 4.x
  * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
  * @License GNU/GPL version 2 or any later version
  * @Createdate 15/07/2015 10:51
  */
@@ -72,8 +71,9 @@ function viewcat_list( $array_cat_block, $catid, $viewcat_img, $viewcat_rating, 
 		foreach( $array_cat_block as $array_cat_block_i )
 		{
 			$xtpl->assign( 'GENRE', $array_cat_block_i );
-			$xtpl->parse( 'main.viewdescription.genre' );
+			$xtpl->parse( 'main.viewdescription.genre.genre_loop' );
 		}
+		$xtpl->parse( 'main.viewdescription.genre' );
 	}
 
 	if( $global_array_cat[$catid]['allowed_rating'] == 1 ) // Rating mode
@@ -259,12 +259,7 @@ function viewcat_list_home( $array_catpage, $generate_page )
 			$xtpl->assign( 'HOMEIMGALT1', ! empty( $array_row_i['homeimgalt'] ) ? $array_row_i['homeimgalt'] : $array_row_i['title'] );
 			$xtpl->parse( 'main.viewcatloop.image' );
 		}
-
-		//if ( $newday >= NV_CURRENTTIME )
-		//{
-		//	$xtpl->parse( 'main.viewcatloop.newday' );
-		//}
-		
+	
 		if( !empty( $array_row_i['bid'] ) )
 		{
 			foreach( $array_row_i['bid'] as $bid )
@@ -273,7 +268,6 @@ function viewcat_list_home( $array_catpage, $generate_page )
 				$xtpl->parse( 'main.viewcatloop.block' );
 			}
 		}
-		
 		
 		$xtpl->set_autoreset();
 		$xtpl->parse( 'main.viewcatloop' );

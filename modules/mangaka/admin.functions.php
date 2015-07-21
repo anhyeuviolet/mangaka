@@ -3,13 +3,12 @@
 /**
  * @Project MANGA ON NUKEVIET 4.x
  * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
  * @License GNU/GPL version 2 or any later version
- * @Createdate 12/31/2009 2:29
+ * @Createdate 15/07/2015 10:51
  */
 
 if( ! defined( 'NV_ADMIN' ) or ! defined( 'NV_MAINFILE' ) or ! defined( 'NV_IS_MODADMIN' ) )
-	die( 'Stop!!!' );
+die( 'Stop!!!' );
 
 if( $NV_IS_ADMIN_MODULE )
 {
@@ -101,43 +100,6 @@ function rv($rmv) {
 	return $rmv;
 }
 
-
-/**
- * nv_news_fix_block()
- *
- * @param mixed $bid
- * @param bool $repairtable
- * @return
- */
-function nv_news_fix_block( $bid, $repairtable = true )
-{
-	global $db, $module_data;
-	$bid = intval( $bid );
-	if( $bid > 0 )
-	{
-		$sql = 'SELECT id FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block where bid=' . $bid . ' ORDER BY weight ASC';
-		$result = $db->query( $sql );
-		$weight = 0;
-		while( $row = $result->fetch() )
-		{
-			++$weight;
-			if( $weight <= 100 )
-			{
-				$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_block SET weight=' . $weight . ' WHERE bid=' . $bid . ' AND id=' . $row['id'];
-			}
-			else
-			{
-				$sql = 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block WHERE bid=' . $bid . ' AND id=' . $row['id'];
-			}
-			$db->query( $sql );
-		}
-		$result->closeCursor();
-		if( $repairtable )
-		{
-			$db->query( 'OPTIMIZE TABLE ' . NV_PREFIXLANG . '_' . $module_data . '_block' );
-		}
-	}
-}
 
 /**
  * nv_show_block_list()
@@ -547,6 +509,14 @@ function nv_fix_content_alias( $id )
 	$sthi->bindParam( ':alias', $data['alias'], PDO::PARAM_STR );
 	$sthi->execute();
 }
+
+/**
+ * nv_singlechap_content()
+ *
+ * @param integer $form, $url_chap, $method
+ * @return
+ */
+ 
 function nv_singlechap_content( $form, $url_chap, $method )
 {
 	global $db, $module_data, $module_name;

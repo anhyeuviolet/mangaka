@@ -47,6 +47,10 @@ $xtpl->assign( 'LINK', array(
 			'tool_leech' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=leecher',
 ) );
 
+if(  defined( 'NV_IS_ADMIN_MODULE' ) )
+{
+	$xtpl->parse( 'main.tools' );
+}
 $xtpl->assign( 'TOTAL_MANGA', $total_manga );
 $xtpl->assign( 'TOTAL_CHAP', $total_chapter );
 $xtpl->assign( 'TOTAL_VIEW', $total_view );

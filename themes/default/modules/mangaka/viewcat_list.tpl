@@ -11,7 +11,7 @@
 			</tr>
 		<!-- END: loop -->
 		</tbody>
-	</table>
+</table>
 	<!-- BEGIN: generate_page -->
 	<div class="text-center">
 		{PAGE}
@@ -94,10 +94,12 @@
 			<tr class="active">
 				<td>
 					<div class="col-lg-16 col-md-16 col-xs-24">
+					<!-- BEGIN: genre -->
 					{LANG.genre} :
-						<!-- BEGIN: genre -->
+						<!-- BEGIN: genre_loop -->
 						<a title="{GENRE.title}" href="{GENRE.link}" class="label label-success genre">{GENRE.title}</a>
-						<!-- END: genre -->
+						<!-- END: genre_loop -->
+					<!-- END: genre -->
 					</div>
 					<div class="col-lg-8 col-md-8 col-xs-24 pull-right">
 					<!-- BEGIN: last_update -->
@@ -166,7 +168,6 @@
 				<!-- END: allowed_rating -->
 			</div>
 		</div>
-
 	<!-- END: viewdescription -->
 	<div class="chapter-content-head">
 	<table class="table">

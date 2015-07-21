@@ -3,9 +3,8 @@
 /**
  * @Project MANGA ON NUKEVIET 4.x
  * @Author KENNYNGUYEN (nguyentiendat713@gmail.com)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
  * @License GNU/GPL version 2 or any later version
- * @Createdate 07/30/2013 10:27
+ * @Createdate 15/07/2015 10:51
  */
 
 if( ! defined( 'NV_ADMIN' ) ) die( 'Stop!!!' );
@@ -77,7 +76,7 @@ else
 $allow_func = array( 'main', 'view', 'stop', 'publtime', 'waiting', 'declined', 're-published', 'content', 'chapterlist', 'rpc', 'del_content', 'alias', 'cat', 'cat_manage', 'change_cat', 'list_cat', 'del_cat', 'chapter_manage', 'getchap_conf' , 'getchap', 'getmanga_conf', 'getmanga' );
 
 $menu_cat = array();
-$menu_cat['cat'] = $lang_module['categories'];
+$menu_cat['cat'] = $lang_module['add_edit_cat'];
 $submenu['cat_manage'] = array( 'title' => $lang_module['categories_list'], 'submenu' => $menu_cat );
 
 $submenu['chapter_manage'] = $lang_module['chapter_manage'];
