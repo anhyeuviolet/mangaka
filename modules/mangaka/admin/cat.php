@@ -15,8 +15,8 @@ if( defined( 'NV_EDITOR' ) )
 {
 	require_once NV_ROOTDIR . '/' . NV_EDITORSDIR . '/' . NV_EDITOR . '/nv.php';
 }
-
-$error = $admins = '';
+$error = array();
+$admins = '';
 $savecat = 0;
 list( $catid, $title, $titlesite, $alias, $description, $descriptionhtml, $keywords, $authors, $translators, $groups_view, $block_id, $image, $image_type, $progress, $inhome, $allowed_rating ) = array( 0, '', '', '', '', '', '', '', '', '6','', '','', '', 1,1 );
 
@@ -45,9 +45,9 @@ if( $catid > 0 and isset( $global_array_cat[$catid] ) )
 
 	if( ! defined( 'NV_IS_ADMIN_MODULE' ) )
 	{
-		if( ! ( isset( $array_cat_admin[$admin_id] ) and $array_cat_admin[$admin_id]['admin'] == 1 ) )
+		if( !(isset( $array_cat_admin[$admin_id][$catid] ) and $array_cat_admin[$admin_id][$catid]['admin'] == 1) )
 		{
-			Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op );
+			Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op . '&catid=' . $catid );
 			die();
 		}
 	}
@@ -131,9 +131,9 @@ if( ! empty( $savecat ) )
 	$image_type = 0;
 	if( ! nv_is_url( $image ) and is_file( NV_DOCUMENT_ROOT . $image ) )
 	{
-		$lu = strlen( NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/cover/' );
+		$lu = strlen( NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/cover/' );
 		$image = substr( $image, $lu );
-		if( file_exists( NV_ROOTDIR . '/' . NV_FILES_DIR . '/' . $module_name . '/cover/' . $image ) )
+		if( file_exists( NV_ROOTDIR . '/' . NV_FILES_DIR . '/' . $module_upload . '/cover/' . $image ) )
 		{
 			$image_type = 1;
 		}
@@ -153,7 +153,7 @@ if( ! empty( $savecat ) )
 
 	if( ! defined( 'NV_IS_ADMIN_MODULE' ) )
 	{
-		if( ! ( isset( $array_cat_admin[$admin_id] ) and $array_cat_admin[$admin_id]['admin'] == 1 ) )
+		if( !(isset( $array_cat_admin[$admin_id][$catid] ) and $array_cat_admin[$admin_id][$catid]['admin'] == 1) )
 		{
 			Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op );
 			die();
@@ -164,7 +164,6 @@ if( ! empty( $savecat ) )
 		if( $catid == 0 and $title != '' )
 		{
 			$viewcat = 'viewcat_list';
-
 			$sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_cat ( title, titlesite, alias, description, descriptionhtml, image, image_type, progress, viewcat, inhome, allowed_rating, keywords, authors, translators, admins, add_time, edit_time, groups_view, allowed_comm, bid, last_update) VALUES
 				(:title, :titlesite, :alias, :description, :descriptionhtml, :image, :image_type, '" . $progress . "', :viewcat, '" . $inhome . "', '" . $allowed_rating . "', :keywords, :authors, :translators, :admins, " . NV_CURRENTTIME . ", " . NV_CURRENTTIME . ", :groups_view, :allowed_comm, :bid, " . NV_CURRENTTIME . " )";
 				
@@ -266,6 +265,14 @@ if( defined( 'NV_IS_ADMIN_MODULE' ) )
 	$array_cat_list[0] = $lang_module['cat_sub_sl'];
 }
 
+foreach( $global_array_cat as $catid_i => $array_value )
+{
+	if( defined( 'NV_IS_ADMIN_MODULE' ) or (isset( $array_cat_admin[$admin_id][$catid_i] ) and $array_cat_admin[$admin_id][$catid_i]['admin'] == 1) )
+	{
+		$array_cat_list[$catid_i] = $array_value['title'];
+	}
+}
+
 if( ! empty( $array_cat_list ) )
 {
 	$groups_views = array();
@@ -301,10 +308,10 @@ $xtpl->assign( 'authors', $authors );
 $xtpl->assign( 'translators', $translators );
 $xtpl->assign( 'description', nv_htmlspecialchars( nv_br2nl( $description ) ) );
 
-$xtpl->assign( 'UPLOAD_CURRENT', NV_UPLOADS_DIR . '/' . $module_name . '/cover/' );
-if( ! empty( $image ) and file_exists( NV_UPLOADS_REAL_DIR . '/' . $module_name . '/cover/' . $image ) )
+$xtpl->assign( 'UPLOAD_CURRENT', NV_UPLOADS_DIR . '/' . $module_upload . '/cover/' );
+if( ! empty( $image ) and file_exists( NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/cover/' . $image ) )
 {
-	$image = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_name . '/cover/' . $image;
+	$image = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/cover/' . $image;
 }
 $xtpl->assign( 'image', $image );
 
@@ -381,7 +388,7 @@ if( ! empty( $array_cat_list ) )
 	$descriptionhtml = nv_htmlspecialchars( nv_editor_br2nl( $descriptionhtml ) );
 	if( defined( 'NV_EDITOR' ) and nv_function_exists( 'nv_aleditor' ) )
 	{
-		$_uploads_dir = NV_UPLOADS_DIR . '/' . $module_name.'/cover/';
+		$_uploads_dir = NV_UPLOADS_DIR . '/' . $module_upload.'/cover/';
 		$descriptionhtml = nv_aleditor( 'descriptionhtml', '100%', '200px', $descriptionhtml, 'Basic', $_uploads_dir, $_uploads_dir );
 	}
 	else
@@ -391,8 +398,11 @@ if( ! empty( $array_cat_list ) )
 	$xtpl->assign( 'DESCRIPTIONHTML', $descriptionhtml );
 	$xtpl->parse( 'main.content' );
 }
-$xtpl->parse( 'main' );
-$contents .= $xtpl->text( 'main' );
+if( defined( 'NV_IS_ADMIN_MODULE' ) )
+{
+	$xtpl->parse( 'main' );
+	$contents .= $xtpl->text( 'main' );
+}
 
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_admin_theme( $contents );

@@ -1,13 +1,16 @@
 <!-- BEGIN: main -->
 <!-- BEGIN: nodata -->
 <p class="alert alert-info">{NO_MANGA}</p>
+<!-- BEGIN: add_cat -->
 <a class="btn btn-warning" href="{ADD_CAT}">{LANG.add_cat}&nbsp;<i class="fa fa-share"></i></a>
+<!-- END: add_cat -->
 <!-- END: nodata -->
-
 <div id="show_cat">
 	<!-- BEGIN: data -->
-<a class="btn btn-warning" href="{ADD_CAT}">{LANG.add_cat}&nbsp;<i class="fa fa-share"></i></a>
-<hr/>
+	<!-- BEGIN: add_cat -->
+	<a class="btn btn-warning" href="{ADD_CAT}">{LANG.add_cat}&nbsp;<i class="fa fa-share"></i></a>
+	<hr/>
+	<!-- END: add_cat -->
 	<div class="table-responsive">
 		<table class="table table-striped table-bordered table-hover">
 			<col span="5" style="white-space: nowrap;" />
@@ -35,7 +38,6 @@
 					<td>
 						<strong><a href="{ROW.link}" target="_blank">{ROW.title}</a></strong>
 					</td>
-
 				<td class="text-center">
 				<!-- BEGIN: disabled_inhome -->
 				{INHOME}
@@ -74,8 +76,10 @@
 	{GENERATE_PAGE}
 </div>
 <!-- END: generate_page -->
+<!-- BEGIN: add_cat_bot -->
 <hr/>
 <a class="btn btn-warning" href="{ADD_CAT}">{LANG.add_cat}&nbsp;<i class="fa fa-share"></i></a>
+<!-- END: add_cat_bot -->
 <!-- END: data -->
 </div>
 <!-- END: main -->

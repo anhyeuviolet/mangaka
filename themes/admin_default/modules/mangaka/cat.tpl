@@ -1,6 +1,5 @@
 <!-- BEGIN: main -->
 <link rel="stylesheet" href="{NV_BASE_SITEURL}js/select2/select2.min.css">
-
 <script type="text/javascript" src="{NV_BASE_SITEURL}js/select2/select2.min.js"></script>
 <a class="btn btn-warning" href="{TO_CAT_LIST}"><i class="fa fa-reply"></i>&nbsp;{LANG.back}&nbsp;{LANG.categories_list}</a><hr/>
 <br/>
@@ -48,7 +47,6 @@
 						</select></td>
 					</tr>
 					<!-- END: hide_subcat -->
-					
 					<tr>
 						<th class="text-right">{LANG.progress}: </th>
 						<td>
@@ -69,10 +67,9 @@
 					</tr>
 					<tr><th class="text-right">{LANG.content_allowed_rating} </th>
 						<td>
-									<input type="checkbox" value="1" name="allowed_rating" {allowed_rating_checked}/>
+							<input type="checkbox" value="1" name="allowed_rating" {allowed_rating_checked}/>
 						</td>
 					</tr>
-					
 					<tr>
 						<th class="text-right">{LANG.keywords}: </th>
 						<td><input class="form-control w500" name="keywords" type="text" value="{keywords}" maxlength="255" /></td>
@@ -194,12 +191,6 @@
 	$("#idtitle").change(function() {
 		get_alias("cat", 0);
 	});
-	
-	$("#gotoedit").click(function() {
-    $('html, body').animate({
-        scrollTop: $("#edit").offset().top
-    }, 500);
-});
 </script>
 <!-- END: getalias -->
 <!-- END: content -->

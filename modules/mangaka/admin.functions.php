@@ -249,10 +249,11 @@ function nv_show_cat_list_new()
 	$per_page = 25;
 	$all_page = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat' )->fetchColumn();
 
-	
 	$xtpl = new XTemplate( 'cat_list.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
 	$xtpl->assign( 'LANG', $lang_module );
 	$xtpl->assign( 'GLANG', $lang_global );
+	$xtpl->assign( 'NO_MANGA', $lang_module['no_manga'] );
+	$xtpl->assign( 'ADD_CAT',  NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=cat' );
 
 	// Cac chu de co quyen han
 	$array_cat_check_content = array();
@@ -326,7 +327,7 @@ function nv_show_cat_list_new()
 				$func_cat_disabled = false;
 				$admin_funcs[] = "<em class=\"fa fa-edit fa-lg\">&nbsp;</em> <a class=\"\" href=\"" . NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=cat&amp;catid=" . $catid . "#edit\">" . $lang_global['edit'] . "</a>\n";
 			}
-			if( defined( 'NV_IS_ADMIN_MODULE' ) or ( isset( $array_cat_admin[$admin_id][$catid] ) and $array_cat_admin[$admin_id][$catid]['admin'] == 1) )
+			if( defined( 'NV_IS_ADMIN_MODULE' ) )
 			{
 				$weight_disabled = false;
 				$admin_funcs[] = "<em class=\"fa fa-trash-o fa-lg\">&nbsp;</em> <a href=\"javascript:void(0);\" onclick=\"nv_del_cat(" . $catid . ")\">" . $lang_global['delete'] . "</a>";
@@ -388,10 +389,18 @@ function nv_show_cat_list_new()
 		$xtpl->assign( 'GENERATE_PAGE', $generate_page );
 		$xtpl->parse( 'main.data.generate_page' );
 	}
-
+	if( defined( 'NV_IS_ADMIN_MODULE' ) )
+	{
+		$xtpl->parse( 'main.data.add_cat' );
+		$xtpl->parse( 'main.data.add_cat_bot' );
+	}
 	if( $num > 0 )
 	{
 		$xtpl->parse( 'main.data' );
+	}
+	else
+	{
+		$xtpl->parse( 'main.nodata' );
 	}
 
 	$xtpl->parse( 'main' );

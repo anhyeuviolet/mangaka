@@ -17,7 +17,6 @@ $xtpl->assign( 'GLANG', $lang_global );
 $xtpl->assign( 'NV_BASE_ADMINURL', NV_BASE_ADMINURL );
 $xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
 $xtpl->assign( 'MODULE_NAME', $module_name );
-$xtpl->assign( 'ADD_CAT',  NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=cat' );
 $xtpl->assign( 'OP', $op );
 $xtpl->assign( 'CAT_LIST', nv_show_cat_list_new() );
 
