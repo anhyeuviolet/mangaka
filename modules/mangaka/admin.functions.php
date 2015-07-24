@@ -241,7 +241,6 @@ function redirect( $msg1 = '', $msg2 = '', $nv_redirect, $autoSaveKey = '' )
  */
 function nv_show_cat_list_new()
 {
-
 	global $db, $lang_module, $lang_global, $module_name, $module_data, $array_viewcat_full, $array_viewcat_nosub, $array_cat_admin, $global_array_cat, $admin_id, $global_config, $module_file, $nv_Request;
 	
 	$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=cat_manage';
@@ -299,7 +298,6 @@ function nv_show_cat_list_new()
 		$lang_global['yes']
 	);
 
-	
 	foreach ($rowall as $row)
 	{
 		list( $catid, $title, $alias, $add_time, $last_update, $inhome, $allowed_rating ) = $row;
@@ -400,6 +398,7 @@ function nv_show_cat_list_new()
 	}
 	else
 	{
+		$xtpl->parse( 'main.nodata.add_cat' );
 		$xtpl->parse( 'main.nodata' );
 	}
 
@@ -569,6 +568,5 @@ function nv_singlechap_content( $form, $url_chap, $method )
 			$img_full = preg_replace('/'.htmlspecialchars_decode($data['replace_3']).'/','',$img_full);
 		} 
 	}
-	//var_dump($data);die;
 	return $img_full;
 }

@@ -51,26 +51,26 @@ if($action == '1'){
 		$sql='SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_get_chap WHERE id=' . intval( $id); 
 		$result = $db->query( $sql );			
 		$data = $result->fetch();
-		
 
 		$html = file_get_html($url);
 		$imglist = '';
-		foreach($html->find($data ['url_html_pattern']) as $element){
-			   $link = $element->find($data ['url_pattern']);
-			   foreach($link as $element) 
-			   $imglist = $imglist.$data ['url_host'].$element->href.'<br/>';
+		foreach($html->find($data ['url_html_pattern']) as $element)
+		{
+		   $link = $element->find($data ['url_pattern']);
+		   foreach($link as $element) 
+		   $imglist = $imglist.$data ['url_host'].$element->href.'<br/>';
 		}
 		if (!empty($imglist))
 		{
 			$xtpl->assign( 'IMGLIST', $imglist );
 			$xtpl->parse( 'main.img_list' );
-			
 		}
 		unset($html);
-	} else{
+	}
+	else
+	{
 		Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op );
 		die();
-
 	}
 }
 
@@ -161,7 +161,7 @@ if($action == '2'){
 				$xtpl->assign( 'THIS_CHAP', $this_chapter );
 				$xtpl->parse( 'main.getchap_result.loop' );
 			}
-			
+
 			// Neu Chapter ton tai gia tri la so thi tien hanh. Neu chi la Ngoai truyen hay bonus thi bo qua(Leech thu cong)
 			if (!empty($this_chapter)){
 				$duplicate=false;
@@ -176,7 +176,9 @@ if($action == '2'){
 						}
 					}
 				}
-			} else {
+			}
+			else 
+			{
 				$duplicate=true;
 			}
 			
@@ -349,7 +351,9 @@ if($action == '2'){
 		} //End of each chapter
 		$html->clear(); 
 		unset($html);
-	} else{
+	} 
+	else
+	{
 		Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op );
 		die();
 	}

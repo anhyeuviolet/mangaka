@@ -68,6 +68,42 @@
 	color: #47a3da;
 }
 
+/*Block CSS*/
+
+/*Block quick search*/
+#scrolling {
+	height: 300px;
+	width: 320px;
+	overflow: hidden;
+	position: absolute;
+	margin-top: 32px;
+	border: none
+}
+
+#result {
+	position: absolute;
+	width: 320px;
+	padding: 10px;
+	display: none;
+	margin-top: -1px;
+	border-top: 0px;
+	overflow: hidden;
+	border: 1px #CCC solid;
+	background-color: white;
+}
+.show {
+	padding: 10px;
+	border-bottom: 1px #999 dashed;
+	font-size: 15px;
+	height: 50px;
+	background-color: #ffffff;
+}
+.show:hover {
+	background: #4c66a4;
+	color: #FFF;
+	cursor: pointer;
+}
+
 /* Icons */
 .tabs nav a:before {
 	display: inline-block;

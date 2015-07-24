@@ -1,43 +1,5 @@
 <!-- BEGIN: main -->
 <link href="{NV_BASE_SITEURL}modules/{MODULE_FILE}/js/perfect-scrollbar.min.css" rel="stylesheet">
-<script src="{NV_BASE_SITEURL}modules/{MODULE_FILE}/js/jquery.mousewheel.js"></script>
-<script src="{NV_BASE_SITEURL}modules/{MODULE_FILE}/js/perfect-scrollbar.min.js"></script>
-
-<style type="text/css">
-	#scrolling {
-		height: 300px;
-		width: 320px;
-		overflow: hidden;
-		position: absolute;
-		margin-top: 32px;
-		border: none
-	}
-
-	#result {
-		position: absolute;
-		width: 320px;
-		padding: 10px;
-		display: none;
-		margin-top: -1px;
-		border-top: 0px;
-		overflow: hidden;
-		border: 1px #CCC solid;
-		background-color: white;
-	}
-	.show {
-		padding: 10px;
-		border-bottom: 1px #999 dashed;
-		font-size: 15px;
-		height: 50px;
-		background-color: #ffffff;
-	}
-	.show:hover {
-		background: #4c66a4;
-		color: #FFF;
-		cursor: pointer;
-	}
-</style>
-
 <script type="text/javascript">
 	$(document).ready(function($) {
 		$("#scrolling").hide();
@@ -102,4 +64,6 @@
 		</div>
 	</form>
 </div>
+<script src="{NV_BASE_SITEURL}modules/{MODULE_FILE}/js/jquery.mousewheel.js"></script>
+<script src="{NV_BASE_SITEURL}modules/{MODULE_FILE}/js/perfect-scrollbar.min.js"></script>
 <!-- END: main -->

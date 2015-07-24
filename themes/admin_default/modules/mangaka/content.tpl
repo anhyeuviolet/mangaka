@@ -1,7 +1,4 @@
 <!-- BEGIN: main -->
-<link rel="stylesheet" href="{NV_BASE_SITEURL}js/select2/select2.min.css">
-<script type="text/javascript" src="{NV_BASE_SITEURL}js/select2/select2.min.js"></script>
-
 <!-- BEGIN: error -->
 <div class="alert alert-danger">{error}</div>
 <!-- END: error -->
@@ -10,7 +7,7 @@
 <link type="text/css" href="{NV_BASE_SITEURL}js/ui/jquery.ui.menu.css" rel="stylesheet" />
 <link type="text/css" href="{NV_BASE_SITEURL}js/ui/jquery.ui.autocomplete.css" rel="stylesheet" />
 <link type="text/css" href="{NV_BASE_SITEURL}js/ui/jquery.ui.datepicker.css" rel="stylesheet" />
-
+<link rel="stylesheet" href="{NV_BASE_SITEURL}js/select2/select2.min.css">
 <form class="form-inline m-bottom" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" enctype="multipart/form-data" method="post" class="confirm-reload">
 	<div class="row">
 		<div class="col-sm-24 col-md-16">
@@ -202,72 +199,32 @@
 	<!-- END: getchap_result-->  
 </fieldset>
 </form>
-
 <div id="message"></div>
-<script type="text/javascript">
-//<![CDATA[
-var content_checkcatmsg = "{LANG.content_checkcatmsg}";
-$("input[name=selectimg]").click(function() {
-	var area = "homeimg";
-	var alt = "homeimgalt";
-	var path = "{UPLOADS_DIR_USER}";
-	var currentpath = "{UPLOAD_CURRENT}";
-	var type = "image";
-	nv_open_browse(script_name + "?" + nv_name_variable + "=upload&popup=1&area=" + area + "&alt=" + alt + "&path=" + path + "&type=" + type + "&currentpath=" + currentpath, "NVImg", 850, 420, "resizable=no,scrollbars=no,toolbar=no,location=no,status=no");
-	return false;
-});
-$('[type="submit"]').hover(function(){
 
-	if( $('[name="alias"]').val() == '' ){
-		if( $('#message-alias').length == 0 ){
-			$('#message').append('<div id="message-alias" class="alert alert-danger">{LANG.alias_empty_notice}.</div>');
-		}
-	}else{
-		$('#message-alias').remove();
-	}
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#catid").select2();
 });
+//<![CDATA[
+var LANG = [];
+var CFG = [];
+CFG.uploads_dir_user = '{UPLOADS_DIR_USER}';
+CFG.upload_current = '{UPLOAD_CURRENT}';
+LANG.content_tags_empty = '{LANG.content_tags_empty}.<!-- BEGIN: auto_tags --> {LANG.content_tags_empty_auto}.<!-- END: auto_tags -->';
+LANG.alias_empty_notice = '{LANG.alias_empty_notice}';
+var content_checkcatmsg = "{LANG.content_checkcatmsg}";
+<!-- BEGIN: getalias -->
+$("#idtitle").change(function() {
+	get_alias();
+});
+<!-- END: getalias -->
 //]]>
 </script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}js/select2/select2.min.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}js/ui/jquery.ui.core.min.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}js/ui/jquery.ui.menu.min.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}js/ui/jquery.ui.autocomplete.min.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}js/ui/jquery.ui.datepicker.min.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}js/language/jquery.ui.datepicker-{NV_LANG_INTERFACE}.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}modules/mangaka/js/content.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$("#catid").select2();
-	});
-	$(function () {
-        $("input[id*='chapter']").keydown(function (event) {
-
-
-            if (event.shiftKey == true) {
-                event.preventDefault();
-            }
-
-            if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 110 || event.keyCode == 190) {
-
-            } else {
-                event.preventDefault();
-            }
-            
-            if($(this).val().indexOf('.') !== -1 && event.keyCode == 190)
-                event.preventDefault();
-                        if($(this).val().indexOf('.') !== -1 && event.keyCode == 110)
-                event.preventDefault();
-
-        });
-    });
-</script>
-<!-- BEGIN: getalias -->
-<script type="text/javascript">
-//<![CDATA[
-$("#idtitle").change(function() {
-	get_alias();
-});
-//]]>
-</script>
-
-<!-- END: getalias -->
 <!-- END:main -->

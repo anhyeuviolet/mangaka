@@ -193,13 +193,11 @@
 		.fb-comments span, .fb-comments iframe span[style], .fb-like-box span, .fb-like-box iframe span[style] {width: 100% !important;}
 		</style>
 		<!-- END: fb_comment -->
-
-			<!-- BEGIN: comment -->
-			<section id="section-3">
-				{CONTENT_COMMENT}
-			</section>
-			<!-- END: comment -->		
-		
+		<!-- BEGIN: comment -->
+		<section id="section-3">
+			{CONTENT_COMMENT}
+		</section>
+		<!-- END: comment -->		
 	</div>
 </div>
 <script type="text/javascript">
@@ -208,7 +206,6 @@ $(document).ready(function() {
 });
 </script>
 <!-- BEGIN: replace_img_src --> 
-
 <script type='text/javascript'>
 //<![CDATA[
 var images = document.getElementsByTagName("img");
