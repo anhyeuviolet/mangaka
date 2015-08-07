@@ -43,6 +43,7 @@ if( ! function_exists( 'nv_search_suggest_manga' ) )
 		$xtpl->assign( 'NV_BASE_SITEURL', NV_BASE_SITEURL );
 		$xtpl->assign( 'MODULE_NAME', $module );
 		$xtpl->assign( 'MODULE_FILE', $mod_file );
+		$xtpl->assign( 'MODULE_THEME', $module_info['template'] );
 		$xtpl->assign( 'SEARCH_URL', NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module . "&amp;" . NV_OP_VARIABLE . "=suggest" );
 
 		$xtpl->parse( 'main' );

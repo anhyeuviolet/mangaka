@@ -20,30 +20,9 @@
 <!-- END: viewcat_ajax -->
 
 <!-- BEGIN: main -->
-<!-- BEGIN: facebookjssdk -->
-<div id="fb-root"></div>
-<script type="text/javascript">
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/{FACEBOOK_LANG}/all.js#xfbml=1&appId={FACEBOOK_APPID}";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
-<!-- END: facebookjssdk -->
-<!-- BEGIN: facebook_pubsdk -->
-<div id="fb-root"></div>
-<script>
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/{FACEBOOK_LANG}/sdk.js#xfbml=1&version=v2.3";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-</script>
-<!-- END: facebook_pubsdk -->
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.pack.js"></script>
+<script src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.MetaData.js" type="text/javascript"></script>
+<link href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.css" type="text/css" rel="stylesheet"/>
 
 <div class="news_content clearfix">
 	<!-- BEGIN: viewdescription -->
@@ -60,7 +39,7 @@
 		<tbody>
 			<tr>
 				<td>
-					<div class="info clearfix">
+					<div class="manga_info clearfix">
 						<div class="col-lg-8 col-md-8 col-xs-24">
 							<!-- BEGIN: image -->
 							<img alt="{CONTENT.title}" src="{HOMEIMG1}" width="250" class="img-thumbnail imghome center-block" />
@@ -169,10 +148,10 @@
 			</div>
 		</div>
 	<!-- END: viewdescription -->
-	<div class="chapter-content-head">
+	<div class="chapter_content_head">
 	<table class="table">
 		<thead>
-			<tr class="info">
+			<tr class="manga_info">
 				<th class="text-center col-md-15 col-lg-15 col-xs-24 col-sm-15">{LANG.chapter}</th>
 				<th class="text-center col-md-9 col-lg-9 col-xs-24 col-sm-9">{LANG.last_update}</th>
 			</tr>
@@ -207,10 +186,7 @@
 			<section id="section-1">
 				<div id="disqus_thread"></div>
 					<script type="text/javascript">
-						/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-						var disqus_shortname = '{DISQUS_SHORTNAME}'; // required: replace example with your forum shortname
-
-						/* * * DON'T EDIT BELOW THIS LINE * * */
+						var disqus_shortname = '{DISQUS_SHORTNAME}'; 
 						(function() {
 							var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
 							dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
@@ -222,7 +198,7 @@
 			<!-- END: disqus -->
 			<!-- BEGIN: fb_comment -->
 			<section id="section-2">
-				<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
+				<div class="fb-comments" data-href="{SELFURL}" data-numposts="5" data-colorscheme="light"></div>
 				<style>.fb-comments, .fb-comments iframe[style], .fb-like-box, .fb-like-box iframe[style] {width: 100% !important;}
 				.fb-comments span, .fb-comments iframe span[style], .fb-like-box span, .fb-like-box iframe span[style] {width: 100% !important;}
 				</style>
@@ -237,15 +213,9 @@
 	</div>
 </div>
 <!-- BEGIN: tooltip -->
-<script type="text/javascript">
-	$(document).ready(function() {$("[data-rel='tooltip'][data-content!='']").tooltip({
-		placement: "{TOOLTIP_POSITION}",
-		html: true,
-		title: function(){return ( $(this).data('img') == '' ? '' : '<img class="img-thumbnail pull-left margin_image" src="' + $(this).data('img') + '" width="90" />' ) + '<p class="text-justify">' + $(this).data('content') + '</p><div class="clearfix"></div>';}
-	});});
-</script>
+
 <!-- END: tooltip -->
-<script type="text/javascript" src="{NV_BASE_SITEURL}modules/{MODULE_FILE}/js/tabresponsive.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}themes/{MODULE_THEME}/js/mangaka_tab.js"></script>
 <script type="text/javascript">
 	var detail_error_group = '{LANG.detail_error_group}';
 	new CBPFWTabs(document.getElementById('tabs'));

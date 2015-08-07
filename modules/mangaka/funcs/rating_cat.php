@@ -28,7 +28,7 @@ if( $id > 0 and in_array( $point, $array_point ) and $checkss == md5( $id . $cli
 	}
 
 	$nv_Request->set_Session( $module_name . '_' . $op . '_' . $id, NV_CURRENTTIME );
-	$query = $db->query( "SELECT allowed_rating, total_rating, click_rating FROM " . NV_PREFIXLANG . "_" . $module_data . "_cat WHERE catid= " . $id . " AND inhome=1" );
+	$query = $db->query( "SELECT allowed_rating, total_rating, click_rating FROM " . NV_PREFIXLANG . "_" . $module_data . "_cat WHERE catid= " . $id );
 	$row = $query->fetch();
 	if( isset( $row['allowed_rating'] ) and $row['allowed_rating'] == 1 )
 	{

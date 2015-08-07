@@ -1,6 +1,5 @@
 <!-- BEGIN: main -->
-<link rel="stylesheet" href="{NV_BASE_SITEURL}js/select2/select2.min.css">
-<script type="text/javascript" src="{NV_BASE_SITEURL}js/select2/select2.min.js"></script>
+<link rel="stylesheet" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.css">
 <a class="btn btn-warning" href="{TO_CAT_LIST}"><i class="fa fa-reply"></i>&nbsp;{LANG.back}&nbsp;{LANG.categories_list}</a><hr/>
 <br/>
 
@@ -183,4 +182,5 @@ $(document).ready(function() {
 });
 </script>
 <!-- END: content -->
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.js"></script>
 <!-- END: main -->

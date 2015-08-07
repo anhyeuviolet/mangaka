@@ -96,7 +96,7 @@ $bid = $nv_Request->get_int( 'bid', 'get', 0 );
 if( $bid > 0 )
 {
 	list( $bid, $title, $alias, $description, $image, $keywords ) = $db->query( "SELECT bid, title, alias, description, image, keywords FROM " . NV_PREFIXLANG . "_" . $module_data . "_block_cat where bid=" . $bid )->fetch( 3 );
-	$lang_module['add_block_cat'] = $lang_module['edit_block_cat'];
+	$lang_module['add_genre'] = $lang_module['edit_genre'];
 }
 
 $lang_global['title_suggest_max'] = sprintf( $lang_global['length_suggest_max'], 65 );

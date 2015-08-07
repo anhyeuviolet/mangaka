@@ -1,5 +1,5 @@
 <!-- BEGIN: main -->
-<link href="{NV_BASE_SITEURL}modules/{MODULE_FILE}/js/perfect-scrollbar.min.css" rel="stylesheet">
+<link href="{NV_BASE_SITEURL}themes/{MODULE_THEME}/css/mangaka_perfect-scrollbar.min.css" rel="stylesheet">
 <script type="text/javascript">
 	$(document).ready(function($) {
 		$("#scrolling").hide();
@@ -64,6 +64,6 @@
 		</div>
 	</form>
 </div>
-<script src="{NV_BASE_SITEURL}modules/{MODULE_FILE}/js/jquery.mousewheel.js"></script>
-<script src="{NV_BASE_SITEURL}modules/{MODULE_FILE}/js/perfect-scrollbar.min.js"></script>
+<script src="{NV_BASE_SITEURL}themes/{MODULE_THEME}/js/mangaka_jquery.mousewheel.js"></script>
+<script src="{NV_BASE_SITEURL}themes/{MODULE_THEME}/js/mangaka_perfect-scrollbar.min.js"></script>
 <!-- END: main -->

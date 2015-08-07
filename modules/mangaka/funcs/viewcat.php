@@ -64,7 +64,6 @@ if( empty( $contents ) )
 				{
 					$array_cat_block[] = $global_array_block[$id];
 				}
-			
 			}
 		}
 		

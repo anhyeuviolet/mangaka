@@ -1,29 +1,8 @@
 <!-- BEGIN: main -->
-<link href="{NV_BASE_SITEURL}editors/ckeditor/plugins/codesnippet/lib/highlight/styles/github.css" rel="stylesheet">
-<!-- BEGIN: facebookjssdk -->
-<div id="fb-root"></div>
-<script type="text/javascript">
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/{FACEBOOK_LANG}/all.js#xfbml=1&appId={FACEBOOK_APPID}";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
-<!-- END: facebookjssdk -->
-<!-- BEGIN: facebook_pubsdk -->
-<div id="fb-root"></div>
-<script>
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/{FACEBOOK_LANG}/sdk.js#xfbml=1&version=v2.3";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-</script>
-<!-- END: facebook_pubsdk -->
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.pack.js"></script>
+<script src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.MetaData.js" type="text/javascript"></script>
+<link href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/star-rating/jquery.rating.css" type="text/css" rel="stylesheet"/>
+
 <div class="news_column panel panel-default">
 	<div class="panel-body">
 		<h1>{DETAIL.detail_title}</h1>
@@ -111,16 +90,8 @@
         <!-- BEGIN: socialbutton -->
         <div class="socialicon pull-left">
         	<div style="width:65px" class="fb-share-button" data-href="{SELFURL}" data-layout="button">&nbsp;</div>
-	        <div class="fb-like" data-href="{SELFURL}" data-width="The pixel width of the plugin" data-height="The pixel height of the plugin" data-colorscheme="light" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false">&nbsp;</div>
+	        <div class="fb-like" data-href="{SELFURL}" data-width="100" data-height="30" data-colorscheme="light" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false">&nbsp;</div>
 	        <div class="g-plusone" data-size="medium"></div>
-	        <script type="text/javascript">
-	          window.___gcfg = {lang: nv_sitelang};
-	          (function() {
-	            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-	            po.src = 'https://apis.google.com/js/plusone.js';
-	            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	          })();
-	        </script>
 	    </div>
         <!-- END: socialbutton -->
         <!-- BEGIN: adminlink -->
@@ -200,21 +171,6 @@
 		<!-- END: comment -->		
 	</div>
 </div>
-<script type="text/javascript">
-$(document).ready(function() {
-	$(".bodytext img").toggleClass('img-thumbnail center-block');
-});
-</script>
-<!-- BEGIN: replace_img_src --> 
-<script type='text/javascript'>
-//<![CDATA[
-var images = document.getElementsByTagName("img");
-for(var i=0;i<images.length;i++) {    
-images[i].src = images[i].src.replace(/[0-9]+.bp.blogspot.com/,"lh4.googleusercontent.com");
-}
-//]]>
-</script>
-<!-- END: replace_img_src --> 
 
 <!-- END: main -->
 <!-- BEGIN: no_permission -->

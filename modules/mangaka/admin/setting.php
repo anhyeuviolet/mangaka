@@ -149,20 +149,6 @@ foreach( $array_structure_image as $type => $dir )
 	$xtpl->parse( 'main.structure_upload' );
 }
 
-// Cau hinh hien thi nguon tin
-$array_config_source = array( $lang_module['config_source_title'], $lang_module['config_source_link'], $lang_module['config_source_logo'] );
-foreach( $array_config_source as $key => $val )
-{
-	$xtpl->assign( 'CONFIG_SOURCE', array(
-		'key' => $key,
-		'title' => $val,
-		'selected' => $key == $module_config[$module_name]['config_source'] ? ' selected="selected"' : ''
-	) );
-	$xtpl->parse( 'main.config_source' );
-}
-
-
-
 $xtpl->assign( 'PATH', defined( 'NV_IS_SPADMIN' ) ? "" : NV_UPLOADS_DIR . '/' . $module_name );
 $xtpl->assign( 'CURRENTPATH', defined( 'NV_IS_SPADMIN' ) ? "images" : NV_UPLOADS_DIR . '/' . $module_name );
 
