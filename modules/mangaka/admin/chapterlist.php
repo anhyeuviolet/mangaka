@@ -77,7 +77,7 @@ if ( $check_catid > 0 )
 				'id' => $row['id'],
 				'catid' => $catid,
 				'link' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$row['catid']]['alias'] . '/' . $row['alias'] . '-' . $row['id'] . $global_config['rewrite_exturl'],
-				'title' => $row['title'],
+				'title' => $row['name'] = !empty($row['title'])?$row['title']:$lang_module['chapter']. ' ' . $row['chapter'],
 				'chapter' => $row['chapter'],
 				'edittime' => nv_date( "d/m/Y", $row['edittime'] ),
 				'status' => $lang_module['status_' . $row['status']],

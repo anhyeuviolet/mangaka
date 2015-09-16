@@ -200,10 +200,11 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 			$list_chaps[]=$ls;
 		}
 	}
+	$news_contents['detail_title'] = !empty($news_contents['title']) ? $global_array_cat[$catid]['title']." - ". $lang_module['chapter'] ." ". $news_contents['chapter'] . " - " . $news_contents['title'] : $global_array_cat[$catid]['title']." - ". $lang_module['chapter'] ." ". $news_contents['chapter'];
 	unset($sql,$array_block);
 	$contents = detail_theme( $news_contents, $next_chapter, $previous_chapter, $list_chaps );
 
-	$page_title = $global_array_cat[$catid]['title']." - ". $lang_module['chapter'] ." ". $news_contents['chapter'];
+	$page_title = $news_contents['detail_title'];
 	$description = $global_array_cat[$catid]['title']." - ". $lang_module['chapter'] ." ". $news_contents['chapter'] ." - ".$global_array_cat[$news_contents['catid']]['description'] ;
 
 }

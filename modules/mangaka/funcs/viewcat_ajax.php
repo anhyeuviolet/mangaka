@@ -7,13 +7,13 @@
  * @License GNU/GPL version 2 or any later version
  * @Createdate 15/07/2015 10:51
  */
+if( ! defined( 'NV_IS_MOD_NEWS' ) ) die( 'Stop!!!' );
 
-	$xtpl = new XTemplate( 'viewcat_list.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
-
-	$catid = $nv_Request->get_int( 'catid', 'get', 0 );
-	$page = $nv_Request->get_int( 'page', 'get', 1 );
-	$base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op . '&ajax=1&catid='.$catid;
-	$ajax = $nv_Request->get_int( 'ajax', 'get', 0 );
+$xtpl = new XTemplate( 'viewcat_list.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
+$catid = $nv_Request->get_int( 'catid', 'get', 0 );
+$page = $nv_Request->get_int( 'page', 'get', 1 );
+$base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op . '&ajax=1&catid='.$catid;
+$ajax = $nv_Request->get_int( 'ajax', 'get', 0 );
 
 if( $ajax )
 {
@@ -32,7 +32,7 @@ if( $ajax )
 	$result = $db->query( $db->sql() );
 	while( $item = $result->fetch() )
 	{
-		$item['link'] = $global_array_cat[$catid]['link'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
+		$item['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$catid]['alias'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
 		$item['publtime'] = nv_date( 'd/m/Y', $item['publtime'] );
 		$item['chapter'] = round($item['chapter'],1);
 		$xtpl->clear_autoreset();
@@ -51,6 +51,9 @@ if( $ajax )
 	
 	$xtpl->parse( 'viewcat_ajax' );
 	$contents = $xtpl->text( 'viewcat_ajax' );
-	echo $contents;
+
+	include NV_ROOTDIR . '/includes/header.php';
+	echo  $contents;
+	include NV_ROOTDIR . '/includes/footer.php';
 	die();
 }

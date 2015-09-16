@@ -10,13 +10,8 @@
 
 if( ! defined( 'NV_ADMIN' ) ) die( 'Stop!!!' );
 
-/**
- * Note:
- * 	- Module var is: $lang, $module_file, $module_data, $module_upload, $module_theme, $module_name
- * 	- Accept global var: $db, $db_config, $global_config
- */
-// Dump data
-// Them the loai vao DB
+
+// Add Genre
 $db->query( "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_block_cat (bid, adddefault, numbers, title, alias, image, description, keywords, add_time, edit_time) VALUES
 (1, 0, 20, 'Shounen', 'shounen', '', '', '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
 (2, 0, 20, 'Ecchi', 'ecchi', '', '', '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
@@ -24,7 +19,7 @@ $db->query( "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_" . $module_
 (4, 0, 20, 'Drama', 'drama', '', '', '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."'),
 (5, 0, 20, 'Horror', 'Horror', '', '', '', '". NV_CURRENTTIME ."', '". NV_CURRENTTIME ."')");
 
-//Mau leech Chapter Blogtruyen.Com, ComicVn, TruyenTranhTuan
+//Add leech sample Chapter from Blogtruyen.Com, ComicVn, TruyenTranhTuan
 $db->query( "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_get_chap (
 id, title, url_host, url_html_pattern, url_pattern, img_structure, chapno_structure, preg_img_structure, replace_1, replace_2, replace_3, numget_img, preg_chapno_structure, numget_chap, add_time, edit_time
 ) VALUES

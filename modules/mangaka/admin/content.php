@@ -317,24 +317,20 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 
 	// Xử lý liên kết tĩnh
 	$alias = $nv_Request->get_title( 'alias', 'post', '' );
-	if( empty( $alias ) )
+	if( empty( $alias ) && !empty($rowcontent['title']))
 	{
-		if(!empty($rowcontent['title']))
-		{
-			$alias = "chapter-" . preg_replace('/[.]/','-',$rowcontent['chapter']) . "-" . change_alias( $rowcontent['title'] );
-			if( $module_config[$module_name]['alias_lower'] ) $alias = strtolower( $alias );
-		}
-		else
-		{
-			$rowcontent['title'] = $rowcontent['listcatid'].rand(10000,99999);
-			$alias = "chapter-" . preg_replace('/[.]/','-',$rowcontent['chapter']) . "-" . change_alias( $rowcontent['title'] );
-			if( $module_config[$module_name]['alias_lower'] ) $alias = strtolower( $alias );
-
-		}
+		$alias = "chapter-" . preg_replace('/[.]/','-',$rowcontent['chapter']) . "-" . change_alias( $rowcontent['title'] );
+		if( $module_config[$module_name]['alias_lower'] ) $alias = strtolower( $alias );
 	}
-	else
+	elseif ( empty( $alias ) && empty($rowcontent['title']))
 	{
-			$alias = "chapter-" . preg_replace('/[.]/','-',$rowcontent['chapter']) . "-" . change_alias( $rowcontent['title'] );
+		$alias = "chapter-" . preg_replace('/[.]/','-',$rowcontent['chapter']);
+		if( $module_config[$module_name]['alias_lower'] ) $alias = strtolower( $alias );
+	}
+	elseif ( !empty( $alias ) && !empty($rowcontent['title']))
+	{
+		$alias = "chapter-" . preg_replace('/[.]/','-',$rowcontent['chapter']) . "-" . change_alias( $rowcontent['title'] );
+		if( $module_config[$module_name]['alias_lower'] ) $alias = strtolower( $alias );
 	}
 
 	if( empty( $alias ) or ! preg_match( "/^([a-zA-Z0-9\_\-]+)$/", $alias ) )
@@ -354,11 +350,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 	$rowcontent['inhome'] = ( int )$nv_Request->get_bool( 'inhome', 'post' );
 	$rowcontent['allowed_rating'] = ( int )$nv_Request->get_bool( 'allowed_rating', 'post' );
 
-	if( empty( $rowcontent['title'] ) )
-	{
-		$error[] = $lang_module['error_title'];
-	}
-	elseif( empty( $rowcontent['listcatid'] ) )
+	if( empty( $rowcontent['listcatid'] ) )
 	{
 		$error[] = $lang_module['error_cat'];
 	}
@@ -381,11 +373,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 			}
 		}	
 	}
-	// else
-	// {
-		// $error[] = $lang_module['duplicate_chapter'];
-	// }
-	
+
 	if( empty( $error ) )
 	{
 		$rowcontent['catid'] = in_array( $rowcontent['catid'], $catids ) ? $rowcontent['catid'] : $catids[0];

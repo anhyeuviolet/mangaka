@@ -25,7 +25,7 @@
 					<tr>
 						<td><strong>{LANG.name}</strong></td>
 						<td>
-							<input type="text" maxlength="255" value="{rowcontent.title}" id="idtitle" name="title" class="form-control"  style="width:350px" {rowcontent.required} oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')"/><br/>
+							<input type="text" maxlength="255" value="{rowcontent.title}" id="idtitle" name="title" class="form-control"  style="width:350px" /><br/>
 							<span class="text-middle"> {GLANG.length_characters}: <span id="titlelength" class="red">0</span>. {GLANG.title_suggest_max} </span>
 						</td>
 					</tr>
