@@ -160,9 +160,6 @@
 		</div>
 		<!-- BEGIN: fb_comment -->
 		<div class="fb-comments" data-href="{SELFURL}" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
-		<style>.fb-comments, .fb-comments iframe[style], .fb-like-box, .fb-like-box iframe[style] {width: 100% !important;}
-		.fb-comments span, .fb-comments iframe span[style], .fb-like-box span, .fb-like-box iframe span[style] {width: 100% !important;}
-		</style>
 		<!-- END: fb_comment -->
 		<!-- BEGIN: comment -->
 		<section id="section-3">
