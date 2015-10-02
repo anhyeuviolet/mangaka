@@ -8,7 +8,7 @@
  * @Createdate 3-6-2010 0:14
  */
 
-if( ! defined( 'NV_IS_MOD_NEWS' ) ) die( 'Stop!!!' );
+if( ! defined( 'NV_IS_MOD_MANGAKA' ) ) die( 'Stop!!!' );
 if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
 
 $contents = '';

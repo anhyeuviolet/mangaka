@@ -540,7 +540,7 @@ function nv_singlechap_content( $form, $url_chap, $method )
 	$img_full = NULL;
 	if($method == 1)
 	{
-		foreach($html->find($data['img_structure']) as $element)
+		foreach($html->find(html_entity_decode($data['img_structure'])) as $element)
 		{
 			$img = $element->find('img');
 			foreach($img as $element) 
@@ -559,14 +559,29 @@ function nv_singlechap_content( $form, $url_chap, $method )
 		$img_full = array_shift($img_full);
 		// Xoa cac doi tuong duoc cau hinh
 		if (!empty($data['replace_1'])){
-			$img_full =  preg_replace('/'.htmlspecialchars_decode($data['replace_1']).'/','',$img_full);
+			$img_full =  preg_replace('/'.html_entity_decode($data['replace_1']).'/','',$img_full);
 		} 
 		if (!empty($data['replace_2'])){
-			$img_full = preg_replace('/'.htmlspecialchars_decode($data['replace_2']).'/','',$img_full);
+			$img_full = preg_replace('/'.html_entity_decode($data['replace_2']).'/','',$img_full);
 		} 
 		if (!empty($data['replace_3'])){
-			$img_full = preg_replace('/'.htmlspecialchars_decode($data['replace_3']).'/','',$img_full);
+			$img_full = preg_replace('/'.html_entity_decode($data['replace_3']).'/','',$img_full);
 		} 
 	}
 	return $img_full;
+}
+
+function check_link($url,$host='')
+{
+	if((nv_is_url($url)===false) and (preg_match_all('/http:\/\/(.*)\.([a-z]+)\//',$host,$matches,PREG_SET_ORDER)))
+	{
+		while ($url{0}=='/'){
+			$url=substr($url,1);
+		}
+		if($matches[0][0]{strlen($matches[0][0])-1}!='/'){
+			$matches[0][0]=$matches[0][0].'/';
+		}
+		$url = $matches[0][0].$url;
+	}
+	return $url;
 }

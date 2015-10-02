@@ -8,7 +8,7 @@
  * @Createdate Apr 20, 2010 10:47:41 AM
  */
 
-if( ! defined( 'NV_IS_MOD_NEWS' ) ) die( 'Stop!!!' );
+if( ! defined( 'NV_IS_MOD_MANGAKA' ) ) die( 'Stop!!!' );
 
 $channel = array();
 $items = array();

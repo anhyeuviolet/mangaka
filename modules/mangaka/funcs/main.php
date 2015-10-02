@@ -7,7 +7,7 @@
  * @Createdate 15/07/2015 10:51
  */
 
-if( ! defined( 'NV_IS_MOD_NEWS' ) ) die( 'Stop!!!' );
+if( ! defined( 'NV_IS_MOD_MANGAKA' ) ) die( 'Stop!!!' );
 
 $page_title = $module_info['custom_title'];
 $key_words = $module_info['keywords'];

@@ -8,7 +8,7 @@
  * @Createdate 3-6-2010 0:14
  */
 
-if( ! defined( 'NV_IS_MOD_NEWS' ) ) die( 'Stop!!!' );
+if( ! defined( 'NV_IS_MOD_MANGAKA' ) ) die( 'Stop!!!' );
 
 $alias_cat_url = $array_op[1];
 $array_page = explode( "-", $array_op[2] );

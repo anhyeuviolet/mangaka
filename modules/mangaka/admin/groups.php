@@ -47,16 +47,13 @@ if( ! empty( $savecat ) )
 	}
 	elseif( $bid == 0 )
 	{
-		$weight = $db->query( "SELECT max(weight) FROM " . NV_PREFIXLANG . "_" . $module_data . "_block_cat" )->fetchColumn();
-		$weight = intval( $weight ) + 1;
 
-		$sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_block_cat (adddefault, numbers, title, alias, description, image, weight, keywords, add_time, edit_time) VALUES (0, 4, :title , :alias, :description, :image, :weight, :keywords, " . NV_CURRENTTIME . ", " . NV_CURRENTTIME . ")";
+		$sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . "_block_cat (adddefault, numbers, title, alias, description, image, keywords, add_time, edit_time) VALUES (0, 20, :title , :alias, :description, :image, :keywords, " . NV_CURRENTTIME . ", " . NV_CURRENTTIME . ")";
 		$data_insert = array();
 		$data_insert['title'] = $title;
 		$data_insert['alias'] = $alias;
 		$data_insert['description'] = $description;
 		$data_insert['image'] = $image;
-		$data_insert['weight'] = $weight;
 		$data_insert['keywords'] = $keywords;
 
 		if( $db->insert_id( $sql, 'bid', $data_insert ) )

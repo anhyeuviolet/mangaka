@@ -8,7 +8,7 @@
  * @Createdate 15/07/2015 10:51
  */
 
-if( ! defined( 'NV_IS_MOD_NEWS' ) ) die( 'Stop!!!' );
+if( ! defined( 'NV_IS_MOD_MANGAKA' ) ) die( 'Stop!!!' );
 
 $show_no_image = $module_config[$module_name]['show_no_image'];
 if (!empty($show_no_image))

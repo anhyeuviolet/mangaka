@@ -57,8 +57,11 @@ if($action == '1'){
 		foreach($html->find($data ['url_html_pattern']) as $element)
 		{
 		   $link = $element->find($data ['url_pattern']);
-		   foreach($link as $element) 
-		   $imglist = $imglist.$data ['url_host'].$element->href.'<br/>';
+		   foreach($link as $element)
+		   {
+			    $imglist = $imglist . check_link($element->href, $data ['url_host']) . '<br/>';
+		   }
+		  
 		}
 		if (!empty($imglist))
 		{
@@ -150,7 +153,7 @@ if($action == '2'){
 			$html = file_get_html(trim($url_chap));
 			
 			
-			foreach( $html->find($data['chapno_structure']) as $chap_num )
+			foreach( $html->find(html_entity_decode($data['chapno_structure'])) as $chap_num )
 			{
 				$str = $chap_num->plaintext; 
 				$this_chapter = preg_replace('/[^0-9\.]/', '', $str);
@@ -188,7 +191,7 @@ if($action == '2'){
 				$img_full = NULL;
 				if($method == 1)
 				{
-					foreach($html->find($data['img_structure']) as $element)
+					foreach($html->find(html_entity_decode($data['img_structure'])) as $element)
 					{
 						$img = $element->find('img');
 						foreach($img as $element) 
@@ -197,7 +200,7 @@ if($action == '2'){
 				// Dung preg_replace 
 				}else if($method == 2)
 				{
-					preg_match_all('/'.$data['preg_img_structure'].'/is',$html,$preg);
+					preg_match_all('/' . html_entity_decode($data['preg_img_structure']) . '/is',$html,$preg);
 					if (!empty($data['numget_img'])){
 						$img_full = $preg[$data['numget_img']];
 					} else{
@@ -207,13 +210,13 @@ if($action == '2'){
 					$img_full = array_shift($img_full);
 					// Xoa cac doi tuong duoc cau hinh
 					if (!empty($data['replace_1'])){
-						$img_full =  preg_replace('/'.htmlspecialchars_decode($data['replace_1']).'/','',$img_full);
+						$img_full =  preg_replace('/'.html_entity_decode($data['replace_1']).'/','',$img_full);
 					} 
 					if (!empty($data['replace_2'])){
-						$img_full = preg_replace('/'.htmlspecialchars_decode($data['replace_2']).'/','',$img_full);
+						$img_full = preg_replace('/'.html_entity_decode($data['replace_2']).'/','',$img_full);
 					} 
 					if (!empty($data['replace_3'])){
-						$img_full = preg_replace('/'.htmlspecialchars_decode($data['replace_3']).'/','',$img_full);
+						$img_full = preg_replace('/'.html_entity_decode($data['replace_3']).'/','',$img_full);
 					} 
 					
 				}
@@ -221,8 +224,9 @@ if($action == '2'){
 				if (!empty($img_full)) // Xu ly tranh gay trang trang khi khong lay duoc list link
 				{
 					$addtime=NV_CURRENTTIME+mt_rand(60,1000); //Tao thoi gian leech ngau nhien, do link la tu tren xuong duoi, nen link leech sau se co thoi gian lau hon
-					$title_new = $catid.rand(10000,99999); // Tao tieu de ngau nhien
-					$alias = "chapter-" . preg_replace('/[.]/','-',$this_chapter) . "-" . change_alias($title_new);	// Tao alias		
+					//$title_new = $catid.rand(10000,99999); // Tao tieu de ngau nhien
+					$title_new = '';
+					$alias = "chapter-" . preg_replace('/[.]/','-',$this_chapter);	// Tao alias		
 					$bodyhtml=$img_full;
 					
 					//Khoi tao cac bien de chen vao DB cho co

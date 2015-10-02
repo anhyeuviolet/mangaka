@@ -120,7 +120,7 @@ $rowcontent['id'] = $nv_Request->get_int( 'id', 'get,post', 0 );
 if( $rowcontent['id'] > 0 )
 {
 	$check_permission = false;
-	$rowcontent = $db->query( 'SELECT *,ROUND(chapter,1) as chapter FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows where id=' . $rowcontent['id'] )->fetch();
+	$rowcontent = $db->query( 'SELECT *,ROUND(chapter,2) as chapter FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows where id=' . $rowcontent['id'] )->fetch();
 	if( ! empty( $rowcontent['id'] ) )
 	{
 		$rowcontent['mode'] = 'edit';

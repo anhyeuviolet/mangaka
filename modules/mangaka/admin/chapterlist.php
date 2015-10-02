@@ -41,7 +41,7 @@ if ( $check_catid > 0 )
 
 	$global_array_cat[0] = array( 'alias' => 'Other' );
 
-	$sql = 'SELECT id, catid, title, alias, ROUND(chapter,1) as chapter, edittime, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . intval($catid) . ' ORDER BY chapter ASC LIMIT ' .  ( $page - 1 ) * $per_page . ', ' . $per_page;
+	$sql = 'SELECT id, catid, title, alias, ROUND(chapter,2) as chapter, edittime, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . intval($catid) . ' ORDER BY chapter ASC LIMIT ' .  ( $page - 1 ) * $per_page . ', ' . $per_page;
 	$array_block = $db->query( $sql )->fetchAll();
 
 	$num = sizeof( $array_block );

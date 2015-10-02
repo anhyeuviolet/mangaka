@@ -7,7 +7,7 @@
  * @Createdate 15/07/2015 10:51
  */
 
-if( ! defined( 'NV_IS_MOD_NEWS' ) ) die( 'Stop!!!' );
+if( ! defined( 'NV_IS_MOD_MANGAKA' ) ) die( 'Stop!!!' );
 
 function viewcat_list( $array_cat_block, $catid, $viewcat_img, $viewcat_rating, $content_comment)
 {

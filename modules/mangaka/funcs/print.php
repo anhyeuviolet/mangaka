@@ -8,7 +8,7 @@
  * @Createdate 3-6-2010 0:14
  */
 
-if( ! defined( 'NV_IS_MOD_NEWS' ) )
+if( ! defined( 'NV_IS_MOD_MANGAKA' ) )
 {
 	die( 'Stop!!!' );
 }

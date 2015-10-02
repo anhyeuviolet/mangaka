@@ -7,7 +7,7 @@
  * @License GNU/GPL version 2 or any later version
  * @Createdate 15/07/2015 10:51
  */
-if( ! defined( 'NV_IS_MOD_NEWS' ) ) die( 'Stop!!!' );
+if( ! defined( 'NV_IS_MOD_MANGAKA' ) ) die( 'Stop!!!' );
 
 $xtpl = new XTemplate( 'viewcat_list.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file );
 $catid = $nv_Request->get_int( 'catid', 'get', 0 );
@@ -25,7 +25,7 @@ if( $ajax )
 		->where( 'status=1' );
 	$num_items = $db->query( $db->sql() )->fetchColumn();
 
-	$db->select( 'id, title, alias, chapter, publtime' )
+	$db->select( 'id, title, alias, ROUND(chapter,2) as chapter, publtime' )
 		->order( $order_by )
 		->limit( $per_page )
 		->offset( ( $page - 1 ) * $per_page );
@@ -34,7 +34,6 @@ if( $ajax )
 	{
 		$item['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$catid]['alias'] . '/' . $item['alias'] . '-' . $item['id'] . $global_config['rewrite_exturl'];
 		$item['publtime'] = nv_date( 'd/m/Y', $item['publtime'] );
-		$item['chapter'] = round($item['chapter'],1);
 		$xtpl->clear_autoreset();
 		$xtpl->assign( 'CONTENT', $item );
 		$xtpl->assign( 'LANG', $lang_module );

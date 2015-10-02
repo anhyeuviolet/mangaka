@@ -10,7 +10,7 @@
 if( ! defined( 'NV_SYSTEM' ) ) die( 'Stop!!!' );
 if( ! in_array( $op, array( 'viewcat', 'detail' ) ) )
 {
-	define( 'NV_IS_MOD_NEWS', true );
+	define( 'NV_IS_MOD_MANGAKA', true );
 }
 require_once NV_ROOTDIR . '/modules/' . $module_file . '/global.functions.php';
 
