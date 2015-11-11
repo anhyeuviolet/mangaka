@@ -20,7 +20,7 @@ $array_table = array(
 	'rows',
 	'get_chap',
 	'get_manga',
-	'logs',
+	'logs'
 );
 $table = $db_config['prefix'] . '_' . $lang . '_' . $module_data;
 $result = $db->query( 'SHOW TABLE STATUS LIKE ' . $db->quote( $table . '_%' ) );
@@ -44,9 +44,9 @@ $sql_create_module = $sql_drop_module;
 
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_cat (
 	 catid int(11) unsigned NOT NULL AUTO_INCREMENT,
-	 title varchar(255) NOT NULL,
-	 titlesite varchar(255) DEFAULT '',
-	 alias varchar(255) NOT NULL DEFAULT '',
+	 title varchar(250) NOT NULL,
+	 titlesite varchar(250) DEFAULT '',
+	 alias varchar(250) NOT NULL DEFAULT '',
 	 description text,
 	 descriptionhtml text,
 	 image varchar(255) DEFAULT '',
@@ -75,7 +75,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_get_chap (
 	 id smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-	 title varchar(255) NOT NULL,
+	 title varchar(250) NOT NULL,
 	 url_host varchar(255) NOT NULL,
 	 url_html_pattern varchar(255) DEFAULT '', 
 	 url_pattern varchar(255) DEFAULT '',
@@ -95,8 +95,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	
 	$sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_get_manga (
 	 id smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-	 title varchar(255) NOT NULL,
-	 html_title varchar(255) NOT NULL,
+	 title varchar(250) NOT NULL,
+	 html_title varchar(250) NOT NULL,
 	 html_description varchar(255) DEFAULT '', 
 	 html_author varchar(255) DEFAULT '',
 	 html_trans varchar(255) DEFAULT '',
@@ -111,8 +111,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 bid smallint(5) unsigned NOT NULL AUTO_INCREMENT,
 	 adddefault tinyint(4) NOT NULL DEFAULT '0',
 	 numbers smallint(5) NOT NULL DEFAULT '20',
-	 title varchar(255) NOT NULL DEFAULT '',
-	 alias varchar(255) NOT NULL DEFAULT '',
+	 title varchar(250) NOT NULL DEFAULT '',
+	 alias varchar(250) NOT NULL DEFAULT '',
 	 image varchar(255) DEFAULT '',
 	 description varchar(255) DEFAULT '',
 	 keywords text,
@@ -142,8 +142,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 publtime int(11) unsigned NOT NULL default '0',
 	 exptime int(11) unsigned NOT NULL default '0',
 	 archive tinyint(1) unsigned NOT NULL default '0',
-	 title varchar(255) NOT NULL default '',
-	 alias varchar(255) NOT NULL default '',
+	 title varchar(250) NOT NULL default '',
+	 alias varchar(250) NOT NULL default '',
 	 chapter float(1) default '0',
 	 inhome tinyint(1) unsigned NOT NULL default '0',
 	 allowed_rating tinyint(1) unsigned NOT NULL default '0',
