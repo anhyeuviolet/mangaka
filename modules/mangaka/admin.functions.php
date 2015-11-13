@@ -410,10 +410,10 @@ function nv_show_cat_list_new()
 
 /**
  * nv_show_block_cat_list_new()
- *
+ *	$page
  * @return
  */
-function nv_show_block_cat_list_new()
+function nv_show_block_cat_list_new($page)
 {
 	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $module_file, $global_config, $module_info, $nv_Request;
 	
@@ -441,7 +441,8 @@ function nv_show_block_cat_list_new()
 		$xtpl = new XTemplate( 'blockcat_lists.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
 		$xtpl->assign( 'LANG', $lang_module );
 		$xtpl->assign( 'GLANG', $lang_global );
-
+		$xtpl->assign( 'CUR_PAGE', $page );
+		
 		foreach ( $_array_block_cat as $row)
 		{
 			$numnews = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block where bid=' . $row['bid'] )->fetchColumn();

@@ -51,4 +51,7 @@
 	{GENERATE_PAGE}
 </div>
 <!-- END: generate_page -->
+<script>
+var curr_page = "{CUR_PAGE}";
+</script>
 <!-- END: main -->

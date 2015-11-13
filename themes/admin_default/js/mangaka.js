@@ -182,7 +182,7 @@ function nv_chang_block_cat(bid, mod) {
 
 function nv_show_list_block_cat() {
 	if (document.getElementById('module_show_list')) {
-		$('#module_show_list').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_block_cat&nocache=' + new Date().getTime());
+		$('#module_show_list').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_block_cat&nocache=' + new Date().getTime(), 'page=' +curr_page);
 	}
 	return;
 }
