@@ -19,7 +19,7 @@ if( ! nv_function_exists( 'nv_block_news_cat' ) )
 		$html .= '<tr>';
 		$html .= '<td>' . $lang_block['catid'] . '</td>';
 		$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_cat ORDER BY sort ASC';
-		$list = nv_db_cache( $sql, '', $module );
+		$list = $nv_Cache->db( $sql, '', $module );
 		$html .= '<td>';
 		foreach( $list as $l )
 		{
@@ -88,7 +88,7 @@ if( ! nv_function_exists( 'nv_block_news_cat' ) )
 			->where( 'status= 1 AND catid IN(' . $catid . ')' )
 			->order( 'publtime DESC' )
 			->limit( $block_config['numrow'] );
-		$list = nv_db_cache( $db->sql(), '', $module );
+		$list = $nv_Cache->db( $db->sql(), '', $module );
 
 		if( ! empty( $list ) )
 		{
@@ -166,7 +166,7 @@ if( defined( 'NV_SYSTEM' ) )
 		{
 			$module_array_cat = array();
 			$sql = 'SELECT catid, parentid, title, alias, viewcat, subcatid, numlinks, description, inhome, keywords, groups_view FROM ' . NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_cat ORDER BY sort ASC';
-			$list = nv_db_cache( $sql, 'catid', $module );
+			$list = $nv_Cache->db( $sql, 'catid', $module );
 			foreach( $list as $l )
 			{
 				$module_array_cat[$l['catid']] = $l;

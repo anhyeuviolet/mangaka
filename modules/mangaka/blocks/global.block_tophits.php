@@ -42,7 +42,7 @@ if( ! nv_function_exists( 'nv_news_block_tophits' ) )
 		$html .= '<tr>';
 		$html .= '<td>' . $lang_block['nocatid'] . '</td>';
 		$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_cat ORDER BY sort ASC';
-		$list = nv_db_cache( $sql, '', $module );
+		$list = $nv_Cache->db( $sql, '', $module );
 		$html .= '<td>';
 		$html .= '<div style="height: 200px; overflow: auto">';
 		foreach( $list as $l )
@@ -195,7 +195,7 @@ if( defined( 'NV_SYSTEM' ) )
 		{
 			$module_array_cat = array();
 			$sql = 'SELECT catid, parentid, title, alias, viewcat, subcatid, numlinks, description, inhome, keywords, groups_view FROM ' . NV_PREFIXLANG . '_' . $mod_data . '_cat ORDER BY sort ASC';
-			$list = nv_db_cache( $sql, 'catid', $module );
+			$list = $nv_Cache->db( $sql, 'catid', $module );
 			foreach( $list as $l )
 			{
 				$module_array_cat[$l['catid']] = $l;

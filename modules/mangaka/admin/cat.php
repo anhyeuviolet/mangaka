@@ -197,7 +197,7 @@ if( ! empty( $savecat ) )
 				{
 					$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_admins (userid, catid, admin, add_content, pub_content, edit_content, del_content) VALUES (' . $admin_id . ', ' . $newcatid . ', 1, 1, 1, 1, 1)' );
 				}
-				nv_del_moduleCache( $module_name );
+				$nv_Cache->delMod( $module_name );
 				nv_insert_logs( NV_LANG_DATA, $module_name, $lang_module['add_cat'], $title, $admin_info['userid'] );
 			}
 			else
@@ -234,7 +234,7 @@ if( ! empty( $savecat ) )
 				{
 					$db->query( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_block (bid, catid) VALUES (' . $gb_id_add . ', ' . $catid . ')' );
 				}
-				nv_del_moduleCache( $module_name );
+				$nv_Cache->delMod( $module_name );
 			}
 			else
 			{

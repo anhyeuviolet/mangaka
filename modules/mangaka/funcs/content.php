@@ -179,7 +179,7 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 
 			if( $rowcontent_old['status'] == 1 )
 			{
-				nv_del_moduleCache( $module_name );
+				$nv_Cache->delMod( $module_name );
 			}
 
 			Header( 'Location: ' . nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op, true ) );
@@ -512,7 +512,7 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 					if( $rowcontent['status'] )
 					{
 						$array_temp['content'] = $lang_module['save_content_ok'];
-						nv_del_moduleCache( $module_name );
+						$nv_Cache->delMod( $module_name );
 					}
 					else
 					{
@@ -524,7 +524,7 @@ if( $nv_Request->isset_request( 'contentid', 'get,post' ) and $fcheckss == $chec
 					$catid = $catids[0];
 					$array_temp['urlrefresh'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $global_array_cat[$catid]['alias'] . '/' . $rowcontent['alias'] . '-' . $rowcontent['id'];
 					$array_temp['content'] = $lang_module['save_content_view_page'];
-					nv_del_moduleCache( $module_name );
+					$nv_Cache->delMod( $module_name );
 				}
 				else
 				{

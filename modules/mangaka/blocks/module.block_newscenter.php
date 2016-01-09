@@ -68,7 +68,7 @@ if( ! nv_function_exists( 'nv_news_block_newscenter' ) )
 					->order( 'publtime DESC' )
 					->limit( 4 );
 
-		$list = nv_db_cache( $db->sql(), 'id', $module_name );
+		$list = $nv_Cache->db( $db->sql(), 'id', $module_name );
 
 		$i = 1;
 		foreach( $list as $row )
@@ -99,7 +99,7 @@ if( ! nv_function_exists( 'nv_news_block_newscenter' ) )
 						else
 						{
 							require_once NV_ROOTDIR . '/includes/class/image.class.php';
-							$_image = new image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
+							$_image = new NukeViet\Files\Image( $image, NV_MAX_WIDTH, NV_MAX_HEIGHT );
 							$_image->resizeXY( $width, $height );
 							$_image->save( NV_ROOTDIR . '/' . NV_TEMP_DIR, $basename );
 							if( file_exists( NV_ROOTDIR . '/' . NV_TEMP_DIR . '/' . $basename ) )

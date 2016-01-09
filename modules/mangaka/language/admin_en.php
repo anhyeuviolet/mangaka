@@ -3,7 +3,7 @@
 /**
 * @Project NUKEVIET 4.x
 * @Author VINADES.,JSC (contact@vinades.vn)
-* @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+* @Copyright (C) 2015 VINADES.,JSC. All rights reserved
 * @Language English
 * @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
 * @Createdate Mar 04, 2010, 08:22:00 AM
@@ -18,9 +18,6 @@ $lang_translator['info'] = '';
 $lang_translator['langtype'] = 'lang_module';
 
 $lang_module['categories'] = 'Categories';
-$lang_module['topics'] = 'Topics';
-$lang_module['topics_error_title'] = 'Error: You do not enter the event title';
-$lang_module['sources'] = 'Sources';
 $lang_module['save'] = 'Save';
 $lang_module['action'] = 'Submit';
 $lang_module['move'] = 'Move';
@@ -51,25 +48,22 @@ $lang_module['alias'] = 'Static Link';
 $lang_module['name'] = 'Title';
 $lang_module['titlesite'] = 'Customize the site title';
 $lang_module['error_name'] = 'Error: Please add title';
-$lang_module['weight'] = 'Position';
-$lang_module['numsubcat'] = 'Number of sub-categories';
 $lang_module['inhome'] = 'Home';
 $lang_module['numlinks'] = 'Number of link';
 $lang_module['numcomments'] = 'Num comments';
-$lang_module['newday'] = 'Show new icon (day)';
+$lang_module['hitstotal'] = 'Number view';
+$lang_module['checkall'] = 'Check all';
+$lang_module['uncheckall'] = 'Uncheck all';
 $lang_module['description'] = 'Description';
+$lang_module['viewdescription'] = 'Show describes when view topic';
+$lang_module['viewdescription_0'] = 'No display';
+$lang_module['viewdescription_1'] = 'Display in page 1 of topic';
+$lang_module['viewdescription_2'] = 'Display in all page of topic';
 $lang_module['keywords'] = 'Keyword';
 $lang_module['content_list'] = 'List of articles';
 $lang_module['content_add'] = 'Add a new article';
 $lang_module['add_cat'] = 'Add categories';
-$lang_module['add_topic'] = 'Add topic';
-$lang_module['add_sources'] = 'Add sources';
 $lang_module['edit_cat'] = 'Edit categories';
-$lang_module['edit_topic'] = 'Edit topic';
-$lang_module['edit_sources'] = 'Edit sources';
-$lang_module['add_block_cat'] = 'Add block group';
-$lang_module['edit_block_cat'] = 'Edit block groups';
-$lang_module['link'] = 'Website\'s link';
 $lang_module['cat_sub'] = 'Categories';
 $lang_module['cat_sub_sl'] = 'Main categories';
 $lang_module['topic_sl'] = 'Select topics';
@@ -77,6 +71,7 @@ $lang_module['delcat_msg_cat'] = 'Error:Categories has %s sub-categories';
 $lang_module['delcat_msg_rows'] = 'Error:Delete categories fail because categories %s article.';
 $lang_module['delcat_msg_rows_select'] = 'Note: Remove category %1$s and all %2$s topics.';
 $lang_module['delcat_msg_rows_move'] = 'Select category to move';
+$lang_module['delcat_msg_cat_permissions'] = 'You are not allowed to do this action';
 $lang_module['delcatandrows'] = 'Delete topics and articles';
 $lang_module['delcat_msg_rows_noselect'] = 'You should choose the topic to move to article';
 $lang_module['deltopic_msg_rows'] = 'relevant news group %s article, have you sure deleted, then group related information is deleted from the article?';
@@ -89,15 +84,11 @@ $lang_module['setting_per_page'] = 'Number of article and article preamble are s
 $lang_module['setting_st_links'] = 'Number of article are only shown link';
 $lang_module['setting_idf_df'] = 'Default';
 $lang_module['setting_copyright'] = 'Copyright';
-
 $lang_module['setting_view'] = 'Setting view';
 $lang_module['setting_post'] = 'Setting post';
 $lang_module['setting_auto_tags'] = 'Automatically generate keywords for article keyword is entered at the post';
 $lang_module['setting_tags_remind'] = 'Remind the keywords no description';
-$lang_module['content_tags_empty'] = 'Note: article do not have keywords';
-$lang_module['content_tags_empty_auto'] = 'The system will automatically generate keywords stored at this article, you can disable auto-generated keywords in the management module';
 $lang_module['setting_alias_lower'] = 'Alias to lowercase when creating a new';
-
 $lang_module['viewcat_page'] = 'Display method';
 $lang_module['viewcat_page_new'] = 'New categories, Up';
 $lang_module['viewcat_page_old'] = 'Old categories, Up';
@@ -111,9 +102,9 @@ $lang_module['viewcat_grid_new'] = 'grid, new front';
 $lang_module['viewcat_grid_old'] = 'grid, old front';
 $lang_module['viewcat_none'] = 'Not show content';
 $lang_module['viewcat_detail'] = 'Group is view in detail content';
-
 $lang_module['search'] = 'Search';
 $lang_module['search_type'] = 'Search by';
+$lang_module['search_status'] = 'Status';
 $lang_module['search_id'] = 'ID';
 $lang_module['search_key'] = 'Key word';
 $lang_module['search_cat'] = 'Categories';
@@ -136,6 +127,8 @@ $lang_module['content_homeimg'] = 'Illustrate image for Introduction';
 $lang_module['content_homeimgalt'] = 'A comment about this image';
 $lang_module['content_hometext'] = 'Short introduction';
 $lang_module['content_notehome'] = '(Visible every one)';
+$lang_module['content_tag'] = 'Tags';
+$lang_module['content_tag_note'] = 'To generate automatically, copy the entire contents of the article in the box below and click';
 $lang_module['content_clickhere'] = 'Click here';
 $lang_module['content_showmore'] = '(Show more)';
 $lang_module['content_notetime'] = '(date/month/year hour:minute)';
@@ -146,6 +139,8 @@ $lang_module['content_inhome'] = 'Show on homepage';
 $lang_module['content_allowed_comm'] = 'Allow comment';
 $lang_module['content_note_comm'] = 'Function currently config in Management module comment';
 $lang_module['content_allowed_rating'] = 'Allow ratings';
+$lang_module['allowed_rating_point'] = 'Showing reviews on google if article have points';
+$lang_module['no_allowed_rating'] = 'No display';
 $lang_module['content_allowed_send'] = 'Allow sending';
 $lang_module['content_allowed_print'] = 'Allow printing';
 $lang_module['content_allowed_save'] = 'Allow saving';
@@ -159,8 +154,13 @@ $lang_module['content_sourceid'] = 'Source';
 $lang_module['content_copyright'] = 'Copyright';
 $lang_module['content_saveok'] = 'Successfully recorded data';
 $lang_module['content_main'] = 'Back to management';
+$lang_module['content_back'] = 'Back to edit page';
 $lang_module['redircet_title'] = 'Action well done';
+$lang_module['content_checkcat'] = 'The main topic for this article';
+$lang_module['content_checkcatmsg'] = 'You must choose the main category of the article.';
 $lang_module['content_archive'] = 'Save after expire date';
+$lang_module['content_tags_empty'] = 'Note: article do not have keywords';
+$lang_module['content_tags_empty_auto'] = 'The system will automatically generate keywords stored at this article, you can disable auto-generated keywords in the management module';
 $lang_module['showtooltip'] = 'Display tooltip';
 $lang_module['showtooltip_position'] = 'Tooltip postition';
 $lang_module['showtooltip_position_top'] = 'Top';
@@ -179,6 +179,9 @@ $lang_module['addtoblock'] = 'Add content to block';
 $lang_module['delete_from_block'] = 'Delete block\'s article';
 $lang_module['error_del_content'] = 'Error: System can\'t delete all block\'s article, please try agian';
 $lang_module['msgnocheck'] = 'No topic selected';
+$lang_module['facebookAppID'] = 'Facebook App ID';
+$lang_module['facebookAppIDNote'] = '(Form: 1419186468293063, <a href="http://wiki.nukeviet.vn/nukeviet:admin:news:facebookapi" target="_blank">view detail</a>)';
+$lang_module['socialbutton'] = 'Display Like facebook, G+, Twitter tools when view aricle';
 $lang_module['block'] = 'Blocks';
 $lang_module['adddefaultblock'] = 'Select the default when creating article';
 $lang_module['source_logo'] = 'Source logo';
@@ -199,7 +202,6 @@ $lang_module['siteinfo_exptime'] = 'Expire posts';
 $lang_module['siteinfo_comment'] = 'Total comments';
 $lang_module['siteinfo_comment_pending'] = 'Uncheck comments';
 $lang_module['siteinfo_tags_incomplete'] = 'Number of tags without description';
-
 $lang_module['group_content'] = 'Configure post messages in the Front-end';
 $lang_module['group_addcontent'] = 'Add article';
 $lang_module['group_postcontent'] = 'Add article without censoring';
@@ -230,49 +232,20 @@ $lang_module['permissions_del_content'] = 'Delete article';
 $lang_module['permissions_pub_error'] = 'Error: You can not post messages in category: %1$s';
 $lang_module['permissions_sendspadmin_error'] = 'Error: You are not allowed to post to the editors at Category: %1$s';
 $lang_module['permissions_pub_show_error'] = 'Error: You do not have to display the articles in Category: %1$s';
-
 $lang_module['error_no_del_content_id'] = 'Error: The system does not delete the article id:';
 $lang_module['structure_image_upload'] = 'The module\'s upload images are archived in the default into directory structure';
-$lang_module['content_back'] = 'Back to edit page';
-$lang_module['content_checkcat'] = 'The main topic for this article';
-$lang_module['content_checkcatmsg'] = 'You must choose the main category of the article.';
 $lang_module['config_source'] = 'Configuration display writing source at detail information';
 $lang_module['config_source_title'] = 'Show title of information source';
 $lang_module['config_source_link'] = 'Show link of information source';
 $lang_module['config_source_logo'] = 'Show logo of information source';
-$lang_module['delcat_msg_cat_permissions'] = 'You are not allowed to do this action';
-$lang_module['search_status'] = 'Status';
-$lang_module['hitstotal'] = 'Number view';
-
-$lang_module['checkall'] = 'Check all';
-$lang_module['uncheckall'] = 'Uncheck all';
-$lang_module['viewdescription'] = 'Show describes when view topic';
-$lang_module['viewdescription_0'] = 'No display';
-$lang_module['viewdescription_1'] = 'Display in page 1 of topic';
-$lang_module['viewdescription_2'] = 'Display in all page of topic';
-$lang_module['content_tag'] = 'Tags';
-$lang_module['content_tag_note'] = 'To generate automatically, copy the entire contents of the article in the box below and click';
-$lang_module['allowed_rating_point'] = 'Showing reviews on google if article have points';
-$lang_module['no_allowed_rating'] = 'No display';
-$lang_module['facebookAppID'] = 'Facebook App ID';
-$lang_module['facebookAppIDNote'] = '(Form: 1419186468293063, <a href="http://wiki.nukeviet.vn/nukeviet:admin:news:facebookapi" target="_blank">view detail</a>)';
-$lang_module['socialbutton'] = 'Display Like facebook, G+, Twitter tools when view aricle';
-$lang_module['tags'] = 'Tags manage';
-$lang_module['add_tags'] = 'Add tag';
-$lang_module['edit_tags'] = 'Edit tag';
-$lang_module['tags_alias'] = 'Filter Vietnamese diacritics and other characters a-z, 0-9, - in the static link tags';
-$lang_module['tags_all_link'] = 'View the description tags are not enabled, click here to see all tags';
-$lang_module['tags_no_description'] = 'Tags no description';
 $lang_module['alias_search'] = 'Show the different tags, use the search function to display more results';
 $lang_module['googleplus'] = 'authentication Google+ (copyright)';
 $lang_module['googleplus_1'] = 'Not use';
 $lang_module['googleplus_0'] = 'According configuration copyright of module';
-
 $lang_module['input_title_blocks'] = 'Input title group';
 $lang_module['input_keyword_tags'] = 'Input keyword ';
 $lang_module['alias_empty_notice'] = 'Alias empty, the system will automatically create static link';
-
-//Lang for function getchap_conf
+$lang_module['add_time'] = 'Add time';
 $lang_module['getchap_conf'] = 'getchap_conf';
 $lang_module['edit'] = 'edit';
 $lang_module['delete'] = 'Delete';
@@ -280,20 +253,9 @@ $lang_module['number'] = 'Number';
 $lang_module['title'] = 'Title';
 $lang_module['structure_1'] = 'URL Structure';
 $lang_module['structure_2'] = 'Page Structure';
-$lang_module['error_required_title'] = 'Error: Required fields enter the Title';
-$lang_module['error_required_structure_1'] = 'Error: Required fields enter the URL Structure';
-$lang_module['error_required_structure_2'] = 'Error: Required fields enter the Page Structure';
-
-//Lang for function getchap_conf
 $lang_module['search_submit'] = 'Search';
 $lang_module['numbers'] = 'Place';
-$lang_module['error_required_numbers'] = 'Error: Required fields enter the Place';
-
-//Lang for function getchap_conf
 $lang_module['url_host'] = 'Url host';
-$lang_module['error_required_url_host'] = 'Error: Required fields enter the Url host';
-
-//Lang for function getchap_conf
 $lang_module['url_html_pattern'] = 'Url html pattern';
 $lang_module['url_pattern'] = 'Url pattern';
 $lang_module['url_structure'] = 'Url structure';
@@ -304,9 +266,11 @@ $lang_module['error_required_url_pattern'] = 'Error: Required fields enter the U
 $lang_module['error_required_url_structure'] = 'Error: Required fields enter the Url structure';
 $lang_module['error_required_img_structure'] = 'Error: Required fields enter the Image structure';
 $lang_module['error_required_chapno_structure'] = 'Error: Required fields enter the Chapno structure';
-
-//Lang for function getchap_conf_new
-$lang_module['getchap_conf_new'] = 'getchap_conf_new';
+$lang_module['error_required_url_host'] = 'Error: Required fields enter the Url host';
+$lang_module['error_required_numbers'] = 'Error: Required fields enter the Place';
+$lang_module['error_required_title'] = 'Error: Required fields enter the Title';
+$lang_module['error_required_structure_1'] = 'Error: Required fields enter the URL Structure';
+$lang_module['error_required_structure_2'] = 'Error: Required fields enter the Page Structure';
 $lang_module['preg_img_structure'] = 'Preg img structure';
 $lang_module['replace_1'] = 'Replace 1';
 $lang_module['replace_2'] = 'Replace 2';
@@ -314,5 +278,24 @@ $lang_module['replace_3'] = 'Replace 3';
 $lang_module['numget_img'] = 'Numget img';
 $lang_module['preg_chapno_structure'] = 'Preg chapno structure';
 $lang_module['numget_chap'] = 'Numget chap';
-$lang_module['add_time'] = 'Add time';
 $lang_module['edit_time'] = 'Edit time';
+$lang_module['topics'] = 'Topics';
+$lang_module['topics_error_title'] = 'Error: You do not enter the event title';
+$lang_module['sources'] = 'Sources';
+$lang_module['weight'] = 'Position';
+$lang_module['numsubcat'] = 'Number of sub-categories';
+$lang_module['newday'] = 'Show new icon (day)';
+$lang_module['add_topic'] = 'Add topic';
+$lang_module['add_sources'] = 'Add sources';
+$lang_module['edit_topic'] = 'Edit topic';
+$lang_module['edit_sources'] = 'Edit sources';
+$lang_module['add_block_cat'] = 'Add block group';
+$lang_module['edit_block_cat'] = 'Edit block groups';
+$lang_module['link'] = 'Website\'s link';
+$lang_module['tags'] = 'Tags manage';
+$lang_module['add_tags'] = 'Add tag';
+$lang_module['edit_tags'] = 'Edit tag';
+$lang_module['tags_alias'] = 'Filter Vietnamese diacritics and other characters a-z, 0-9, - in the static link tags';
+$lang_module['tags_all_link'] = 'View the description tags are not enabled, click here to see all tags';
+$lang_module['tags_no_description'] = 'Tags no description';
+$lang_module['getchap_conf_new'] = 'getchap_conf_new';

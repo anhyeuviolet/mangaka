@@ -62,7 +62,7 @@ if ( $check_catid > 0 )
 			{
 				nv_del_content_module( $id );
 			}
-			nv_del_moduleCache();
+			$nv_Cache->delMod();
 			Header( 'Location: '. NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '='. $op .'&catid=' .$catid);
 			exit;
 			die;

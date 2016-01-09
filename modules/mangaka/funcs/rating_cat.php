@@ -35,7 +35,7 @@ if( $id > 0 and in_array( $point, $array_point ) and $checkss == md5( $id . $cli
 		$query = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_cat SET total_rating=total_rating+" . $point . ", click_rating=click_rating+1 WHERE catid=" . $id;
 		$db->query( $query );
 		$contents = sprintf( $lang_module['stringrating'], $row['total_rating'] + $point, $row['click_rating'] + 1 );
-		nv_del_moduleCache( $module_name );
+		$nv_Cache->delMod( $module_name );
 		die( $contents );
 	}
 }

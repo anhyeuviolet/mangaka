@@ -23,7 +23,7 @@ if( ! nv_function_exists( 'nv_block_news_groups' ) )
 		$html .= '<td><select name="config_blockid" class="form-control w200">';
 		$html .= '<option value="0"> -- </option>';
 		$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_block_cat ORDER BY weight ASC';
-		$list = nv_db_cache( $sql, '', $module );
+		$list = $nv_Cache->db( $sql, '', $module );
 		foreach( $list as $l )
 		{
 			$html_input .= '<input type="hidden" id="config_blockid_' . $l['bid'] . '" value="' . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module . '&amp;' . NV_OP_VARIABLE . '=' . $site_mods[$module]['alias']['groups'] . '/' . $l['alias'] . '" />';
@@ -87,7 +87,7 @@ if( ! nv_function_exists( 'nv_block_news_groups' ) )
 			->where( 't2.bid= ' . $block_config['blockid'] . ' AND t1.status= 1' )
 			->order( 't2.weight ASC' )
 			->limit( $block_config['numrow'] );
-		$list = nv_db_cache( $db->sql(), '', $module );
+		$list = $nv_Cache->db( $db->sql(), '', $module );
 
 		if( ! empty( $list ) )
 		{
@@ -164,7 +164,7 @@ if( defined( 'NV_SYSTEM' ) )
 		{
 			$module_array_cat = array();
 			$sql = 'SELECT catid, parentid, title, alias, viewcat, subcatid, numlinks, description, inhome, keywords, groups_view FROM ' . NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_cat ORDER BY sort ASC';
-			$list = nv_db_cache( $sql, 'catid', $module );
+			$list = $nv_Cache->db( $sql, 'catid', $module );
 			foreach( $list as $l )
 			{
 				$module_array_cat[$l['catid']] = $l;

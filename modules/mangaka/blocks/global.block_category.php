@@ -22,7 +22,7 @@ if( !nv_function_exists( 'nv_news_category' ) )
 		$html .= '<td><select name="config_catid" class="form-control w200">';
 		$html .= '<option value="0"> -- </option>';
 		$sql = 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $site_mods[$module]['module_data'] . '_cat ORDER BY sort ASC';
-		$list = nv_db_cache( $sql, '', $module );
+		$list = $nv_Cache->db( $sql, '', $module );
 		foreach( $list as $l )
 		{
 			$xtitle_i = '';
@@ -156,7 +156,7 @@ if( defined( 'NV_SYSTEM' ) )
 		{
 			$module_array_cat = array( );
 			$sql = "SELECT catid, parentid, title, alias, viewcat, subcatid, numlinks, description, inhome, keywords, groups_view FROM " . NV_PREFIXLANG . "_" . $site_mods[$module]['module_data'] . "_cat ORDER BY sort ASC";
-			$list = nv_db_cache( $sql, 'catid', $module );
+			$list = $nv_Cache->db( $sql, 'catid', $module );
 			foreach( $list as $l )
 			{
 				$module_array_cat[$l['catid']] = $l;

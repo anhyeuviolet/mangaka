@@ -17,7 +17,7 @@ if ( $nv_Request->isset_request( 'delete_id', 'get' ) and $nv_Request->isset_req
 	if( $id > 0 and $delete_checkss == md5( $id . NV_CACHE_PREFIX . $client_info['session_id'] ) )
 	{
 		$db->query('DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_get_chap  WHERE id = ' . $db->quote( $id ) );
-		nv_del_moduleCache( nvtools );
+		$nv_Cache->delMod( nvtools );
 		Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op );
 		die();
 	}
@@ -78,7 +78,7 @@ if ( $nv_Request->isset_request( 'submit', 'post' ) )
 			$exc = $stmt->execute();
 			if( $exc )
 			{
-				nv_del_moduleCache( $module_name );
+				$nv_Cache->delMod( $module_name );
 				Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op );
 				die();
 			}
