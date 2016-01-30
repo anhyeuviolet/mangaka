@@ -18,14 +18,14 @@ $ajax = $nv_Request->get_int( 'ajax', 'get', 0 );
 if( $ajax )
 {
 	//List chapter of Category
-	$order_by =  'chapter DESC';
+	$order_by =  'chapter_sort DESC';
 	$db->sqlreset()
 		->select( 'COUNT(*)' )
 		->from( NV_PREFIXLANG . '_' . $module_data . '_' . $catid )
 		->where( 'status=1' );
 	$num_items = $db->query( $db->sql() )->fetchColumn();
 
-	$db->select( 'id, title, alias, ROUND(chapter,2) as chapter, publtime' )
+	$db->select( 'id, title, alias, chapter, publtime' )
 		->order( $order_by )
 		->limit( $per_page )
 		->offset( ( $page - 1 ) * $per_page );

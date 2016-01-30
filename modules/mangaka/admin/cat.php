@@ -51,7 +51,6 @@ if( $catid > 0 and isset( $global_array_cat[$catid] ) )
 			die();
 		}
 	}
-
 	$caption = $lang_module['edit_cat'];
 }
 else

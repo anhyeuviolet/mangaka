@@ -151,6 +151,7 @@ $lang_module['status_10'] = 'Đang kiểm tra để đăng';
 
 $lang_module['genre_nums'] = 'danh mục';
 $lang_module['chapter_manage'] = 'Quản lý chương truyện';
+$lang_module['chapter_sort'] = 'Thứ tự chương truyện';
 $lang_module['chapter_main'] = 'Quay lại quản lý chương truyện';
 $lang_module['last_chapter'] = 'Chương mới nhất';
 $lang_module['last_update'] = 'Cập nhật';

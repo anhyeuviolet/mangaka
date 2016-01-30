@@ -99,6 +99,7 @@ $rowcontent = array(
 	'archive' => 1,
 	'title' => '',
 	'chapter' => '',
+	'chapter_sort' => '',
 	'old_chapter' => '',
 	'alias' => '',
 	'bodyhtml' => '',
@@ -120,7 +121,7 @@ $rowcontent['id'] = $nv_Request->get_int( 'id', 'get,post', 0 );
 if( $rowcontent['id'] > 0 )
 {
 	$check_permission = false;
-	$rowcontent = $db->query( 'SELECT *,ROUND(chapter,2) as chapter FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows where id=' . $rowcontent['id'] )->fetch();
+	$rowcontent = $db->query( 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows where id=' . $rowcontent['id'] )->fetch();
 	if( ! empty( $rowcontent['id'] ) )
 	{
 		$rowcontent['mode'] = 'edit';
@@ -359,21 +360,6 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 		$error[] = $lang_module['error_bodytext'];
 	}
 
-	// Kiem tra trung Chapter
-	if($rowcontent['chapter'] != $rowcontent['old_chapter'] )
-	{
-		$_query='SELECT id FROM '. NV_PREFIXLANG . '_' . $module_data .'_'.$rowcontent['listcatid'].' WHERE chapter='.$rowcontent['chapter'];
-		$_query_id=$db->query( $_query );
-		if( $_query_id->fetch( 3 ) ){ $error[] = $lang_module['duplicate_chapter']; }
-		if(isset($data_result) and $data_result){
-			foreach($data_result as $data){
-				if($data['chapter']==$rowcontent['chapter']){
-					$error[] = $lang_module['duplicate_chapter'];
-				}
-			}
-		}	
-	}
-
 	if( empty( $error ) )
 	{
 		$rowcontent['catid'] = in_array( $rowcontent['catid'], $catids ) ? $rowcontent['catid'] : $catids[0];
@@ -390,7 +376,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				$rowcontent['status'] = 2;
 			}
 			$sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_rows
-				(catid, listcatid, admin_id, author, addtime, edittime, status, publtime, exptime, archive, title, chapter, alias, inhome, allowed_rating, hitstotal, total_rating, click_rating) VALUES
+				(catid, listcatid, admin_id, author, addtime, edittime, status, publtime, exptime, archive, title, chapter, chapter_sort, alias, inhome, allowed_rating, hitstotal, total_rating, click_rating) VALUES
 				 (' . intval( $rowcontent['catid'] ) . ',
 				 :listcatid,
 				 ' . intval( $rowcontent['admin_id'] ) . ',
@@ -403,6 +389,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				 ' . intval( $rowcontent['archive'] ) . ',
 				 :title,
 				 :chapter,
+				 :chapter_sort,
 				 :alias,
 				 ' . intval( $rowcontent['inhome'] ) . ',
 				 ' . intval( $rowcontent['allowed_rating'] ) . ',
@@ -415,6 +402,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 			$data_insert['author'] = $rowcontent['author'];
 			$data_insert['title'] = $rowcontent['title'];
 			$data_insert['chapter'] = $rowcontent['chapter'];
+			$data_insert['chapter_sort'] = ($db->query('SELECT max(chapter_sort) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . intval( $rowcontent['catid'] ))->fetchColumn() ) + 1;
 			$data_insert['alias'] = $rowcontent['alias'];
 
 			$rowcontent['id'] = $db->insert_id( $sql, 'id', $data_insert );
@@ -443,7 +431,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				$stmt = $db->prepare( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext VALUES (' . $rowcontent['id'] . ', :bodytext )' );
 				$stmt->bindParam( ':bodytext', $rowcontent['bodytext'], PDO::PARAM_STR, strlen( $rowcontent['bodytext'] ) );
 				$ct_query[] = ( int )$stmt->execute();
-
+				nv_fix_chapter_order();
 				if( array_sum( $ct_query ) != sizeof( $ct_query ) )
 				{
 					$error[] = $lang_module['errorsave'];
@@ -497,18 +485,11 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 			{
 				// Cap nhat thoi gian vào Category
 				$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET last_update ='. NV_CURRENTTIME .' WHERE catid =' . $rowcontent['catid'] );
-				
 				nv_insert_logs( NV_LANG_DATA, $module_name, $lang_module['content_edit'], $rowcontent['title'], $admin_info['userid'] );
-
 				$ct_query = array();
-				$sth = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $rowcontent['id'] / 2000 ) . ' SET
-					bodyhtml=:bodyhtml
-				WHERE id =' . $rowcontent['id'] );
-
+				$sth = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $rowcontent['id'] / 2000 ) . ' SET bodyhtml=:bodyhtml WHERE id =' . $rowcontent['id'] );
 				$sth->bindParam( ':bodyhtml', $rowcontent['bodyhtml'], PDO::PARAM_STR, strlen( $rowcontent['bodyhtml'] ) );
-
 				$ct_query[] = ( int )$sth->execute();
-
 				$array_cat_old = explode( ',', $rowcontent_old['listcatid'] );
 				$array_cat_new = explode( ',', $rowcontent['listcatid'] );
 

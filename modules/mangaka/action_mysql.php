@@ -63,6 +63,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 add_time int(11) unsigned NOT NULL DEFAULT '0',
 	 edit_time int(11) unsigned NOT NULL DEFAULT '0',
 	 last_update int(11) unsigned NOT NULL DEFAULT '0',
+	 sort int(11) unsigned NOT NULL DEFAULT '0',
 	 groups_view varchar(250) DEFAULT '',
 	 allowed_comm varchar(250) DEFAULT '',
  	 hitscm mediumint(8) unsigned NOT NULL default '0',
@@ -144,7 +145,8 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 archive tinyint(1) unsigned NOT NULL default '0',
 	 title varchar(250) NOT NULL default '',
 	 alias varchar(250) NOT NULL default '',
-	 chapter float(1) default '0',
+	 chapter varchar(250) default '',
+	 chapter_sort int(11) unsigned NOT NULL default '0',
 	 inhome tinyint(1) unsigned NOT NULL default '0',
 	 allowed_rating tinyint(1) unsigned NOT NULL default '0',
 	 hitstotal mediumint(8) unsigned NOT NULL default '0',
@@ -158,8 +160,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 KEY addtime (addtime),
 	 KEY publtime (publtime),
 	 KEY exptime (exptime),
-	 KEY status (status),
-	 UNIQUE KEY chapter (chapter,catid)
+	 KEY status (status)
 	) ENGINE=MyISAM";
 
 $sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_bodytext (

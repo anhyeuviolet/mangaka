@@ -41,11 +41,9 @@ if ( $check_catid > 0 )
 
 	$global_array_cat[0] = array( 'alias' => 'Other' );
 
-	$sql = 'SELECT id, catid, title, alias, ROUND(chapter,2) as chapter, edittime, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . intval($catid) . ' ORDER BY chapter ASC LIMIT ' .  ( $page - 1 ) * $per_page . ', ' . $per_page;
+	$sql = 'SELECT id, catid, title, alias, chapter, chapter_sort, edittime, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . intval($catid) . ' ORDER BY chapter_sort ASC LIMIT ' .  ( $page - 1 ) * $per_page . ', ' . $per_page;
 	$array_block = $db->query( $sql )->fetchAll();
-
 	$num = sizeof( $array_block );
-
 	$generate_page = nv_generate_page( $base_url, $all_page, $per_page, $page );
 	if ( ! empty( $generate_page ) )
 	{
@@ -79,6 +77,7 @@ if ( $check_catid > 0 )
 				'link' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$row['catid']]['alias'] . '/' . $row['alias'] . '-' . $row['id'] . $global_config['rewrite_exturl'],
 				'title' => $row['name'] = !empty($row['title'])?$row['title']:$lang_module['chapter']. ' ' . $row['chapter'],
 				'chapter' => $row['chapter'],
+				'chapter_sort' => $row['chapter_sort'],
 				'edittime' => nv_date( "d/m/Y", $row['edittime'] ),
 				'status' => $lang_module['status_' . $row['status']],
 			) );

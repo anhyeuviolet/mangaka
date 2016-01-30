@@ -232,6 +232,7 @@ if($action == '2'){
 					//Khoi tao cac bien de chen vao DB cho co
 					$bodytext=nv_news_get_bodytext($bodyhtml);
 					$src_text = $inhome = $allowed_rating = $status = 1;$exptime = $hitstotal = $total_rating = $click_rating =0;$archive=2;$author = "Manga Leecher";
+					$chapter_sort = ($db->query('SELECT max(chapter_sort) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . intval( $catid ))->fetchColumn() ) + 1;
 					
 					// Luu vao NV_PREFIXLANG."_".$module_data."_rows"
 					$stht = $db->prepare( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET
@@ -248,6 +249,7 @@ if($action == '2'){
 						 title=:title,
 						 alias=:alias,
 						 chapter=:chapter,
+						 chapter_sort=:chapter_sort,
 						 inhome=:inhome,
 						 allowed_rating=:allowed_rating,
 						 hitstotal=:hitstotal,
@@ -270,6 +272,7 @@ if($action == '2'){
 					$stht->bindParam( ':title', $title_new, PDO::PARAM_STR );
 					$stht->bindParam( ':alias', $alias, PDO::PARAM_STR );
 					$stht->bindParam( ':chapter', $this_chapter, PDO::PARAM_STR );
+					$stht->bindParam( ':chapter_sort', $chapter_sort, PDO::PARAM_STR );
 					$stht->bindParam( ':inhome', $inhome, PDO::PARAM_STR );
 					
 					$stht->bindParam( ':allowed_rating', $allowed_rating, PDO::PARAM_STR );
@@ -296,6 +299,7 @@ if($action == '2'){
 						 title=:title,
 						 alias=:alias,
 						 chapter=:chapter,
+						 chapter_sort=:chapter_sort,
 						 inhome=:inhome,
 						 allowed_rating=:allowed_rating,
 						 hitstotal=:hitstotal,
@@ -318,6 +322,7 @@ if($action == '2'){
 						$sthr->bindParam( ':title', $title_new, PDO::PARAM_STR );
 						$sthr->bindParam( ':alias', $alias, PDO::PARAM_STR );
 						$sthr->bindParam( ':chapter', $this_chapter, PDO::PARAM_STR );
+						$sthr->bindParam( ':chapter_sort', $chapter_sort, PDO::PARAM_STR );
 						$sthr->bindParam( ':inhome', $inhome, PDO::PARAM_STR );
 						
 						$sthr->bindParam( ':allowed_rating', $allowed_rating, PDO::PARAM_STR );
@@ -353,6 +358,7 @@ if($action == '2'){
 				}
 			}
 		} //End of each chapter
+		//nv_fix_chapter_order();
 		$html->clear(); 
 		unset($html);
 	} 

@@ -15,7 +15,7 @@ $publtime = 0;
 
 if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 {
-	$query = $db->query( 'SELECT *,ROUND(chapter,2) as chapter FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' WHERE id = ' . $id );
+	$query = $db->query( 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' WHERE id = ' . $id );
 	$news_contents = $query->fetch();
 	if( $news_contents['id'] > 0 )
 	{
@@ -169,7 +169,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	
 	$next_chapter = $previous_chapter = '';
 	//Next Chapter
-	$sql = 'SELECT id, catid, alias, ROUND(chapter,2) as chapter, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_'.$news_contents['catid'].' WHERE ROUND(chapter,2) > '.$news_contents['chapter'].' ORDER BY chapter ASC LIMIT 1';
+	$sql = 'SELECT id, catid, alias, chapter, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_'.$news_contents['catid'].' WHERE chapter_sort > '.$news_contents['chapter_sort'].' ORDER BY chapter ASC LIMIT 1';
 	$list = $nv_Cache->db( $sql, 'id', $module_name );
 	foreach( $list as $next )
 	{
@@ -178,7 +178,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	}
 	unset($sql,$list);
 	//Previous Chapter
-	$sql = 'SELECT id, catid, alias, ROUND(chapter,2) as chapter, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_'.$news_contents['catid'].' WHERE ROUND(chapter,2) < '.$news_contents['chapter'].' ORDER BY chapter DESC LIMIT 1';
+	$sql = 'SELECT id, catid, alias, chapter, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_'.$news_contents['catid'].' WHERE chapter_sort < '.$news_contents['chapter_sort'].' ORDER BY chapter DESC LIMIT 1';
 	$list = $nv_Cache->db( $sql, 'id', $module_name );
 	foreach( $list as $previous )
 	{
@@ -189,7 +189,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	
 	//List dropdown of all chapters
 	$list_chaps = array();
-	$sql = 'SELECT id, catid, title, alias, ROUND(chapter,2) as chapter FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' WHERE status=1 ORDER BY chapter DESC';
+	$sql = 'SELECT id, catid, title, alias, chapter FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' WHERE status=1 ORDER BY chapter_sort DESC';
 	$array_block = $db->query( $sql )->fetchAll();
 	$num = sizeof( $array_block );
 	if( $num > 0 )

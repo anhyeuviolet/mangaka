@@ -93,7 +93,7 @@ function clean($st) {
     $st = str_replace(' ', '', $st); // Replaces all spaces with hyphens.
 	$st = preg_replace('/-+/', '-', $st); // Replaces multiple hyphens with single one.
 	$st = preg_replace('/,/', '.', $st); // Replaces comma by dotted.
-   return preg_replace('/[^0-9\.]/', '', $st); // Removes special chars.
+   return preg_replace('/[^0-9A-Za-z\.]/', '', $st); // Removes special chars.
 }
 function rv($rmv) {
 	$rmv = clean(LamDepURL($rmv));
@@ -585,4 +585,50 @@ function check_link($url,$host='')
 		$url = $matches[0][0].$url;
 	}
 	return $url;
+}
+
+/**
+ * nv_fix_cat_order()
+ *
+ * @param integer $parentid
+ * @param integer $order
+ * @param integer $lev
+ * @return
+ */
+function nv_fix_cat_order($parentid = 0, $order = 0, $lev = 0)
+{
+    global $db, $module_data;
+
+    $sql = 'SELECT catid, parentid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat WHERE parentid=' . $parentid . ' ORDER BY weight ASC';
+    $result = $db->query($sql);
+    $array_cat_order = array();
+    while ($row = $result->fetch()) {
+        $array_cat_order[] = $row['catid'];
+    }
+    $result->closeCursor();
+    $weight = 0;
+    if ($parentid > 0) {
+        ++$lev;
+    } else {
+        $lev = 0;
+    }
+    foreach ($array_cat_order as $catid_i) {
+        ++$order;
+        ++$weight;
+        $sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET weight=' . $weight . ', sort=' . $order . ', lev=' . $lev . ' WHERE catid=' . intval($catid_i);
+        $db->query($sql);
+        $order = nv_fix_cat_order($catid_i, $order, $lev);
+    }
+    $numsubcat = $weight;
+    if ($parentid > 0) {
+        $sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET numsubcat=' . $numsubcat;
+        if ($numsubcat == 0) {
+            $sql .= ",subcatid='', viewcat='viewcat_page_new'";
+        } else {
+            $sql .= ",subcatid='" . implode(',', $array_cat_order) . "'";
+        }
+        $sql .= ' WHERE catid=' . intval($parentid);
+        $db->query($sql);
+    }
+    return $order;
 }

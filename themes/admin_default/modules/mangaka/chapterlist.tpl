@@ -14,6 +14,7 @@
 			<thead>
 				<tr>
 					<th class="text-center"><input name="check_all[]" type="checkbox" value="yes" onclick="nv_checkAll(this.form, 'idcheck[]', 'check_all[]',this.checked);" /></th>
+					<th class="w100">{LANG.chapter_sort}</th>
 					<th class="w100">{LANG.chapter}</th>
 					<th>{LANG.name}</th>
 					<th>{LANG.status}</th>
@@ -25,6 +26,7 @@
 			<!-- BEGIN: loop -->
 				<tr>
 					<td class="text-center"><input type="checkbox" onclick="nv_UncheckAll(this.form, 'idcheck[]', 'check_all[]', this.checked);" value="{ROW.id}" name="idcheck[]" /></td>
+					<td class="text-center">{ROW.chapter_sort}</td>
 					<td class="text-center">{ROW.chapter}</td>
 					<td class="text-left"><a target="_blank" href="{ROW.link}">{ROW.title}</a></td>
 					<td class="text-center">{ROW.status}</td>
