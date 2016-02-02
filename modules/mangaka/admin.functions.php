@@ -239,7 +239,7 @@ function redirect( $msg1 = '', $msg2 = '', $nv_redirect, $autoSaveKey = '' )
  * 
  * @return
  */
-function nv_show_cat_list_new()
+function nv_show_cat_list_new($page = 1)
 {
 	global $db, $lang_module, $lang_global, $module_name, $module_data, $array_viewcat_full, $array_viewcat_nosub, $array_cat_admin, $global_array_cat, $admin_id, $global_config, $module_file, $nv_Request;
 	
@@ -247,12 +247,6 @@ function nv_show_cat_list_new()
 	$page = $nv_Request->get_int( 'page', 'get', 1 );
 	$per_page = 25;
 	$all_page = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat' )->fetchColumn();
-
-	$xtpl = new XTemplate( 'cat_list.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
-	$xtpl->assign( 'LANG', $lang_module );
-	$xtpl->assign( 'GLANG', $lang_global );
-	$xtpl->assign( 'NO_MANGA', $lang_module['no_manga'] );
-	$xtpl->assign( 'ADD_CAT',  NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=cat' );
 
 	// Cac chu de co quyen han
 	$array_cat_check_content = array();
@@ -289,6 +283,14 @@ function nv_show_cat_list_new()
 	$num = sizeof( $rowall );
 	$a = 1;
 	if ($page > 1) $a = 1 + (( $page - 1 ) * $per_page);
+
+	$xtpl = new XTemplate( 'cat_list.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
+	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'GLANG', $lang_global );
+	$xtpl->assign( 'NO_MANGA', $lang_module['no_manga'] );
+	$xtpl->assign( 'ADD_CAT',  NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=cat' );
+	$xtpl->assign( 'CUR_PAGE', $page );
+
 	$array_inhome = array(
 		$lang_global['no'],
 		$lang_global['yes']
@@ -413,13 +415,13 @@ function nv_show_cat_list_new()
  *	$page
  * @return
  */
-function nv_show_block_cat_list_new($page)
+function nv_show_block_cat_list_new($page = 1)
 {
 	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $module_file, $global_config, $module_info, $nv_Request;
 	
 	$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=groups';
 	$page = $nv_Request->get_int( 'page', 'get', 1 );
-	$per_page = 15;
+	$per_page = 25;
 	$all_page = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_block_cat' )->fetchColumn();
 
 
@@ -631,4 +633,109 @@ function nv_fix_cat_order($parentid = 0, $order = 0, $lev = 0)
         $db->query($sql);
     }
     return $order;
+}
+
+function nv_show_list_chapter($catid, $page = 1)
+{
+	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $global_array_cat, $module_file, $global_config, $nv_Request;
+
+	$check_catid = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat WHERE catid= ' . intval($catid))->fetchColumn();
+	if ( $check_catid > 0 )
+	{
+		$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '='. $op .'&catid=' .intval($catid);
+		$page = $nv_Request->get_int( 'page', 'get', 1 );
+		
+		$xtpl = new XTemplate( 'chapterlist.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
+		$xtpl->assign( 'LANG', $lang_module );
+		$xtpl->assign( 'GLANG', $lang_global );
+		$xtpl->assign( 'NV_BASE_ADMINURL', NV_BASE_ADMINURL );
+		$xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
+		$xtpl->assign( 'NV_OP_VARIABLE', NV_OP_VARIABLE );
+		$xtpl->assign( 'MODULE_NAME', $module_name );
+		$xtpl->assign( 'OP', $op );
+		$xtpl->assign( 'CUR_PAGE', $page );
+		$xtpl->assign('NO_CHAPTER',$lang_module['no_chapter']);
+		$xtpl->assign('ADD_CHAPTER',NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=content&catid='. $catid);
+		$xtpl->assign('MANAGE_CHAPTER',NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=chapter_manage');
+
+		$per_page = 25;
+		$all_page = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . intval($catid) )->fetchColumn();
+
+		$global_array_cat[0] = array( 'alias' => 'Other' );
+
+		$sql = 'SELECT id, catid, title, alias, chapter, chapter_sort, edittime, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . intval($catid) . ' ORDER BY chapter_sort ASC LIMIT ' .  ( $page - 1 ) * $per_page . ', ' . $per_page;
+		$array_block = $db->query( $sql )->fetchAll();
+		$num = sizeof( $array_block );
+		$generate_page = nv_generate_page( $base_url, $all_page, $per_page, $page );
+		if ( ! empty( $generate_page ) )
+		{
+			$xtpl->assign( 'GENERATE_PAGE', $generate_page );
+			$xtpl->parse( 'main.data.generate_page' );
+		}
+
+		if( $nv_Request->get_title( 'action', 'post' ) =='delete' and $nv_Request->isset_request( 'idcheck', 'post' ) )
+		{
+			$array_id = $nv_Request->get_typed_array( 'idcheck', 'post', 'int' );
+			if( defined( 'NV_IS_ADMIN_MODULE' ) or ( isset( $array_cat_admin[$admin_id][$catid] ) and $array_cat_admin[$admin_id][$catid]['add_content'] == 1 ) )
+			{
+				foreach ($array_id as $id)
+				{
+					nv_del_content_module( $id );
+				}
+				$nv_Cache->delMod();
+				Header( 'Location: '. NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '='. $op .'&catid=' .$catid);
+				exit;
+				die;
+			}
+		}
+
+		if( $num > 0 )
+		{
+			foreach ($array_block as $row)
+			{
+				$xtpl->assign( 'ROW', array(
+					'id' => $row['id'],
+					'catid' => $catid,
+					'link' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $global_array_cat[$row['catid']]['alias'] . '/' . $row['alias'] . '-' . $row['id'] . $global_config['rewrite_exturl'],
+					'title' => $row['name'] = !empty($row['title'])?$row['title']:$lang_module['chapter']. ' ' . $row['chapter'],
+					'chapter' => $row['chapter'],
+					'chapter_sort' => $row['chapter_sort'],
+					'edittime' => nv_date( "d/m/Y", $row['edittime'] ),
+					'status' => $lang_module['status_' . $row['status']],
+				) );
+				
+				for ($i = 1; $i <= $num; ++$i) {
+					$xtpl->assign('CHAPTER_SORT', array(
+						'key' => $i,
+						'title' => $i,
+						'selected' => $i == $row['chapter_sort'] ? ' selected="selected"' : ''
+					));
+					$xtpl->parse('main.data.loop.chapter_sort.loop');
+				}
+				$xtpl->parse('main.data.loop.chapter_sort');
+
+				if( defined( 'NV_IS_MODADMIN' ) )
+				{
+					$xtpl->assign( 'ADMINLINK', nv_link_edit_page( $row['id'] ) . " " . nv_link_delete_page( $row['id'] ) );
+					$xtpl->parse( 'main.data.loop.adminlink' );
+				}
+
+				$xtpl->parse( 'main.data.loop' );
+			}
+			$xtpl->parse( 'main.data' );
+		}
+		else
+		{
+			$xtpl->parse( 'main.nochapter' );
+		}
+		$xtpl->parse( 'main' );
+		$contents = $xtpl->text( 'main' );
+		$db->sqlreset();
+	}
+	else
+	{
+		Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=chapter_manage' );
+		die();
+	}
+	return $contents;
 }

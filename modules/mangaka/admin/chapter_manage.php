@@ -9,7 +9,23 @@
  */
 
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
+$catid = $nv_Request->get_int( 'catid', 'get', 0 );
+if($catid>0){
+	$xtpl = new XTemplate( 'chapter_manage.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
+	$page_title = $lang_module['chapter_list']. ' - ' .$global_array_cat[$catid]['title'];
 
+	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'GLANG', $lang_global );
+	$xtpl->assign( 'SHOW_CHAPTER', nv_show_list_chapter($catid, $page = 1) );
+	$xtpl->parse( 'chapter_main' );
+	
+	$contents = $xtpl->text( 'chapter_main' );
+
+	include NV_ROOTDIR . '/includes/header.php';
+	echo nv_admin_theme( $contents );
+	include NV_ROOTDIR . '/includes/footer.php';
+}
+else{
 $page_title = $lang_module['chapter_manage'];
 $base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=chapter_manage';
 
@@ -83,7 +99,7 @@ foreach ($rowall as $row)
 	{
 		$xtpl->assign( 'ROW', array(
 			'catid' => $catid,
-			'link' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=chapterlist&amp;catid=' . $catid,
+			'link' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=chapter_manage&amp;catid=' . $catid,
 			'title' => $title,
 			'last_chapter' => $last_chapter,
 			'last_update' => nv_date( "H:i - d/m/Y", $last_update),
@@ -121,3 +137,4 @@ $contents .= $xtpl->text( 'main' );
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_admin_theme( $contents );
 include NV_ROOTDIR . '/includes/footer.php';
+}

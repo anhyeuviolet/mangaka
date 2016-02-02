@@ -1,5 +1,4 @@
 <!-- BEGIN: main -->
-<h1>{CAT_TITLE}</h1>
 <!-- BEGIN: nochapter -->
 <p class="alert alert-info">{NO_CHAPTER}</p>
 <!-- END: nochapter -->
@@ -26,7 +25,15 @@
 			<!-- BEGIN: loop -->
 				<tr>
 					<td class="text-center"><input type="checkbox" onclick="nv_UncheckAll(this.form, 'idcheck[]', 'check_all[]', this.checked);" value="{ROW.id}" name="idcheck[]" /></td>
-					<td class="text-center">{ROW.chapter_sort}</td>
+					<!-- BEGIN: chapter_sort -->
+					<td class="text-center">
+					<select class="form-control" id="id_chapter_sort_{ROW.id}" onchange="nv_chang_chapter('{ROW.id}','chapter_sort');">
+						<!-- BEGIN: loop -->
+						<option value="{CHAPTER_SORT.key}"{CHAPTER_SORT.selected}>{CHAPTER_SORT.title}</option>
+						<!-- END: loop -->
+					</select>
+					</td>
+					<!-- END: chapter_sort -->
 					<td class="text-center">{ROW.chapter}</td>
 					<td class="text-left"><a target="_blank" href="{ROW.link}">{ROW.title}</a></td>
 					<td class="text-center">{ROW.status}</td>
@@ -55,4 +62,9 @@
 </form>
 <!-- END: data -->
 <a class="btn btn-info" href="{MANAGE_CHAPTER}"><i class="fa fa-reply"></i> {LANG.back} {LANG.chapter_manage} </a> <a class="btn btn-info" href="{ADD_CHAPTER}">{LANG.add} {LANG.chapter}&nbsp;<i class="fa fa-share"></i></a>
+<script>
+var curr_page = "{CUR_PAGE}";
+var curr_catid = "{ROW.catid}";
+</script>
+
 <!-- END: main -->

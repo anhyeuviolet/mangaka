@@ -144,7 +144,6 @@ if( empty( $contents ) )
 				'verygood' => $lang_module['star_verygood']
 			);
 		}
-
 		$contents = viewcat_list( $array_cat_block, $catid, $viewcat_img, $viewcat_rating, $content_comment);
 	}
 	if( ! defined( 'NV_IS_MODADMIN' ) and $contents != '' and $cache_file != '' )

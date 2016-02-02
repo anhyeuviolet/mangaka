@@ -69,6 +69,7 @@ if ( $check_catid > 0 )
 
 	if( $num > 0 )
 	{
+
 		foreach ($array_block as $row)
 		{
 			$xtpl->assign( 'ROW', array(
@@ -81,6 +82,16 @@ if ( $check_catid > 0 )
 				'edittime' => nv_date( "d/m/Y", $row['edittime'] ),
 				'status' => $lang_module['status_' . $row['status']],
 			) );
+			
+			for ($i = 1; $i <= $num; ++$i) {
+				$xtpl->assign('CHAPTER_SORT', array(
+					'key' => $i,
+					'title' => $i,
+					'selected' => $i == $row['chapter_sort'] ? ' selected="selected"' : ''
+				));
+				$xtpl->parse('main.data.loop.chapter_sort.loop');
+			}
+			$xtpl->parse('main.data.loop.chapter_sort');
 
 			if( defined( 'NV_IS_MODADMIN' ) )
 			{

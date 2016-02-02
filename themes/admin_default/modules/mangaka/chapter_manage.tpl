@@ -53,3 +53,8 @@
 	<!-- END: data -->
 </div>
 <!-- END: main -->
+<!-- BEGIN: chapter_main -->
+<div class="row" id="show_chapter">
+{SHOW_CHAPTER}
+</div>
+<!-- END: chapter_main -->

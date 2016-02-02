@@ -22,9 +22,31 @@ function nv_chang_cat(catid, mod) {
 	return;
 }
 
+function nv_chang_chapter(id, mod) {
+	var nv_timer = nv_settimeout_disable('id_' + mod + '_' + id, 5000);
+	var new_vid = $('#id_' + mod + '_' + id).val();
+	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=change_chapter&nocache=' + new Date().getTime(), 'id=' + id + '&mod=' + mod + '&new_vid=' + new_vid + '&catid=' + curr_catid, function(res) {
+		var r_split = res.split('_');
+		if (r_split[0] != 'OK') {
+			alert(nv_is_change_act_confirm[2]);
+		}
+		clearTimeout(nv_timer);
+		nv_show_list_chapter(curr_catid);
+		return;
+	});
+	return;
+}
+
 function nv_show_list_cat(parentid) {
 	if (document.getElementById('module_show_list')) {
 		$('#module_show_list').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_cat&parentid=' + parentid + '&nocache=' + new Date().getTime());
+	}
+	return;
+}
+
+function nv_show_list_chapter(catid) {
+	if (document.getElementById('show_chapter')) {
+		$('#show_chapter').load(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=list_chapter&catid=' + catid + '&page=' + curr_page + '&nocache=' + new Date().getTime());
 	}
 	return;
 }

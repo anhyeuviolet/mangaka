@@ -11,11 +11,11 @@
 if( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
 if( ! defined( 'NV_IS_AJAX' ) ) die( 'Wrong URL' );
 
-$parentid = $nv_Request->get_int( 'parentid', 'get', 0 );
+$catid = $nv_Request->get_int( 'catid', 'get', 0 );
 $page = $nv_Request->get_int( 'page', 'get', 1 );
 $page = (intval($page) > 0) ? $page : 1;
 
-$contents = nv_show_cat_list_new( $page );
+$contents = nv_show_list_chapter($catid, $page);
 
 include NV_ROOTDIR . '/includes/header.php';
 echo $contents;

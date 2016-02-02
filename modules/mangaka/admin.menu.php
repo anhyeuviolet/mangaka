@@ -73,7 +73,7 @@ else
 	}
 }
 
-$allow_func = array( 'main', 'view', 'stop', 'publtime', 'waiting', 'declined', 're-published', 'content', 'chapterlist', 'rpc', 'del_content', 'alias', 'cat', 'cat_manage', 'change_cat', 'list_cat', 'del_cat', 'chapter_manage', 'getchap_conf' , 'getchap', 'getmanga_conf', 'getmanga' );
+$allow_func = array( 'main', 'view', 'stop', 'publtime', 'waiting', 'declined', 're-published', 'content', 'rpc', 'del_content', 'alias', 'cat', 'cat_manage', 'change_cat', 'change_chapter' , 'list_cat', 'list_chapter', 'del_cat', 'chapter_manage', 'getchap_conf' , 'getchap', 'getmanga_conf', 'getmanga' );
 
 $menu_cat = array();
 $menu_cat['cat'] = $lang_module['add_edit_cat'];
@@ -109,10 +109,10 @@ if( $NV_IS_ADMIN_MODULE )
 	$allow_func[] = 'chang_block_cat';
 	$allow_func[] = 'change_block';
 	$allow_func[] = 'list_block';
+	$allow_func[] = 'list_chapter';
 	$allow_func[] = 'setting';
 	$allow_func[] = 'move';
 	$allow_func[] = 'tools';
-	$allow_func[] = 'chapterlist';
 	$allow_func[] = 'chapter_manage';
 	$allow_func[] = 'getchap_conf';
 	$allow_func[] = 'getchap';
