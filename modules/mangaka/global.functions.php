@@ -125,8 +125,7 @@ function nv_del_content_module( $id )
 		$number_no_del = 0;
 		if( $number_no_del == 0 )
 		{
-			$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $id / 2000 ) . ' WHERE id = ' . $id );
-			$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext WHERE id = ' . $id );
+			$db->query( 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_detail WHERE id = ' . $id );
 			$content_del = 'OK_' . $id .'_' . nv_url_rewrite( NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name, true );
 			nv_fix_chapter_order($id);
 		}
@@ -247,6 +246,34 @@ function nv_fix_chapter_order()
 			$db->query($sql);
 			
 			$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET chapter_sort=' . $chapter_sort . ' WHERE catid =' . $cat_i . ' AND id=' . intval($data['id']);
+			$db->query($sql);
+		}
+		$ch->closeCursor();
+	}
+}
+
+/**
+ * nv_fix_get_chapter_order()
+ *
+ * @param integer $id
+ * @param integer $chapter_sort
+ * @return
+ */
+
+function nv_fix_chapter_order_by_date( $catid, $sort )
+{
+    global $db, $module_data;
+	
+	$chapter_sort = 0;
+	if( $catid > 0 ){
+		$query = 'SELECT id, catid, chapter_sort FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' ORDER BY chapter ASC';
+		$ch = $db->query($query);
+		while ($data = $ch->fetch()) {
+			++$chapter_sort;
+			$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' SET chapter_sort=' . $chapter_sort . ' WHERE id=' . intval($data['id']);
+			$db->query($sql);
+			
+			$sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_rows SET chapter_sort=' . $chapter_sort . ' WHERE catid =' . $catid . ' AND id=' . intval($data['id']);
 			$db->query($sql);
 		}
 		$ch->closeCursor();

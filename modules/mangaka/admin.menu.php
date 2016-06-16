@@ -73,7 +73,7 @@ else
 	}
 }
 
-$allow_func = array( 'main', 'view', 'stop', 'publtime', 'waiting', 'declined', 're-published', 'content', 'rpc', 'del_content', 'alias', 'cat', 'cat_manage', 'change_cat', 'change_chapter' , 'list_cat', 'list_chapter', 'del_cat', 'chapter_manage', 'getchap_conf' , 'getchap', 'getmanga_conf', 'getmanga' );
+$allow_func = array( 'main', 'view', 'stop', 'publtime', 'waiting', 'declined', 're-published', 'content', 'rpc', 'del_content', 'alias', 'cat', 'cat_manage', 'change_cat', 'change_chapter' , 'list_cat', 'list_chapter', 'del_cat', 'chapter_manage', 'getchap', 'get' );
 
 $menu_cat = array();
 $menu_cat['cat'] = $lang_module['add_edit_cat'];
@@ -87,18 +87,16 @@ if( ! isset( $site_mods['cms'] ) )
 	$submenu['content'] = $lang_module['content_add'];
 }
 	$submenu['getchap'] = $lang_module['getchap'];
-	$submenu['getmanga'] = $lang_module['getmanga'];
 
 
 if( $NV_IS_ADMIN_MODULE )
 {
 	$menu_setting = array();
 	
-	$menu_setting['groups'] = $lang_module['genre_manage'];
-	$menu_setting['getchap_conf'] = $lang_module['getchap_conf'];
-	$menu_setting['getmanga_conf'] = $lang_module['getmanga_conf'];
+	$submenu['groups'] = $lang_module['genre_manage'];
+	$submenu['getchap_conf'] = $lang_module['getchap_conf'];
 	
-	$submenu['setting'] = array( 'title' => $lang_module['setting'], 'submenu' => $menu_setting );
+	$submenu['setting'] = $lang_module['setting'];
 	$submenu['admins'] = $lang_module['admin'];
 
 	$allow_func[] = 'admins';
@@ -116,6 +114,4 @@ if( $NV_IS_ADMIN_MODULE )
 	$allow_func[] = 'chapter_manage';
 	$allow_func[] = 'getchap_conf';
 	$allow_func[] = 'getchap';
-	$allow_func[] = 'getmanga_conf';
-	$allow_func[] = 'getmanga';
 }

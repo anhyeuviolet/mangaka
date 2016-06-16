@@ -1,102 +1,109 @@
 <!-- BEGIN: main -->
 <div class="well">
-	<form class="bs-example form-horizontal" method="POST" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}">
-	<input type="hidden" name="action" value="1" />
-	<input type="hidden" name="checkss" value="{CHECKSS}" />
-	<fieldset>
-	  <legend>Bước 1: Grab links của các tập</legend>
-	  	<div class="form-group">
-			<label class="col-lg-2 control-label">{LANG.select_structure}:</label>
-			<div class="col-lg-20">
-			  <select class="form-control" name="form_list" id="form_list">
-				<option value="">----- {LANG.select_structure} ----- </option>
-			  <!-- BEGIN: getlist_loop_list-->
-				<option value="{GETLIST.id}">{GETLIST.title}</option>
-			  <!-- END: getlist_loop_list-->
-			  </select>
+	<div class="row">
+		<input type="hidden" id="action" name="action" value="1" />
+		<input type="hidden" id="checkss" name="checkss" value="{CHECKSS}"/>
+		<div class="col-lg-24 col-md-24 col-sm-24 col-xs-24">
+			<h3 class="h3"><strong>Bước 1: Grab links của các tập</strong></h3>
+			<div class="row margin-top-lg margin-bottom-lg">
+				<div class="col-lg-3"><p>{LANG.select_structure}</p></div>
+				<div class="col-lg-20">
+					<select class="form-control" name="form_list" id="form_list">
+						<option value="0">{LANG.select_structure}</option>
+						<!-- BEGIN: getlist_loop_list-->
+						<option value="{GETLIST.id}">{GETLIST.title}</option>
+					<!-- END: getlist_loop_list-->
+					</select>
+				</div>
+			</div>	
+			<div class="row margin-top-lg margin-bottom-lg">
+				<div class="col-lg-3"><p>URL của bộ truyện</p></div>
+				<div class="col-lg-20">
+					<input type="text" class="form-control" required="required" id="url" type="url" name="url" placeholder="http://blogtruyen.com/truyen/are-d">
+				</div>
+			</div>	  
+			<div class="row margin-top-lg margin-bottom-lg">
+				<div class="col-lg-24"> 
+					<button id="button_getlist_url" onclick="nv_get_list_url();" class="btn btn-primary">{LANG.submit}</button> 
+					<button id="button_reset_getlist_url" onclick="nv_reset_get_list_url();" class="btn btn-warning">{LANG.reset_form}</button> 
+				</div>
 			</div>
-		</div>	
-	  <div class="form-group">
-		<label class="col-lg-2 control-label">URL của bộ truyện</label>
-		<div class="col-lg-20">
-		  <input type="text" class="form-control" name="url" placeholder="http://blogtruyen.com/truyen/are-d">
-		  Dán URL của bộ truyện vào để lấy link tập trong đó!
 		</div>
-	  </div>	  
-	  <div class="form-group">
-		<div class="col-lg-20 col-lg-offset-4"> 
-		  <button type="submit" class="btn btn-primary">{LANG.submit}</button> 
-		</div>
-	  </div>
-	</fieldset>
-  </form>
-<!--  BEGIN: img_list -->
-  <h3>Danh sách URL trong truyện</h3>
-  <div class="well" style="max-height: 500px; overflow-y: scroll;">
-    <!--  BEGIN: img_list.loop -->
-  {IMGLIST}<br/>
-    <!--  END: img_list.loop -->
-  </div>
-  <!--  END: img_list -->
+	</div>
+	<div id="url_loop" class="row"></div>
 </div>
 
 <div class="well">
-  <form class="bs-example form-horizontal" method="POST" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}">
-	<input type="hidden" name="action" value="2" />
-	<input type="hidden" name="checkss" value="{CHECKSS}" />
-	<fieldset>
-	  <legend>Bước 2: Leech nội dung từng tập</legend>
-	  	<div class="form-group">
-			<label class="col-lg-2 control-label">{LANG.select_structure}:</label>
-			<div class="col-lg-20">
-			  <select class="form-control" name="form_chap" id="form_chap" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')">
-				<option value="">----- {LANG.select_structure} ----- </option>
-			  <!-- BEGIN: getlist_loop_chap-->
-				<option value="{GETLIST.id}">{GETLIST.title}</option>
-			  <!-- END: getlist_loop_chap-->
-			  </select>
+	<div class="row">
+		<input type="hidden"id="get_action" name="get_action" value="2" />
+		<input type="hidden" id="get_checkss" name="get_checkss" value="{CHECKSS}" />
+		<div class="col-lg-24 col-md-24 col-sm-24 col-xs-24">
+			<h3 class="h3"><strong>Bước 2: Leech nội dung từng tập</strong></h3>
+			<div class="row margin-top-lg margin-bottom-lg">
+				<div class="col-lg-3"><p>{LANG.select_structure}</p></div>
+				<div class="col-lg-20">
+					<select id="form_chap" class="form-control" name="form_chap">
+						<option value="0">{LANG.select_structure}</option>
+						<!-- BEGIN: getlist_loop_chap-->
+						<option value="{GETLIST.id}">{GETLIST.title}</option>
+						<!-- END: getlist_loop_chap-->
+					</select>
+				</div>
+			</div>	
+			
+			<div class="row margin-top-lg margin-bottom-lg">
+				<div class="col-lg-3"><p>{LANG.select_method}</p></div>
+				<div id="get_method" class="col-lg-20">
+					<input type="radio" name="get_method" value="1">{LANG.dom}<br>
+					<input type="radio" name="get_method" value="2">{LANG.preg_match}
+				</div>
+			</div>	
+			
+				<div class="row margin-top-lg margin-bottom-lg">
+				<div class="col-lg-3"><p>Lưu vào</p></div>
+				<div class="col-lg-20">
+					<select class="form-control" name="catid" id="catid">
+						<option value="0">{LANG.select_manga}</option>
+						<!-- BEGIN: catloop-->
+						<option value="{CAT.catid}">{CAT.title}</option>
+						<!-- END: catloop-->
+					</select>
+				</div>
+			</div>	
+			
+			<div class="row margin-top-lg margin-bottom-lg">
+				<div class="col-lg-3"><p>URL truyện</p></div>
+				<div class="col-lg-20">
+					Dán những tập mà bạn muốn grab vào đây, có thể lấy link từ bước 1.
+					<textarea class="form-control" rows="5" id="url_list" name="url_list" placeholder="http://"></textarea>
+				</div>
 			</div>
-		</div>	
-	  	<div class="form-group">
-			<label class="col-lg-2 control-label">{LANG.select_method} :</label>
-			<div class="col-lg-20">
-				<input type="radio" name="method" value="1" checked>{LANG.dom}<br>
-				<input type="radio" name="method" value="2">{LANG.preg_match} </input>
+			
+			<div class="row margin-top-lg margin-bottom-lg">
+				<div class="col-lg-20"> 
+					<button id="button_get_chap" onclick="nv_get_chap();" class="btn btn-primary">{LANG.submit}</button>
+					<button id="button_reset_get_chap" onclick="nv_reset_get_chap();" class="btn btn-warning">{LANG.reset_form}</button> 
+				</div>
 			</div>
-		</div>	
-		<div class="form-group">
-			<label class="col-lg-2 control-label">Lưu vào:</label>
-			<div class="col-lg-20">
-			  <select class="form-control" name="catid" id="catid">
-				<option value="">----- {LANG.select_manga} ----- </option>
-			  <!-- BEGIN: catloop-->
-				<option value="{CAT.catid}">{CAT.title}</option>
-			  <!-- END: catloop-->
-			  </select>
-			</div>
-		</div>	  
-	  <div class="form-group">
-		<label class="col-lg-2 control-label">URL truyện</label>
-		<div class="col-lg-20">
-		  <textarea class="form-control" rows="5" name="url_list" placeholder="Dán những tập mà bạn muốn grab vào đây, có thể lấy link từ bước 1 có dạng : http://"></textarea>
-		  Dán những tập mà bạn muốn grab vào đây, có thể lấy link từ bước 1
+			
+			<div id="get_chap_result"></div>
 		</div>
-	  </div>
-	  <div class="clearfix form-group">
-		<div class="col-lg-20 col-lg-offset-4"> 
-		Hãy kiểm tra cẩn thận xem đã đúng cả chưa rồi Submit, nếu sai thì sẽ phải sửa rất nhiều<br /><br />
-		  <button type="submit" class="btn btn-primary">{LANG.submit}</button> 
-		</div>
-	  </div>
-	   <!-- BEGIN: getchap_result-->
-			 <div class="form-group">
-			 Kết quả
-				<!-- BEGIN: loop-->	
-					{THIS_CHAP}
-				<!-- END: loop-->
-			</div>
-		<!-- END: getchap_result-->  
-	</fieldset>
-  </form>
+	</div>
 </div>
+<link rel="stylesheet" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.css">
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#form_list").select2({
+		placeholder: "{LANG.select_structure}"
+	});
+
+	$("#form_chap").select2({
+		placeholder: "{LANG.select_structure}"
+	});
+	$("#catid").select2({
+		placeholder: "{LANG.select_manga}"
+	});
+});
+</script>
 <!-- END: main -->

@@ -355,7 +355,7 @@ function detail_theme( $news_contents, $next_chapter, $previous_chapter, $list_c
 	}
 	
 	$src = '';
-	$array_data_content = explode('http://',$news_contents['bodytext']);
+	$array_data_content = explode('http://',$news_contents['bodyhtml']);
 	foreach ($array_data_content as $body_data)
 	{
 		if(!empty($body_data)){

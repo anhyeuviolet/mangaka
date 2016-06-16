@@ -112,8 +112,8 @@ $lang_module['viewcat_main_bottom'] = 'Manga,tin khác nằm bên dưới';
 $lang_module['viewcat_two_column'] = 'Manga thành 2 cột';
 $lang_module['viewcat_list_new'] = 'theo tiêu đề, mới lên trên';
 
-$lang_module['viewcat_list_home'] = 'kiểu liệt kê trang chủ (3T.com)';
-$lang_module['viewcat_full_home'] = 'kiểu đầy đủ trang chủ(BT.com)';
+$lang_module['viewcat_list_home'] = 'kiểu liệt kê trang chủ';
+$lang_module['viewcat_full_home'] = 'kiểu đầy đủ trang chủ';
 
 $lang_module['viewcat_list_old'] = 'theo tiêu đề, cũ lên trên';
 $lang_module['viewcat_grid_new'] = 'theo lưới, mới lên trên';
@@ -301,7 +301,7 @@ $lang_module['last_chapter'] = 'Chương mới nhất';
 $lang_module['last_update'] = 'Cập nhật gần nhất';
 $lang_module['add_time'] = 'Khởi tạo';
 $lang_module['stt'] = 'Số thứ tự';
-$lang_module['no_chapter'] = 'Chưa có chương nào cho truyện này';
+$lang_module['no_chapter'] = 'Chưa có chương nào cho truyện này hoặc sai đường dẫn';
 $lang_module['no_manga'] = 'Chưa có Manga nào';
 $lang_module['back'] = 'Quay lại';
 $lang_module['add'] = 'Thêm';
@@ -342,6 +342,7 @@ $lang_module['structure_2'] = 'Cấu trúc trang con ( phần tử lấy nội d
 $lang_module['search_submit'] = 'Tìm kiếm';
 $lang_module['numbers'] = 'Vị trí chap No của URL';
 $lang_module['submit'] = 'Tiến hành';
+$lang_module['reset_form'] = 'Làm lại';
 $lang_module['success'] = 'Thành công';
 
 $lang_module['url_host'] = 'Url host';
@@ -379,3 +380,6 @@ $lang_module['preg_match'] = 'Dùng preg_match';
 $lang_module['wrong_url_structure'] = 'Sai cấu trúc URL';
 
 $lang_module['leech_single_tool'] = 'Công cụ Leech nội dung từng tập';
+
+$lang_module['getchap_missing_field'] = 'Kiểm tra lại các trường cần thiết';
+$lang_module['getchap_missing_data'] = 'Không có kết quả cho URL này';

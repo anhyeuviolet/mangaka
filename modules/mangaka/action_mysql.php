@@ -14,7 +14,7 @@ $array_table = array(
 	'admins',
 	'block',
 	'block_cat',
-	'bodytext',
+	'detail',
 	'cat',
 	'config_post',
 	'rows',
@@ -94,20 +94,6 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 PRIMARY KEY (id)
 	) ENGINE=MyISAM";
 	
-	$sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_get_manga (
-	 id smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-	 title varchar(250) NOT NULL,
-	 html_title varchar(250) NOT NULL,
-	 html_description varchar(250) DEFAULT '', 
-	 html_author varchar(250) DEFAULT '',
-	 html_trans varchar(250) DEFAULT '',
-	 html_genre varchar(250) DEFAULT '',
-	 html_img_thumb varchar(250) DEFAULT '',
-	 add_time int(11) unsigned NOT NULL DEFAULT '0',
-	 edit_time int(11) unsigned NOT NULL DEFAULT '0',
-	 PRIMARY KEY (id)
-	) ENGINE=MyISAM";
-
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_block_cat (
 	 bid smallint(5) unsigned NOT NULL AUTO_INCREMENT,
 	 adddefault tinyint(4) NOT NULL DEFAULT '0',
@@ -132,7 +118,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	) ENGINE=MyISAM";
 
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_rows (
-	 id int(11) unsigned NOT NULL auto_increment,
+	 id int(11) unsigned NOT NULL AUTO_INCREMENT,
 	 catid smallint(5) unsigned NOT NULL default '0',
 	 listcatid varchar(250) NOT NULL default '',
 	 admin_id mediumint(8) unsigned NOT NULL default '0',
@@ -163,15 +149,9 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 	 KEY status (status)
 	) ENGINE=MyISAM";
 
-$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_bodytext (
+$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_detail (
 	 id int(11) unsigned NOT NULL,
-	 bodytext text NOT NULL,
-	 PRIMARY KEY (id)
-	) ENGINE=MyISAM";
-
-$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_bodyhtml_1 (
-	 id int(11) unsigned NOT NULL,
-	 bodyhtml text NOT NULL,
+	 bodyhtml text,
 	 PRIMARY KEY (id)
 	) ENGINE=MyISAM";
 

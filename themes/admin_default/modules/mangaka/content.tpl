@@ -2,11 +2,7 @@
 <!-- BEGIN: error -->
 <div class="alert alert-danger">{error}</div>
 <!-- END: error -->
-<link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.core.css" rel="stylesheet" />
-<link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.theme.css" rel="stylesheet" />
-<link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.menu.css" rel="stylesheet" />
-<link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.autocomplete.css" rel="stylesheet" />
-<link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.datepicker.css" rel="stylesheet" />
+<link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.css">
 <form class="form-inline m-bottom" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" enctype="multipart/form-data" method="post" class="confirm-reload">
 	<div class="row">
@@ -156,15 +152,14 @@
 	</div>
 </form>
 
-<form class="bs-example form-horizontal" method="POST" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}">
-<input type="hidden" name="leech" value="1" />
-<input type="hidden" name="checkss" value="{CHECKSS}" />
-<fieldset>
-  <div class="alert alert-info">{LANG.leech_single_tool}</div>
-	<div class="form-group">
-		<label class="col-lg-2 control-label">{LANG.select_structure}:</label>
+<div class="row">
+<input type="hidden" id="get_action" name="get_action" value="3" />
+<input type="hidden" id="get_checkss" name="get_checkss" value="{CHECKSS}" />
+	<div class="alert alert-info">{LANG.leech_single_tool}</div>
+	<div class="row margin-top-lg margin-bottom-lg">
+		<div class="col-lg-3">{LANG.select_structure}</div>
 		<div class="col-lg-20">
-		  <select class="form-control" name="form_chap" id="form_chap" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')">
+		  <select id="form_chap" class="form-control" name="form_chap">
 			<option value="">----- {LANG.select_structure} ----- </option>
 		  <!-- BEGIN: getlist_loop_chap-->
 			<option value="{GETLIST.id}">{GETLIST.title}</option>
@@ -172,39 +167,37 @@
 		  </select>
 		</div>
 	</div>	
-	<div class="form-group">
-		<label class="col-lg-2 control-label">{LANG.select_method} :</label>
-		<div class="col-lg-20">
-			<input type="radio" name="method" value="1" checked>{LANG.dom}<br>
-			<input type="radio" name="method" value="2">{LANG.preg_match} </input>
+	<div class="row margin-top-lg margin-bottom-lg">
+		<div class="col-lg-3">{LANG.select_method}</div>
+		<div id="get_method" class="col-lg-20">
+			<input type="radio" name="get_method" value="1">{LANG.dom}<br>
+			<input type="radio" name="get_method" value="2">{LANG.preg_match}
 		</div>
 	</div>	
-  <div class="form-group">
-	<label class="col-lg-2 control-label">URL truyện</label>
-	<div class="col-lg-20">
-	  <input class="form-control" rows="5" name="url_chap" placeholder="Dán những tập mà bạn muốn grab vào đây, có dạng : http://"></input>
-	  Dán URL tập mà bạn muốn grab vào đây.
-	</div>
-  </div>
-  <div class="clearfix form-group">
-	<div class="col-lg-20 col-lg-offset-4"> 
-	  <button type="submit" class="btn btn-primary">{LANG.submit}</button> 
-	</div>
-  </div>
-   <!-- BEGIN: getchap_result-->
-    Kết quả:
-		 <div class="well">
-			{URL_FULL}
+	<div class="row margin-top-lg margin-bottom-lg">
+		<div class="col-lg-3">URL tập muốn grab</div>
+		<div class="col-lg-20">
+		  <input class="form-control" rows="5" id="url_chap" name="url_chap" placeholder="http://"></input>
 		</div>
-	<!-- END: getchap_result-->  
-</fieldset>
-</form>
+	</div>
+	<div class="row margin-top-lg margin-bottom-lg">
+		<div class="col-lg-20 col-lg-offset-4"> 
+			<button onclick="nv_get_single_chap();" class="btn btn-primary">{LANG.submit}</button> 
+			<button id="button_reset_get_chap" onclick="nv_reset_getsingle_chap();" class="btn btn-warning">{LANG.reset_form}</button> 
+		</div>
+	</div>
+	<div id="get_single_chap_result"></div>
+</div>
 <div id="message"></div>
 
 <script type="text/javascript">
 $(document).ready(function() {
 	$("#catid").select2();
+	$("#form_chap").select2({
+		placeholder: "{LANG.select_structure}"
+	});
 });
+
 //<![CDATA[
 var LANG = [];
 var CFG = [];
@@ -221,10 +214,7 @@ $("#idtitle").change(function() {
 //]]>
 </script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.js"></script>
-<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.core.min.js"></script>
-<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.menu.min.js"></script>
-<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.autocomplete.min.js"></script>
-<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/ui/jquery.ui.datepicker.min.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/language/jquery.ui.datepicker-{NV_LANG_INTERFACE}.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}themes/admin_default/js/mangaka_content.js"></script>
 <!-- END:main -->

@@ -19,7 +19,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	$news_contents = $query->fetch();
 	if( $news_contents['id'] > 0 )
 	{
-		$body_contents = $db->query( 'SELECT bodyhtml as bodytext FROM ' . NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $news_contents['id'] / 2000 ) . ' where id=' . $news_contents['id'] )->fetch();
+		$body_contents = $db->query( 'SELECT bodyhtml FROM ' . NV_PREFIXLANG . '_' . $module_data . '_detail WHERE id=' . $news_contents['id'] )->fetch();
 		$news_contents = array_merge( $news_contents, $body_contents );
 		unset( $body_contents );
 		
@@ -169,7 +169,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	
 	$next_chapter = $previous_chapter = '';
 	//Next Chapter
-	$sql = 'SELECT id, catid, alias, chapter, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_'.$news_contents['catid'].' WHERE chapter_sort > '.$news_contents['chapter_sort'].' ORDER BY chapter ASC LIMIT 1';
+	$sql = 'SELECT id, catid, alias, chapter, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_'.$news_contents['catid'].' WHERE chapter_sort > '.$news_contents['chapter_sort'].' ORDER BY chapter_sort ASC LIMIT 1';
 	$list = $nv_Cache->db( $sql, 'id', $module_name );
 	foreach( $list as $next )
 	{
@@ -178,7 +178,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	}
 	unset($sql,$list);
 	//Previous Chapter
-	$sql = 'SELECT id, catid, alias, chapter, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_'.$news_contents['catid'].' WHERE chapter_sort < '.$news_contents['chapter_sort'].' ORDER BY chapter DESC LIMIT 1';
+	$sql = 'SELECT id, catid, alias, chapter, status FROM ' . NV_PREFIXLANG . '_' . $module_data . '_'.$news_contents['catid'].' WHERE chapter_sort < '.$news_contents['chapter_sort'].' ORDER BY chapter_sort DESC LIMIT 1';
 	$list = $nv_Cache->db( $sql, 'id', $module_name );
 	foreach( $list as $previous )
 	{
@@ -189,7 +189,7 @@ if( nv_user_in_groups( $global_array_cat[$catid]['groups_view'] ) )
 	
 	//List dropdown of all chapters
 	$list_chaps = array();
-	$sql = 'SELECT id, catid, title, alias, chapter FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' WHERE status=1 ORDER BY chapter_sort DESC';
+	$sql = 'SELECT id, catid, title, alias, chapter FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' WHERE status=1 ORDER BY chapter_sort ASC';
 	$array_block = $db->query( $sql )->fetchAll();
 	$num = sizeof( $array_block );
 	if( $num > 0 )

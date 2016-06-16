@@ -312,7 +312,7 @@ function nv_show_cat_list_new($page = 1)
 			$array_cat = GetCatidInParent( $catid );
 			$check_show = array_intersect( $array_cat, $array_cat_check_content );
 		}
-
+		$delallcheckss = md5( $catid . session_id() . $global_config['sitekey'] );
 		if( ! empty( $check_show ) )
 		{
 			$admin_funcs = array();
@@ -330,7 +330,7 @@ function nv_show_cat_list_new($page = 1)
 			if( defined( 'NV_IS_ADMIN_MODULE' ) )
 			{
 				$weight_disabled = false;
-				$admin_funcs[] = "<em class=\"fa fa-trash-o fa-lg\">&nbsp;</em> <a href=\"javascript:void(0);\" onclick=\"nv_del_cat(" . $catid . ")\">" . $lang_global['delete'] . "</a>";
+				$admin_funcs[] = "<em class=\"fa fa-trash-o fa-lg\">&nbsp;</em> <a href=\"javascript:void(0);\" onclick=\"nv_del_cat(" . $catid . ", '". $delallcheckss ."')\">" . $lang_global['delete'] . "</a>";
 			}
 
 			$xtpl->assign( 'ROW', array(
@@ -521,59 +521,6 @@ function nv_fix_content_alias( $id )
 	$sthi->execute();
 }
 
-/**
- * nv_singlechap_content()
- *
- * @param integer $form, $url_chap, $method
- * @return
- */
- 
-function nv_singlechap_content( $form, $url_chap, $method )
-{
-	global $db, $module_data, $module_name;
-	include NV_ROOTDIR . '/modules/' . $module_name . '/dom.php';
-
-	$sql='SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_get_chap WHERE id=' . intval($form); 
-	$result = $db->query( $sql );			
-	$data = $result->fetch();
-
-	$chapter = preg_replace('/ /', '%20', $url_chap);
-	$html = file_get_html($chapter);
-
-	$img_full = NULL;
-	if($method == 1)
-	{
-		foreach($html->find(html_entity_decode($data['img_structure'])) as $element)
-		{
-			$img = $element->find('img');
-			foreach($img as $element) 
-			$img_full = $img_full.$element->src;
-		}
-	// Dung preg_replace 
-	}else if($method == 2)
-	{
-		preg_match_all('/'.$data['preg_img_structure'].'/is',$html,$preg);
-		if (!empty($data['numget_img'])){
-			$img_full = $preg[$data['numget_img']];
-		} else{
-			$img_full = $preg;
-		}
-		
-		$img_full = array_shift($img_full);
-		// Xoa cac doi tuong duoc cau hinh
-		if (!empty($data['replace_1'])){
-			$img_full =  preg_replace('/'.html_entity_decode($data['replace_1']).'/','',$img_full);
-		} 
-		if (!empty($data['replace_2'])){
-			$img_full = preg_replace('/'.html_entity_decode($data['replace_2']).'/','',$img_full);
-		} 
-		if (!empty($data['replace_3'])){
-			$img_full = preg_replace('/'.html_entity_decode($data['replace_3']).'/','',$img_full);
-		} 
-	}
-	return $img_full;
-}
-
 function check_link($url,$host='')
 {
 	if((nv_is_url($url)===false) and (preg_match_all('/http:\/\/(.*)\.([a-z]+)\//',$host,$matches,PREG_SET_ORDER)))
@@ -637,12 +584,12 @@ function nv_fix_cat_order($parentid = 0, $order = 0, $lev = 0)
 
 function nv_show_list_chapter($catid, $page = 1)
 {
-	global $db, $lang_module, $lang_global, $module_name, $module_data, $op, $global_array_cat, $module_file, $global_config, $nv_Request;
+	global $db, $lang_module, $lang_global, $module_name, $module_data, $global_array_cat, $module_file, $global_config, $nv_Request, $nv_Cache;
 
 	$check_catid = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_cat WHERE catid= ' . intval($catid))->fetchColumn();
 	if ( $check_catid > 0 )
 	{
-		$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '='. $op .'&catid=' .intval($catid);
+		$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . '&' . NV_OP_VARIABLE . '=chapter_manage&catid=' . intval($catid);
 		$page = $nv_Request->get_int( 'page', 'get', 1 );
 		
 		$xtpl = new XTemplate( 'chapterlist.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file );
@@ -652,13 +599,12 @@ function nv_show_list_chapter($catid, $page = 1)
 		$xtpl->assign( 'NV_NAME_VARIABLE', NV_NAME_VARIABLE );
 		$xtpl->assign( 'NV_OP_VARIABLE', NV_OP_VARIABLE );
 		$xtpl->assign( 'MODULE_NAME', $module_name );
-		$xtpl->assign( 'OP', $op );
 		$xtpl->assign( 'CUR_PAGE', $page );
 		$xtpl->assign('NO_CHAPTER',$lang_module['no_chapter']);
 		$xtpl->assign('ADD_CHAPTER',NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=content&catid='. $catid);
 		$xtpl->assign('MANAGE_CHAPTER',NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=chapter_manage');
 
-		$per_page = 25;
+		$per_page = 30;
 		$all_page = $db->query( 'SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_' . intval($catid) )->fetchColumn();
 
 		$global_array_cat[0] = array( 'alias' => 'Other' );
@@ -683,12 +629,12 @@ function nv_show_list_chapter($catid, $page = 1)
 					nv_del_content_module( $id );
 				}
 				$nv_Cache->delMod();
-				Header( 'Location: '. NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '='. $op .'&catid=' .$catid);
+				Header( 'Location: '. NV_BASE_ADMINURL . 'index.php?' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=chapter_manage&catid=' .$catid);
 				exit;
 				die;
 			}
 		}
-
+		
 		if( $num > 0 )
 		{
 			foreach ($array_block as $row)
@@ -704,7 +650,8 @@ function nv_show_list_chapter($catid, $page = 1)
 					'status' => $lang_module['status_' . $row['status']],
 				) );
 				
-				for ($i = 1; $i <= $num; ++$i) {
+				for ($i = 1; $i <= $all_page; ++$i) {
+
 					$xtpl->assign('CHAPTER_SORT', array(
 						'key' => $i,
 						'title' => $i,

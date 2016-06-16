@@ -177,9 +177,9 @@ if( $rowcontent['id'] > 0 )
 
 	$page_title = $lang_module['content_edit'].' '.$rowcontent['chapter'].' - '.$global_array_cat[$rowcontent['catid']]['title'];
 
-	$body_contents = $db->query( 'SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $rowcontent['id'] / 2000 ) . ' where id=' . $rowcontent['id'] )->fetch();
-	$rowcontent = array_merge( $rowcontent, $body_contents );
-	unset( $body_contents );
+    $body_contents = $db->query('SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_detail where id=' . $rowcontent['id'])->fetch();
+    $rowcontent = array_merge($rowcontent, $body_contents);
+    unset($body_contents);
 }
 
 $array_cat_add_content = $array_cat_pub_content = $array_cat_edit_content = $array_censor_content = array();
@@ -363,8 +363,6 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 	if( empty( $error ) )
 	{
 		$rowcontent['catid'] = in_array( $rowcontent['catid'], $catids ) ? $rowcontent['catid'] : $catids[0];
-		$rowcontent['bodytext'] = nv_news_get_bodytext( $rowcontent['bodyhtml'] );
-
 		if( $rowcontent['id'] == 0 )
 		{
 			if( ! defined( 'NV_IS_SPADMIN' ) and intval( $rowcontent['publtime'] ) < NV_CURRENTTIME )
@@ -413,13 +411,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				nv_insert_logs( NV_LANG_DATA, $module_name, $lang_module['content_add'], $rowcontent['title'], $admin_info['userid'] );
 				$ct_query = array();
 
-				$tbhtml = NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $rowcontent['id'] / 2000 );
-				$db->query( "CREATE TABLE IF NOT EXISTS " . $tbhtml . " (id int(11) unsigned NOT NULL, bodyhtml longtext NOT NULL, PRIMARY KEY (id)) ENGINE=MyISAM" );
-
-				$stmt = $db->prepare( 'INSERT INTO ' . $tbhtml . ' VALUES
-					(' . $rowcontent['id'] . ',
-					 :bodyhtml
-					 )' );
+                $stmt = $db->prepare('INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_detail VALUES (' . $rowcontent['id'] . ',:bodyhtml )' );
 				$stmt->bindParam( ':bodyhtml', $rowcontent['bodyhtml'], PDO::PARAM_STR, strlen( $rowcontent['bodyhtml'] ) );
 				$ct_query[] = ( int )$stmt->execute();
 
@@ -427,10 +419,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				{
 					$ct_query[] = ( int )$db->exec( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE id=' . $rowcontent['id'] );
 				}
-
-				$stmt = $db->prepare( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext VALUES (' . $rowcontent['id'] . ', :bodytext )' );
-				$stmt->bindParam( ':bodytext', $rowcontent['bodytext'], PDO::PARAM_STR, strlen( $rowcontent['bodytext'] ) );
-				$ct_query[] = ( int )$stmt->execute();
+				
 				nv_fix_chapter_order();
 				if( array_sum( $ct_query ) != sizeof( $ct_query ) )
 				{
@@ -487,9 +476,10 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 				$db->query( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_cat SET last_update ='. NV_CURRENTTIME .' WHERE catid =' . $rowcontent['catid'] );
 				nv_insert_logs( NV_LANG_DATA, $module_name, $lang_module['content_edit'], $rowcontent['title'], $admin_info['userid'] );
 				$ct_query = array();
-				$sth = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_bodyhtml_' . ceil( $rowcontent['id'] / 2000 ) . ' SET bodyhtml=:bodyhtml WHERE id =' . $rowcontent['id'] );
+				$sth = $db->prepare('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_detail SET bodyhtml=:bodyhtml WHERE id =' . $rowcontent['id'] );
 				$sth->bindParam( ':bodyhtml', $rowcontent['bodyhtml'], PDO::PARAM_STR, strlen( $rowcontent['bodyhtml'] ) );
 				$ct_query[] = ( int )$sth->execute();
+				
 				$array_cat_old = explode( ',', $rowcontent_old['listcatid'] );
 				$array_cat_new = explode( ',', $rowcontent['listcatid'] );
 
@@ -504,8 +494,8 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 					$ct_query[] = $db->exec( 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_' . $catid . ' SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_rows WHERE id=' . $rowcontent['id'] );
 				}
 
-				$sth = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_bodytext SET bodytext=:bodytext WHERE id =' . $rowcontent['id'] );
-				$sth->bindParam( ':bodytext', $rowcontent['bodytext'], PDO::PARAM_STR, strlen( $rowcontent['bodytext'] ) );
+				$sth = $db->prepare( 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_detail SET bodyhtml=:bodyhtml WHERE id =' . $rowcontent['id'] );
+				$sth->bindParam( ':bodyhtml', $rowcontent['bodyhtml'], PDO::PARAM_STR, strlen( $rowcontent['bodyhtml'] ) );
 				$ct_query[] = ( int )$sth->execute();
 
 				if( array_sum( $ct_query ) != sizeof( $ct_query ) )
@@ -530,7 +520,7 @@ if( $nv_Request->get_int( 'save', 'post' ) == 1 )
 			}
 			else
 			{
-				$url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&op=chapterlist&catid='. $catid;
+				$url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&op=chapter_manage&catid='. $catid;
 				$msg1 = $lang_module['content_saveok'];
 				$msg2 = $lang_module['chapter_main'] . ' ' . $global_array_cat[$catid]['title'];
 				redirect( $msg1, $msg2, $url, $module_data . '_bodyhtml' );
@@ -750,6 +740,8 @@ if( empty( $rowcontent['alias'] ) )
 }
 $xtpl->assign( 'UPLOADS_DIR_USER', $uploads_dir_user );
 $xtpl->assign( 'UPLOAD_CURRENT', $currentpath );
+$checkss = md5( $admin_info['userid'] . session_id() . $global_config['sitekey'] );
+$xtpl->assign( 'CHECKSS', $checkss );
 
 $xtpl->parse( 'main' );
 $contents .= $xtpl->text( 'main' );
